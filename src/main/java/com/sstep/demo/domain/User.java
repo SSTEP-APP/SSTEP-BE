@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Users {
+public class User {
     private String userNum; //회원 고유번호
     private String userId; //회원 아이디
     private String userName; //회원명
