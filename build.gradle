@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'war' // add the war plugin
 }
 
 group = 'com.sstep'
@@ -12,6 +13,15 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
+}
+
+war {
+	archiveName = 'your-application-name.war'
+	from ('src/main/webapp') {
+		into('WEB-INF/classes/META-INF/resources/')
+	}
+	webXml = file('src/main/webapp/WEB-INF/web.xml')
 }
 
 repositories {
@@ -24,7 +34,6 @@ dependencies {
 
 	//MySQL 추가
 	implementation 'mysql:mysql-connector-java'
-
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
