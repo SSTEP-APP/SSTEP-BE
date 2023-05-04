@@ -22,6 +22,7 @@ war {
 		into('WEB-INF/classes/META-INF/resources/')
 	}
 	webXml = file('src/main/webapp/WEB-INF/web.xml')
+	destinationDir= file("$buildDir/libs")
 }
 
 repositories {
@@ -34,6 +35,8 @@ dependencies {
 
 	//MySQL 추가
 	implementation 'mysql:mysql-connector-java'
+	implementation 'mysql:mysql-connector-java:8.0.23'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
