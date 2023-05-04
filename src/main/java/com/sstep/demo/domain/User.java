@@ -6,17 +6,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id //기본키
     @Column(name = "user_num")
     private String user_num; //회원 고유번호
-
     @Column(name = "user_id")
     private String user_id; //회원 아이디
 
@@ -43,6 +40,7 @@ public class User {
 
     @Column(name = "user_push4")
     private boolean userPush4; //공지사항 푸시 알람 여부
+
 
     //Lombok 애노테이션으로 Getter & Setter 생성
 }
