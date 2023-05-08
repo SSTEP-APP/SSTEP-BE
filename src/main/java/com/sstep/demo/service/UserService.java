@@ -5,6 +5,8 @@ import com.sstep.demo.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -14,4 +16,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User findById(String userNum) {
+        return userRepository.findByUserNum(userNum);
+    }
+
+    public User update(User user) {
+        return userRepository.save(user);
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
 }

@@ -7,12 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>
-
-    {
-        User save(User user);
-
-        User findByUSER_ID (String user_id); //이메일로 user 조회
-
-        List<User> findAll (); //전체 조회
-    }
+public interface UserRepository extends JpaRepository<User, String> { //<Entity 클래스, PK 타입>
+    User findByUserNum(String userNum);
+}
