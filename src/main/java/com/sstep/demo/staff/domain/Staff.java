@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Getter
 @NoArgsConstructor
@@ -17,6 +18,10 @@ public class Staff {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성을 DB에 위임 => DB에서 AUTO_INCREMENT 기능 사용
     private long id; //직원 고유번호
     private int staffInvite; //직원 초대현황
+    private Date startDay; //입사일
+    private int hourMoney; //시급
+    private int lateCount; //지각 횟수
+    private boolean ownerStatus; //사장 여부
 
     //회원 테이블과 1대다 조인
     @ManyToOne
