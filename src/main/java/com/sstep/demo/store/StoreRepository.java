@@ -1,4 +1,4 @@
-package com.sstep.demo.store.dao;
+package com.sstep.demo.store;
 
 
 import com.sstep.demo.member.domain.Member;

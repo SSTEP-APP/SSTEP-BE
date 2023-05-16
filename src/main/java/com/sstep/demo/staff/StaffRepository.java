@@ -1,4 +1,4 @@
-package com.sstep.demo.staff.dao;
+package com.sstep.demo.staff;
 
 
 import com.sstep.demo.member.domain.Member;

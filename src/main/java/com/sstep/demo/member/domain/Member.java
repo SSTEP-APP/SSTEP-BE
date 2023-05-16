@@ -1,27 +1,30 @@
 package com.sstep.demo.member.domain;
 
 import com.sstep.demo.staff.domain.Staff;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity
+@Builder
 public class Member {
     @Id //기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성을 DB에 위임 => DB에서 AUTO_INCREMENT 기능 사용
     private long id; //회원 고유번호
+    @Column(nullable = false, length = 30, unique = true)
     private String memberId; //회원 아이디
 
+    @Column(nullable = false)
     private String name; //회원명
 
+    @Column(nullable = false)
     private String phoneNum; //회원 전화번호
 
+    @Column(nullable = false, length = 100)
     private String password; //비밀번호
 
 //    private String profileImage; //프로필 사진

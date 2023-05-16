@@ -1,10 +1,10 @@
-package com.sstep.demo.store.controller;
+package com.sstep.demo.staff;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController(value = "/store")
-public class StoreController {
+@RestController(value = "/staff")
+public class StaffController {
 
 }
