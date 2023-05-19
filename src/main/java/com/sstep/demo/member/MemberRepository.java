@@ -2,7 +2,6 @@ package com.sstep.demo.member;
 
 
 import com.sstep.demo.member.domain.Member;
-import com.sstep.demo.member.dto.MemberJoinDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
