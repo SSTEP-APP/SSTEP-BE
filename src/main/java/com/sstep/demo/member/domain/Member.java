@@ -43,6 +43,15 @@ public class Member {
 
     //Lombok 애노테이션으로 Getter & Setter 생성
 
+
+    public Member(long id, String memberId, String name, String phoneNum, String password) {
+        this.id = id;
+        this.memberId = memberId;
+        this.name = name;
+        this.phoneNum = phoneNum;
+        this.password = password;
+    }
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Staff> staffList;
 
