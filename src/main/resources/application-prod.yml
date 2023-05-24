@@ -1,15 +1,15 @@
 #DATABASE
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://awsrds.cnm1owomoyrd.ap-northeast-2.rds.amazonaws.com:3306/authorization?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: sstepuser
-    password: 00000000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://awsrds.cnm1owomoyrd.ap-northeast-2.rds.amazonaws.com:3306/sstepdb?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: sstep
+    password: sstep1234
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
 server:
   port: 3306
