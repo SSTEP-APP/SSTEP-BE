@@ -28,7 +28,7 @@ public class MemberService {
     public void save(MemberRequestDto member) {
         String memberId = member.getMemberId();
         if (!isMemberIdDuplicate(memberId)) {
-            memberRepository.save(getEntity(memberId));
+            memberRepository.save(memberMapper.toEntity(member));
         } else {
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
