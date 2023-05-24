@@ -19,7 +19,6 @@ public class Store {
 
     @Column(nullable = false)
     private String name; //사업장 이름
-
     @Column(nullable = false)
     private String address; //사업장 주소
     @Column(nullable = false)
