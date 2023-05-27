@@ -29,7 +29,7 @@ class DemoApplicationTests {
 		member.setId(1);
 		member.setMemberId("hi2");
 		member.setName("hi");
-		member.setPassword("1234");
+		member.setPassword("12345");
 		member.setPhoneNum("010-1111-1111");
 
 		memberService.save(member);
