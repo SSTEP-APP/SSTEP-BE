@@ -25,6 +25,7 @@ public class MemberService {
             throw new EntityNotFoundException("Member not found with memberId: " + memberId);
         }
     }
+
     public MemberResponseDto findByMemberId(String memberId) {
         return memberMapper.ResponseToDto(getEntity(memberId));
     }
