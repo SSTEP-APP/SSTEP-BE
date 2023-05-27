@@ -53,3 +53,8 @@ tasks.named('test') {
 tasks.named('build') {
     dependsOn jar
 }
+task copyJar(type: Copy) {
+    from jar
+    into 'destination/path'
+    duplicatesStrategy = 'exclude'
+}
