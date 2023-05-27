@@ -20,6 +20,11 @@ jar {
         attributes 'Main-Class': 'com.sstep.demo.DemoApplication'
     }
 }
+
+bootJar {
+    duplicatesStrategy = 'exclude'
+}
+
 repositories {
     mavenCentral()
 }
@@ -50,11 +55,13 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
 tasks.named('build') {
-    dependsOn jar
+    dependsOn bootJar
 }
+
 task copyJar(type: Copy) {
-    from jar
+    from bootJar
     into 'destination/path'
     duplicatesStrategy = 'exclude'
 }
