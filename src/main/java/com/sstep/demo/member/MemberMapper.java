@@ -10,4 +10,6 @@ public interface MemberMapper {
     MemberResponseDto ResponseToDto(Member member);
 
     MemberRequestDto RequestToDto(Member member);
+
+    Member toEntity(MemberRequestDto member);
 }
