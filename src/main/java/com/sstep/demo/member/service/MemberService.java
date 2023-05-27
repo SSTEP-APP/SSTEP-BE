@@ -18,12 +18,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     public Member getEntity(String memberId) {
-        Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
-        if (memberOptional.isPresent()) {
-            return memberOptional.get();
-        } else {
-            throw new EntityNotFoundException("Member not found with memberId: " + memberId);
-        }
+        return memberRepository.findByMemberId(memberId).orElseThrow(EntityNotFoundException::new);
     }
 
     public MemberResponseDto findByMemberId(String memberId) {
