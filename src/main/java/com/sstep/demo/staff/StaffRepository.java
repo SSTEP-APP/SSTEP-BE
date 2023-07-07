@@ -1,7 +1,5 @@
 package com.sstep.demo.staff;
 
-
-import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.staff.domain.Staff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

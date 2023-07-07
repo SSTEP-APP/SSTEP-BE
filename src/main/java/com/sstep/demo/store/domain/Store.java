@@ -1,25 +1,23 @@
 package com.sstep.demo.store.domain;
 
 import com.sstep.demo.staff.domain.Staff;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.persistence.CascadeType;
+import java.util.Set;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity
+@Builder
 public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //사업장 고유번호
-
     @Column(nullable = false)
     private String name; //사업장 이름
-
     @Column(nullable = false)
     private String address; //사업장 주소
     @Column(nullable = false)
@@ -31,7 +29,22 @@ public class Store {
     @Column(nullable = false)
     private boolean plan; //사업장 유료플랜 여부
     private String payday; //사업장 급여날
+    @Column(nullable = false, unique = true)
+    private long code; //사업장 코드번호 => 인앱 사업장 검색시 사용
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
-    private List<Staff> staffList;
+    public Store(long id, String name, String address, String latitude,
+                 String longitude, boolean scale, boolean plan, String payday, long code) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.scale = scale;
+        this.plan = plan;
+        this.payday = payday;
+        this.code = code;
+    }
+
+    @OneToMany(mappedBy = "store",cascade = CascadeType.REMOVE)
+    private Set<Staff> staffs;
 }

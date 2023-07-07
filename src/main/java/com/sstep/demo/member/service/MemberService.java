@@ -22,7 +22,7 @@ public class MemberService {
     }
 
     public MemberResponseDto findByMemberId(String memberId) {
-        return memberMapper.ResponseToDto(getEntity(memberId));
+        return memberMapper.EntityToResponseDto(getEntity(memberId));
     }
 
     public void save(MemberRequestDto member) {

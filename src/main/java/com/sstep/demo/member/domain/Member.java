@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,14 +18,13 @@ public class Member {
     private long id; //회원 고유번호
     @Column(nullable = false, length = 30, unique = true)
     private String memberId; //회원 아이디
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String name; //회원명
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String phoneNum; //회원 전화번호
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 30)
     private String password; //비밀번호
 
 //    private String profileImage; //프로필 사진
@@ -53,7 +53,7 @@ public class Member {
     }
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Staff> staffList;
+    private Set<Staff> staffs;
 
 
 }

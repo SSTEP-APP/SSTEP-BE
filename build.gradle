@@ -15,7 +15,14 @@ configurations {
 }
 
 jar {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    duplicatesStrategy = 'exclude'
+    manifest {
+        attributes 'Main-Class': 'com.sstep.demo.DemoApplication'
+    }
+}
+
+bootJar {
+    duplicatesStrategy = 'exclude'
 }
 
 repositories {
@@ -47,4 +54,14 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('build') {
+    dependsOn bootJar
+}
+
+task copyJar(type: Copy) {
+    from bootJar
+    into 'destination/path'
+    duplicatesStrategy = 'exclude'
 }
