@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,7 +53,7 @@ public class Member {
     }
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Staff> staffList;
+    private Set<Staff> staffs;
 
 
 }

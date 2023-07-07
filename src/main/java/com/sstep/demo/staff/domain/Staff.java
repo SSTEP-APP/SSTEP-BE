@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -33,6 +31,7 @@ public class Staff {
     @ManyToOne
     private Member member;
 
-    @ManyToMany(mappedBy = "includedStaff")
-    private Set<Store> include;
+    //사업장 테이블과 1대다 조인
+    @ManyToOne
+    private Store store;
 }

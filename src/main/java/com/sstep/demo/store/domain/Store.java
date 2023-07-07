@@ -4,7 +4,7 @@ import com.sstep.demo.staff.domain.Staff;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.persistence.CascadeType;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -45,11 +45,6 @@ public class Store {
         this.storeCode = storeCode;
     }
 
-    @ManyToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
-    @JoinTable(
-            name = "store_staff",
-            joinColumns = @JoinColumn(name = "store_id"),
-            inverseJoinColumns = @JoinColumn(name = "staff_id")
-    )
-    private Set<Staff> includedStaff;
+    @OneToMany(mappedBy = "store",cascade = CascadeType.REMOVE)
+    private Set<Staff> staffs;
 }
