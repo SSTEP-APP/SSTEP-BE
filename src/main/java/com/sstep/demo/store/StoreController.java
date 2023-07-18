@@ -32,8 +32,8 @@ public class StoreController {
     }
 
     //직원 추가 => 초대 방식
-    @PostMapping("/{code}/add/staff")
+   /* @PostMapping("/{code}/add/staff")
     public void addStaffToStore(@PathVariable Long code, @RequestBody StaffRequestDto staffRequestDto) {
         storeService.addStaffToStore(code, staffRequestDto);
-    }
+    }*/
 }
