@@ -30,9 +30,9 @@ public class StoreService {
         return storeRepository.findStaffsByStoreId(storeId);
     }
 
-    public void addStaffToStore(Long code, StaffRequestDto staffRequestDto) {
+    /*public void addStaffToStore(Long code, StaffRequestDto staffRequestDto) {
         Store store = getEntity(code);
         List<Staff> staffList = getStaffsByStoreId(store.getId());
         staffList.add(storeMapper.toStaffEntity(staffRequestDto));
-    }
+    }*/
 }
