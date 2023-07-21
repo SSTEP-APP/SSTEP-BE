@@ -26,13 +26,26 @@ public class StoreService {
         storeRepository.save(storeMapper.toEntity(storeRequestDto));
     }
 
+    public void addStaffToStore(Long code, StaffRequestDto staffRequestDto) {
+        Store store = getEntity(code);
+        List<Staff> staffList = getStaffsByStoreId(store.getId());
+        staffList.add(storeMapper.toStaffEntity(staffRequestDto));
+        store.setStaffList(staffList);
+        storeRepository.save(store);
+    }
+
     public List<Staff> getStaffsByStoreId(Long storeId) {
         return storeRepository.findStaffsByStoreId(storeId);
     }
 
-    /*public void addStaffToStore(Long code, StaffRequestDto staffRequestDto) {
-        Store store = getEntity(code);
-        List<Staff> staffList = getStaffsByStoreId(store.getId());
-        staffList.add(storeMapper.toStaffEntity(staffRequestDto));
-    }*/
+    public void setOwner(StoreRequestDto storeRequestDto, StaffRequestDto staffRequestDto) {
+        long code = storeRequestDto.getCode();
+        staffRequestDto.setJoinStatus(true); //합류여부 true
+        staffRequestDto.setOwnerStatus(true); //사장 여부 true
+        addStaffToStore(code, staffRequestDto);
+    }
+
+    public List<Staff> getUnRegStaffsByStoreId(Long storeId) {
+        return storeRepository.findUnRegStaffsByStoreId(storeId);
+    }
 }

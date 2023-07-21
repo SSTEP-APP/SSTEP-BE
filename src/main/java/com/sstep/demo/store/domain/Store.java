@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,6 +45,14 @@ public class Store {
         this.code = code;
     }
 
-    @OneToMany(mappedBy = "store",cascade = CascadeType.REMOVE)
-    private Set<Staff> staffs;
+    public void setStaffList(List<Staff> staffList) {
+        this.staffList.clear();
+        if (staffList != null) {
+            this.staffList.addAll(staffList);
+            staffList.forEach(staff -> staff.setStore(this));
+        }
+    }
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    private List<Staff> staffList;
 }
