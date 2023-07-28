@@ -44,5 +44,4 @@ public class StoreController {
         return storeService.getUnRegStaffsByStoreId(storeId);
     }
 
-
 }

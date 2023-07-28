@@ -3,7 +3,7 @@ package com.sstep.demo.staff.domain;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.store.domain.Store;
-import com.sstep.demo.weekschedule.domain.WeekSchedule;
+import com.sstep.demo.schedule.domain.Schedule;
 import lombok.*;
 
 import javax.persistence.*;
@@ -60,6 +60,14 @@ public class Staff {
         this.joinStatus = joinStatus;
     }
 
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules.clear();
+        if (schedules != null) {
+            this.schedules.addAll(schedules);
+            schedules.forEach(schedule -> schedule.setStaff(this));
+        }
+    }
+
     //회원 테이블과 1대다 조인
     @ManyToOne
     private Member member;
@@ -70,7 +78,7 @@ public class Staff {
 
     //요일별 근무 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
-    private List<WeekSchedule> weekSchedules;
+    private List<Schedule> schedules;
 
     //일자별 실 출퇴근시간 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)

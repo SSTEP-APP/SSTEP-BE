@@ -1,5 +1,7 @@
 package com.sstep.demo.staff.service;
 
+import com.sstep.demo.schedule.domain.Schedule;
+import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.StaffMapper;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
@@ -8,6 +10,8 @@ import com.sstep.demo.store.StoreMapper;
 import com.sstep.demo.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,4 +32,21 @@ public class StaffService {
         }
     }
 
+    public void saveSchedule(ScheduleRequestDto scheduleRequestDto, Long staffId) {
+        Staff staff = staffRepository.findById(staffId).orElseThrow();
+        List<Schedule> schedules = getSchedulesByStaffId(staffId);
+        Schedule schedule = getScheduleEntity(scheduleRequestDto);
+        schedules.add(schedule);
+        staff.setSchedules(schedules);
+        staffRepository.save(staff);
+    }
+
+    private Schedule getScheduleEntity(ScheduleRequestDto scheduleRequestDto) {
+        return staffMapper.ToScheduleEntity(scheduleRequestDto);
+    }
+
+
+    private List<Schedule> getSchedulesByStaffId(long id) {
+        return staffRepository.findSchedulesByStaffId(id);
+    }
 }

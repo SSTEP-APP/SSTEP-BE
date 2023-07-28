@@ -26,6 +26,10 @@ public class StaffRequestDto {
         return paymentDate;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public Date getStartDay() {
         return startDay;
     }
