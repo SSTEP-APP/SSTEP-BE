@@ -28,12 +28,11 @@ public class Store {
     private boolean scale; //사업장 규모(5인이상: T, 이하: F)
     @Column(nullable = false)
     private boolean plan; //사업장 유료플랜 여부
-    private String payday; //사업장 급여날
     @Column(nullable = false, unique = true)
     private long code; //사업장 코드번호 => 인앱 사업장 검색시 사용
 
     public Store(long id, String name, String address, String latitude,
-                 String longitude, boolean scale, boolean plan, String payday, long code) {
+                 String longitude, boolean scale, boolean plan, long code) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -41,7 +40,6 @@ public class Store {
         this.longitude = longitude;
         this.scale = scale;
         this.plan = plan;
-        this.payday = payday;
         this.code = code;
     }
 
