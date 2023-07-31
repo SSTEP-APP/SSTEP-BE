@@ -17,11 +17,11 @@ import java.util.List;
 public class StoreController {
     private final StoreService storeService;
 
-    //사업장 등록
+    //사업장 등록 => 등록한 사람은 바로 직원으로 추가, 사장으로 취급
     @PostMapping("/register")
-    public ResponseEntity<Void> registerStore(@RequestBody StoreRequestDto storeRequestDto) {
-        storeService.saveStore(storeRequestDto);
-
+    public ResponseEntity<Void> registerStore(@RequestBody StoreRequestDto storeRequestDto, StaffRequestDto staffRequestDto) {
+        storeService.saveStore(storeRequestDto); //사업장 등록 로직
+        storeService.setOwner(storeRequestDto, staffRequestDto);//사업장 등록한 사람을 사장으로 취급하는 로직
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -31,9 +31,17 @@ public class StoreController {
         return storeService.getStaffsByStoreId(storeId);
     }
 
-    //직원 추가 => 초대 방식
-   /* @PostMapping("/{code}/add/staff")
-    public void addStaffToStore(@PathVariable Long code, @RequestBody StaffRequestDto staffRequestDto) {
+    //직원 추가 => 사업장 코드 입력 후 사장이 승인을 받아줬을 경우
+    @PostMapping("/{code}/add/staff")
+    public ResponseEntity<Void> addStaffToStore(@PathVariable Long code, @RequestBody StaffRequestDto staffRequestDto) {
         storeService.addStaffToStore(code, staffRequestDto);
-    }*/
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    //합류 여부가 false인 직원 리스트 가져오기
+    @GetMapping("/{storeId}/unregister-staffs")
+    public List<Staff> getUnRegStaffsByStoreId(@PathVariable Long storeId) {
+        return storeService.getUnRegStaffsByStoreId(storeId);
+    }
+
 }
