@@ -2,6 +2,8 @@ package com.sstep.demo.staff.service;
 
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
+import com.sstep.demo.commute.domain.Commute;
+import com.sstep.demo.commute.dto.CommuteRequestDto;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.StaffMapper;
@@ -66,5 +68,74 @@ public class StaffService {
 
     private List<Calendar> getCalendarsByStaffId(Long staffId) {
         return staffRepository.findCalendarsByStaffId(staffId);
+    }
+
+    public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) {
+        Staff staff = staffRepository.findById(staffId).orElseThrow();
+        boolean late = isLate(commuteRequestDto, staff.getSchedules());
+
+        List<Commute> commutes = getCommutesByStaffId(staffId);
+        Commute commute = getCommuteEntity(commuteRequestDto);
+        commute.setLate(late);
+        commutes.add(commute);
+        staff.setCommutes(commutes);
+        staffRepository.save(staff);
+    }
+
+    private boolean isLate(CommuteRequestDto commuteRequestDto, List<Schedule> schedules) { //지각 여부 확인
+        //해당 직원의 해당 날짜의 출근 시간 가져와서 비교
+        //기준 시간 10분 이후부터 지각 처리
+        for (Schedule schedule : schedules) {
+            if (schedule.getWeekDay() == commuteRequestDto.getDayOfWeek()) {
+                if (commuteRequestDto.getStartTime().isAfter(schedule.getStartTime().plusMinutes(10))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private Commute getCommuteEntity(CommuteRequestDto commuteRequestDto) {
+        return staffMapper.toCommuteEntity(commuteRequestDto);
+    }
+
+    private List<Commute> getCommutesByStaffId(Long staffId) {
+        return staffRepository.findCommutesByStaffId(staffId);
+    }
+
+    public void updateCommute(Long staffId, Long commuteId, CommuteRequestDto commuteRequestDto) {
+        Commute existingCommute = staffRepository.findByCommuteIdAndStoreId(staffId, commuteId);
+        if (existingCommute != null) {
+            //출퇴근 정보가 이미 존재하면 퇴근시간 정보만 업데이트 진행
+            existingCommute.setEndTime(commuteRequestDto.getEndTime());
+        } else {
+            throw new RuntimeException("해당 직원을 찾을 수 없습니다.");
+        }
+    }
+
+    public void disputeCommute(Long staffId, Long commuteId, CommuteRequestDto commuteRequestDto) {
+        Commute existingCommute = staffRepository.findByCommuteIdAndStoreId(staffId, commuteId);
+        if (existingCommute != null) {
+            //출퇴근 정보가 이미 존재하면 이의 신청 메시지 업데이트
+            existingCommute.setDisputeMessage(commuteRequestDto.getDisputeMessage());
+        } else {
+            throw new RuntimeException("해당 직원을 찾을 수 없습니다.");
+        }
+    }
+
+    public void UpdateDisputeCommute(Long staffId, Long commuteId, CommuteRequestDto commuteRequestDto) {
+        Commute existingCommute = staffRepository.findByCommuteIdAndStoreId(staffId, commuteId);
+        if (existingCommute != null) {
+            //출퇴근 정보가 이미 존재하면 이의 신청 메시지 null로 업데이트
+            existingCommute.setDisputeMessage(null);
+            existingCommute.setStartTime(commuteRequestDto.getStartTime());
+            existingCommute.setEndTime(commuteRequestDto.getEndTime());
+        } else {
+            throw new RuntimeException("해당 직원을 찾을 수 없습니다.");
+        }
+    }
+
+    public List<Commute> getDisputeList(Long storeId, Long staffId) {
+        return staffRepository.findDisputeListByStoreIdAndStaffId(storeId, staffId);
     }
 }

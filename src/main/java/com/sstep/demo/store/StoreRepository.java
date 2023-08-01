@@ -1,6 +1,7 @@
 package com.sstep.demo.store;
 
 
+import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.domain.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,4 +28,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("SELECT s.staffList FROM Store s,Calendar c,Schedule sc WHERE s.id = :storeId and " +
             "(c.calendarDate = :date or sc.weekDay = :day)")
     List<Staff> findDayWorkStaffsByDate(Long storeId, Date date, DayOfWeek day);
+
+    @Query("SELECT s.staffList FROM Store s,Commute c WHERE s.id = :storeId and c.disputeMessage is not null ")
+    List<Staff> findDisputeStaffsByExistMessage(Long storeId);
 }

@@ -1,6 +1,8 @@
 package com.sstep.demo.store;
 
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
+import com.sstep.demo.commute.domain.Commute;
+import com.sstep.demo.commute.dto.CommuteRequestDto;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.store.dto.StoreRequestDto;
@@ -51,4 +53,9 @@ public class StoreController {
         return storeService.getDayWorkStaffs(storeId, calendarRequestDto);
     }
 
+    //이의 신청한 직원 리스트 가져오기
+    @GetMapping("/{storeId}/dispute-staffs")
+    public List<Staff> getDisputeStaffs(@PathVariable Long storeId) {
+        return storeService.getDisputeStaffs(storeId);
+    }
 }

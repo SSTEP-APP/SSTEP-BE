@@ -1,6 +1,8 @@
 package com.sstep.demo.store.service;
 
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
+import com.sstep.demo.commute.domain.Commute;
+import com.sstep.demo.commute.dto.CommuteRequestDto;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.store.StoreMapper;
@@ -53,5 +55,9 @@ public class StoreService {
 
     public List<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
         return storeRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
+    }
+
+    public List<Staff> getDisputeStaffs(Long storeId) {
+        return storeRepository.findDisputeStaffsByExistMessage(storeId);
     }
 }
