@@ -1,15 +1,16 @@
 package com.sstep.demo.staff.service;
 
+import com.sstep.demo.calendar.domain.Calendar;
+import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.StaffMapper;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
-import com.sstep.demo.store.StoreMapper;
-import com.sstep.demo.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -48,5 +49,22 @@ public class StaffService {
 
     private List<Schedule> getSchedulesByStaffId(long id) {
         return staffRepository.findSchedulesByStaffId(id);
+    }
+
+    public void saveCalendar(CalendarRequestDto calendarRequestDto, Long staffId) {
+        Staff staff = staffRepository.findById(staffId).orElseThrow();
+        List<Calendar> calendars = getCalendarsByStaffId(staffId);
+        Calendar calendar = getCalendarEntity(calendarRequestDto);
+        calendars.add(calendar);
+        staff.setCalendars(calendars);
+        staffRepository.save(staff);
+    }
+
+    private Calendar getCalendarEntity(CalendarRequestDto calendarRequestDto) {
+        return staffMapper.toCalendarEntity(calendarRequestDto);
+    }
+
+    private List<Calendar> getCalendarsByStaffId(Long staffId) {
+        return staffRepository.findCalendarsByStaffId(staffId);
     }
 }

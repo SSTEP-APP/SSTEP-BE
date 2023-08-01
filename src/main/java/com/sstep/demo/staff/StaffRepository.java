@@ -1,5 +1,6 @@
 package com.sstep.demo.staff;
 
+import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.staff.domain.Staff;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,7 @@ public interface StaffRepository extends JpaRepository<Staff, Long> { //<Entity 
 
     @Query("SELECT s.schedules FROM Staff s WHERE s.id = :staffId")
     List<Schedule> findSchedulesByStaffId(@Param("staffId") Long staffId);
+
+    @Query("SELECT s.calendars FROM Staff s WHERE s.id = :staffId")
+    List<Calendar> findCalendarsByStaffId(Long staffId);
 }

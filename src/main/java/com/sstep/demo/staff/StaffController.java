@@ -1,5 +1,6 @@
 package com.sstep.demo.staff;
 
+import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.service.StaffService;
@@ -26,6 +27,13 @@ public class StaffController {
     @PostMapping("/{staffId}}/addSchedule")
     public ResponseEntity<Void> registerSchedule(@PathVariable Long staffId, @RequestBody ScheduleRequestDto scheduleRequestDto) {
         staffService.saveSchedule(scheduleRequestDto, staffId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    //직원별 캘린더 저장
+    @PostMapping("/{staffId}/addCalendar")
+    public ResponseEntity<Void> registerCalendar(@PathVariable Long staffId, @RequestBody CalendarRequestDto calendarRequestDto) {
+        staffService.saveCalendar(calendarRequestDto, staffId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
