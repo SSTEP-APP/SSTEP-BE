@@ -1,5 +1,6 @@
 package com.sstep.demo.staff.domain;
 
+import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.store.domain.Store;
@@ -24,9 +25,7 @@ public class Staff {
     private Date startDay; //입사일
     private int hourMoney; //시급
     private int wageType; //급여 지급 방식 일급(1), 주급(2), 월급(3)
-
     private String paymentDate; //급여지급일
-
     @Column(nullable = false, columnDefinition = "TINYINT default 0")
     private boolean ownerStatus; //사장 여부
     @Column(nullable = false, columnDefinition = "TINYINT default 0")
@@ -68,6 +67,22 @@ public class Staff {
         }
     }
 
+    public void setCommutes(List<Commute> commutes) {
+        this.commutes.clear();
+        if (commutes != null) {
+            this.commutes.addAll(commutes);
+            commutes.forEach(commute -> commute.setStaff(this));
+        }
+    }
+
+    public void setCalendars(List<Calendar> calendars) {
+        this.calendars.clear();
+        if (calendars != null) {
+            this.calendars.addAll(calendars);
+            calendars.forEach(calendar -> calendar.setStaff(this));
+        }
+    }
+
     //회원 테이블과 1대다 조인
     @ManyToOne
     private Member member;
@@ -84,5 +99,6 @@ public class Staff {
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<Commute> commutes;
 
-
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
+    private List<Calendar> calendars;
 }

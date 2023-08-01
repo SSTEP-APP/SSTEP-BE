@@ -1,5 +1,8 @@
 package com.sstep.demo.store;
 
+import com.sstep.demo.calendar.dto.CalendarRequestDto;
+import com.sstep.demo.commute.domain.Commute;
+import com.sstep.demo.commute.dto.CommuteRequestDto;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.store.dto.StoreRequestDto;
@@ -40,8 +43,19 @@ public class StoreController {
 
     //합류 여부가 false인 직원 리스트 가져오기
     @GetMapping("/{storeId}/unregister-staffs")
-    public List<Staff> getUnRegStaffsByStoreId(@PathVariable Long storeId) {
-        return storeService.getUnRegStaffsByStoreId(storeId);
+    public List<Staff> getUnRegStaffs(@PathVariable Long storeId) {
+        return storeService.getUnRegStaffs(storeId);
     }
 
+    //해당 날짜에 근무하는 직원 리스트 가져오기
+    @GetMapping("/{storeId}/daywork-staffs")
+    public List<Staff> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
+        return storeService.getDayWorkStaffs(storeId, calendarRequestDto);
+    }
+
+    //이의 신청한 직원 리스트 가져오기
+    @GetMapping("/{storeId}/dispute-staffs")
+    public List<Staff> getDisputeStaffs(@PathVariable Long storeId) {
+        return storeService.getDisputeStaffs(storeId);
+    }
 }

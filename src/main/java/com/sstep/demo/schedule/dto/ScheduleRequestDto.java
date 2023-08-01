@@ -1,10 +1,11 @@
 package com.sstep.demo.schedule.dto;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 public class ScheduleRequestDto {
     private long id;
-    private int weekDay;
+    private DayOfWeek weekDay;
     private LocalTime startTime;
     private LocalTime endTime;
 
@@ -16,11 +17,11 @@ public class ScheduleRequestDto {
         this.id = id;
     }
 
-    public int getWeekDay() {
+    public DayOfWeek getWeekDay() {
         return weekDay;
     }
 
-    public void setWeekDay(int weekDay) {
+    public void setWeekDay(DayOfWeek weekDay) {
         this.weekDay = weekDay;
     }
 
@@ -40,7 +41,7 @@ public class ScheduleRequestDto {
         this.endTime = endTime;
     }
 
-    public ScheduleRequestDto(long id, int weekDay, LocalTime startTime, LocalTime endTime) {
+    public ScheduleRequestDto(long id, DayOfWeek weekDay, LocalTime startTime, LocalTime endTime) {
         this.id = id;
         this.weekDay = weekDay;
         this.startTime = startTime;

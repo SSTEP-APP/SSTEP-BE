@@ -1,15 +1,16 @@
 package com.sstep.demo.store;
 
 
+import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.domain.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +21,14 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("SELECT s.staffList FROM Store s WHERE s.id = :storeId")
     List<Staff> findStaffsByStoreId(@Param("storeId") Long storeId);
 
-    // 매장에 직원 추가를 위한 메소드 추가
-    @Transactional
-    @Modifying
-    @Query("UPDATE Store s SET s.staffList = :employees WHERE s.id = :storeId")
-    void addStaffsToStore(@Param("storeId") Long storeId, @Param("staffList") List<Staff> staffList);
-
     @Query("SELECT s.staffList FROM Store s,Staff t WHERE s.id = :storeId and t.joinStatus = false")
     List<Staff> findUnRegStaffsByStoreId(Long storeId);
 
+    //캘린더에 별도 추가로 추가 근무하는 직원 리스트 + 스케줄에 등록해 고정으로 근무하는 직원 리스트
+    @Query("SELECT s.staffList FROM Store s,Calendar c,Schedule sc WHERE s.id = :storeId and " +
+            "(c.calendarDate = :date or sc.weekDay = :day)")
+    List<Staff> findDayWorkStaffsByDate(Long storeId, Date date, DayOfWeek day);
 
+    @Query("SELECT s.staffList FROM Store s,Commute c WHERE s.id = :storeId and c.disputeMessage is not null ")
+    List<Staff> findDisputeStaffsByExistMessage(Long storeId);
 }
