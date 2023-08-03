@@ -25,7 +25,7 @@ public interface StaffRepository extends JpaRepository<Staff, Long> { //<Entity 
     List<Commute> findCommutesByStaffId(Long staffId);
 
     @Query("SELECT s.commutes FROM Staff s, Commute c WHERE s.id = :staffId and c.id = :commuteId")
-    Commute findByCommuteIdAndStoreId(Long storeId, Long commuteId);
+    Commute findByCommuteIdAndStoreId(Long staffId, Long commuteId);
 
     @Query("SELECT s.commutes FROM Staff s,Store st WHERE st.id = :storeId and s.id = :staffId ")
     List<Commute> findDisputeListByStoreIdAndStaffId(Long storeId, Long staffId);
