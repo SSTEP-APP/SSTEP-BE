@@ -4,6 +4,10 @@ import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.commute.dto.CommuteRequestDto;
+import com.sstep.demo.notice.domain.Notice;
+import com.sstep.demo.notice.dto.NoticeRequestDto;
+import com.sstep.demo.notice.service.NoticeService;
+import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.StaffMapper;
@@ -12,8 +16,11 @@ import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -21,6 +28,7 @@ import java.util.List;
 public class StaffService {
     private final StaffRepository staffRepository;
     private final StaffMapper staffMapper;
+    private final NoticeService noticeService;
 
     public void updateStaff(Long storeId, Long staffId, StaffRequestDto staffRequestDto) {
         Staff existingStaff = staffRepository.findByIdAndStoreId(staffId, storeId);
@@ -137,5 +145,28 @@ public class StaffService {
 
     public List<Commute> getDisputeList(Long storeId, Long staffId) {
         return staffRepository.findDisputeListByStoreIdAndStaffId(storeId, staffId);
+    }
+
+    public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto, MultipartFile[] multipartFile) throws IOException {
+        Staff staff = staffRepository.findById(staffId).orElseThrow();
+
+        List<Notice> notices = getNoticesByStaffId(staffId);
+        Notice notice = getNoticeEntity(noticeRequestDto);
+        if (Arrays.stream(multipartFile).findAny().isPresent()) {
+            for (MultipartFile imageFile : multipartFile) {
+                noticeService.saveNotice(notice, imageFile);
+            }
+        }
+        notices.add(notice);
+        staff.setNotices(notices);
+        staffRepository.save(staff);
+    }
+
+    private Notice getNoticeEntity(NoticeRequestDto noticeRequestDto) {
+        return staffMapper.toNoticeEntity(noticeRequestDto);
+    }
+
+    private List<Notice> getNoticesByStaffId(Long staffId) {
+        return staffRepository.findNoticesByStaffId(staffId);
     }
 }

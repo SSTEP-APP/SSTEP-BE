@@ -1,8 +1,7 @@
 package com.sstep.demo.store;
 
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
-import com.sstep.demo.commute.domain.Commute;
-import com.sstep.demo.commute.dto.CommuteRequestDto;
+import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.store.dto.StoreRequestDto;
@@ -57,5 +56,11 @@ public class StoreController {
     @GetMapping("/{storeId}/dispute-staffs")
     public List<Staff> getDisputeStaffs(@PathVariable Long storeId) {
         return storeService.getDisputeStaffs(storeId);
+    }
+
+    //사업장 내 전체 공지사항 목록 조회
+    @GetMapping("/{storeId}/notices")
+    public List<Notice> getNotices(@PathVariable Long storeId) {
+        return storeService.getNotices(storeId);
     }
 }

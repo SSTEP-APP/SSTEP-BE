@@ -3,6 +3,7 @@ package com.sstep.demo.staff.domain;
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.member.domain.Member;
+import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.schedule.domain.Schedule;
 import lombok.*;
@@ -56,18 +57,35 @@ public class Staff {
     }
 
     public void setSchedules(List<Schedule> schedules) {
-        this.schedules.addAll(schedules);
-        schedules.forEach(schedule -> schedule.setStaff(this));
+        this.schedules.clear();
+        if (schedules != null) {
+            this.schedules.addAll(schedules);
+            schedules.forEach(schedule -> schedule.setStaff(this));
+        }
     }
 
     public void setCommutes(List<Commute> commutes) {
-        this.commutes.addAll(commutes);
-        commutes.forEach(commute -> commute.setStaff(this));
+        this.commutes.clear();
+        if (commutes != null) {
+            this.commutes.addAll(commutes);
+            commutes.forEach(commute -> commute.setStaff(this));
+        }
     }
 
     public void setCalendars(List<Calendar> calendars) {
-        this.calendars.addAll(calendars);
-        calendars.forEach(calendar -> calendar.setStaff(this));
+        this.calendars.clear();
+        if (calendars != null) {
+            this.calendars.addAll(calendars);
+            calendars.forEach(calendar -> calendar.setStaff(this));
+        }
+    }
+
+    public void setNotices(List<Notice> notices) {
+        this.notices.clear();
+        if (notices != null) {
+            this.notices.addAll(notices);
+            notices.forEach(notice -> notice.setStaff(this));
+        }
     }
 
     //회원 테이블과 1대다 조인
@@ -88,4 +106,7 @@ public class Staff {
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<Calendar> calendars;
+
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
+    private List<Notice> notices;
 }
