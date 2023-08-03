@@ -51,36 +51,23 @@ public class Staff {
         this.wageType = wageType;
     }
 
-    public void setOwnerStatus(boolean ownerStatus) {
-        this.ownerStatus = ownerStatus;
-    }
-
     public void setJoinStatus(boolean joinStatus) {
         this.joinStatus = joinStatus;
     }
 
     public void setSchedules(List<Schedule> schedules) {
-        this.schedules.clear();
-        if (schedules != null) {
-            this.schedules.addAll(schedules);
-            schedules.forEach(schedule -> schedule.setStaff(this));
-        }
+        this.schedules.addAll(schedules);
+        schedules.forEach(schedule -> schedule.setStaff(this));
     }
 
     public void setCommutes(List<Commute> commutes) {
-        this.commutes.clear();
-        if (commutes != null) {
-            this.commutes.addAll(commutes);
-            commutes.forEach(commute -> commute.setStaff(this));
-        }
+        this.commutes.addAll(commutes);
+        commutes.forEach(commute -> commute.setStaff(this));
     }
 
     public void setCalendars(List<Calendar> calendars) {
-        this.calendars.clear();
-        if (calendars != null) {
-            this.calendars.addAll(calendars);
-            calendars.forEach(calendar -> calendar.setStaff(this));
-        }
+        this.calendars.addAll(calendars);
+        calendars.forEach(calendar -> calendar.setStaff(this));
     }
 
     //회원 테이블과 1대다 조인
