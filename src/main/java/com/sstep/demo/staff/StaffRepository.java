@@ -2,6 +2,7 @@ package com.sstep.demo.staff;
 
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.commute.domain.Commute;
+import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.staff.domain.Staff;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,4 +30,7 @@ public interface StaffRepository extends JpaRepository<Staff, Long> { //<Entity 
 
     @Query("SELECT s.commutes FROM Staff s,Store st WHERE st.id = :storeId and s.id = :staffId ")
     List<Commute> findDisputeListByStoreIdAndStaffId(Long storeId, Long staffId);
+
+    @Query("SELECT s.notices FROM Staff s WHERE s.id = :staffId ")
+    List<Notice> findNoticesByStaffId(Long staffId);
 }

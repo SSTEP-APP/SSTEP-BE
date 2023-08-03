@@ -3,6 +3,7 @@ package com.sstep.demo.staff;
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.commute.dto.CommuteRequestDto;
+import com.sstep.demo.notice.dto.NoticeRequestDto;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.service.StaffService;
@@ -10,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -73,4 +76,14 @@ public class StaffController {
     public List<Commute> getDisputeList(@PathVariable Long storeId, @PathVariable Long staffId) {
         return staffService.getDisputeList(storeId, staffId);
     }
+
+    //공지사항 등록
+    @PostMapping("/{staffId}/add-notice")
+    public ResponseEntity<Void> registerNotice(@PathVariable Long staffId,
+                                               @RequestBody NoticeRequestDto noticeRequestDto, @RequestBody MultipartFile[] multipartFile) throws IOException {
+        staffService.saveNotice(staffId, noticeRequestDto, multipartFile);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
 }

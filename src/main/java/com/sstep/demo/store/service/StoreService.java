@@ -1,8 +1,7 @@
 package com.sstep.demo.store.service;
 
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
-import com.sstep.demo.commute.domain.Commute;
-import com.sstep.demo.commute.dto.CommuteRequestDto;
+import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.store.StoreMapper;
@@ -13,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,5 +59,16 @@ public class StoreService {
 
     public List<Staff> getDisputeStaffs(Long storeId) {
         return storeRepository.findDisputeStaffsByExistMessage(storeId);
+    }
+
+    public List<Notice> getNotices(Long storeId) {
+        List<Staff> staffs = getStaffsByStoreId(storeId);
+        List<Notice> notices = new ArrayList<>();
+        for (Staff staff : staffs) {
+            if (!staff.getNotices().isEmpty()) {
+                notices.addAll(staff.getNotices());
+            }
+        }
+        return notices;
     }
 }

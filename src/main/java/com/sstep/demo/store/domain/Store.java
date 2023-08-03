@@ -44,11 +44,8 @@ public class Store {
     }
 
     public void setStaffList(List<Staff> staffList) {
-        this.staffList.clear();
-        if (staffList != null) {
-            this.staffList.addAll(staffList);
-            staffList.forEach(staff -> staff.setStore(this));
-        }
+        this.staffList.addAll(staffList);
+        staffList.forEach(staff -> staff.setStore(this));
     }
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)

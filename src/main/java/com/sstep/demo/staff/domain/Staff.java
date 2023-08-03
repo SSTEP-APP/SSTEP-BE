@@ -3,6 +3,7 @@ package com.sstep.demo.staff.domain;
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.member.domain.Member;
+import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.schedule.domain.Schedule;
 import lombok.*;
@@ -51,10 +52,6 @@ public class Staff {
         this.wageType = wageType;
     }
 
-    public void setOwnerStatus(boolean ownerStatus) {
-        this.ownerStatus = ownerStatus;
-    }
-
     public void setJoinStatus(boolean joinStatus) {
         this.joinStatus = joinStatus;
     }
@@ -83,6 +80,14 @@ public class Staff {
         }
     }
 
+    public void setNotices(List<Notice> notices) {
+        this.notices.clear();
+        if (notices != null) {
+            this.notices.addAll(notices);
+            notices.forEach(notice -> notice.setStaff(this));
+        }
+    }
+
     //회원 테이블과 1대다 조인
     @ManyToOne
     private Member member;
@@ -101,4 +106,7 @@ public class Staff {
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<Calendar> calendars;
+
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
+    private List<Notice> notices;
 }
