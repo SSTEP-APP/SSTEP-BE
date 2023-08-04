@@ -1,6 +1,7 @@
 package com.sstep.demo.staff.domain;
 
 import com.sstep.demo.calendar.domain.Calendar;
+import com.sstep.demo.checklist.domain.CheckList;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.notice.domain.Notice;
@@ -87,6 +88,13 @@ public class Staff {
             notices.forEach(notice -> notice.setStaff(this));
         }
     }
+    public void setCheckLists(List<CheckList> checkLists) {
+        this.checkLists.clear();
+        if (checkLists != null) {
+            this.checkLists.addAll(checkLists);
+            checkLists.forEach(notice -> notice.setStaff(this));
+        }
+    }
 
     //회원 테이블과 1대다 조인
     @ManyToOne
@@ -109,4 +117,7 @@ public class Staff {
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<Notice> notices;
+
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
+    private List<CheckList> checkLists;
 }

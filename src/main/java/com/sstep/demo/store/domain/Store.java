@@ -1,5 +1,6 @@
 package com.sstep.demo.store.domain;
 
+import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.staff.domain.Staff;
 import lombok.*;
 
@@ -44,10 +45,24 @@ public class Store {
     }
 
     public void setStaffList(List<Staff> staffList) {
-        this.staffList.addAll(staffList);
-        staffList.forEach(staff -> staff.setStore(this));
+        this.staffList.clear();
+        if (staffList != null) {
+            this.staffList.addAll(staffList);
+            staffList.forEach(staff -> staff.setStore(this));
+        }
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories.clear();
+        if (categories != null) {
+            this.categories.addAll(categories);
+            categories.forEach(category -> category.setStore(this));
+        }
     }
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
     private List<Staff> staffList;
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    private List<Category> categories;
+
 }

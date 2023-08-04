@@ -63,4 +63,6 @@ public class StoreController {
     public List<Notice> getNotices(@PathVariable Long storeId) {
         return storeService.getNotices(storeId);
     }
+
+
 }
