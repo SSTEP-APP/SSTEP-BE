@@ -1,5 +1,6 @@
 package com.sstep.demo.photo.domain;
 
+import com.sstep.demo.checklist.domain.CheckList;
 import com.sstep.demo.notice.domain.Notice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +48,13 @@ public class Photo {
         this.notice = notice;
     }
 
+    public void setCheckList(CheckList checkList) {
+        this.checkList = checkList;
+    }
+
     @ManyToOne
     private Notice notice;
+
+    @ManyToOne
+    private CheckList checkList;
 }
