@@ -1,6 +1,7 @@
 package com.sstep.demo.category.service;
 
 import com.sstep.demo.category.CategoryMapper;
+import com.sstep.demo.category.CategoryRepository;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.category.dto.CategoryRequestDto;
 import com.sstep.demo.store.StoreRepository;
@@ -8,7 +9,6 @@ import com.sstep.demo.store.domain.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
