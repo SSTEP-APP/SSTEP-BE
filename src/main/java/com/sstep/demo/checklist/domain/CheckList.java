@@ -88,11 +88,11 @@ public class CheckList {
 
     @ManyToOne
     private Staff staff;
-    @OneToMany(mappedBy = "checklist", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
     private List<Photo> photos;
-    @OneToMany(mappedBy = "checklist", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
     private List<Category> categories;
-    @OneToMany(mappedBy = "checklist", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
     private List<CheckListManager> checkListManagers;
 
 }

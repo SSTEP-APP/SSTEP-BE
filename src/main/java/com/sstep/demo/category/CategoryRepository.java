@@ -1,4 +1,4 @@
-package com.sstep.demo.category.service;
+package com.sstep.demo.category;
 
 import com.sstep.demo.category.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
