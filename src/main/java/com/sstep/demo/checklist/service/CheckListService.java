@@ -110,7 +110,7 @@ public class CheckListService {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
 
         List<CheckList> checkLists = getCheckListsByStaffId(staffId);
-        CheckList checkList = checkListRepository.findById(checklistId);
+        CheckList checkList = checkListRepository.findById(checklistId).orElseThrow();
         if (Arrays.stream(multipartFile).findAny().isPresent()) {
             for (MultipartFile imageFile : multipartFile) {
                 List<Photo> photos = new ArrayList<>();
