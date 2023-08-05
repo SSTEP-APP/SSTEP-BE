@@ -30,7 +30,7 @@ public class StaffController {
     }
 
     //직원별 스케줄 저장
-    @PostMapping("/{staffId}}/add-schedule")
+    @PostMapping("/{staffId}/add-schedule")
     public ResponseEntity<Void> registerSchedule(@PathVariable Long staffId, @RequestBody ScheduleRequestDto scheduleRequestDto) {
         staffService.saveSchedule(scheduleRequestDto, staffId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -72,7 +72,7 @@ public class StaffController {
     }
 
     //해당 직원의 이의 신청 리스트 가져오기
-    @GetMapping("/{storeId}/{staffId}/disputelist")
+    @GetMapping("/{storeId}/{staffId}/dispute-list")
     public List<Commute> getDisputeList(@PathVariable Long storeId, @PathVariable Long staffId) {
         return staffService.getDisputeList(storeId, staffId);
     }

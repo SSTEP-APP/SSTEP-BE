@@ -47,7 +47,7 @@ public class StoreController {
     }
 
     //해당 날짜에 근무하는 직원 리스트 가져오기
-    @GetMapping("/{storeId}/daywork-staffs")
+    @GetMapping("/{storeId}/day-work-staffs")
     public List<Staff> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
         return storeService.getDayWorkStaffs(storeId, calendarRequestDto);
     }
