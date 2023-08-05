@@ -29,7 +29,7 @@ public class MemberController {
     }
 
     //아이디를 통한 중복 체크
-    @GetMapping("/checkDuplicate")
+    @GetMapping("/check/duplicate")
     public ResponseEntity<String> checkDuplicateMemberId(@RequestParam String memberId) {
         if(memberService.isMemberIdDuplicate(memberId)){
             return ResponseEntity.badRequest().body("중복된 아이디입니다.");
