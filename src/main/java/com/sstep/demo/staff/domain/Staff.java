@@ -3,10 +3,12 @@ package com.sstep.demo.staff.domain;
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.checklist.domain.CheckList;
 import com.sstep.demo.commute.domain.Commute;
+import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.schedule.domain.Schedule;
+import com.sstep.demo.workdoc.domain.WorkDoc;
 import lombok.*;
 
 import javax.persistence.*;
@@ -88,12 +90,25 @@ public class Staff {
             notices.forEach(notice -> notice.setStaff(this));
         }
     }
+
     public void setCheckLists(List<CheckList> checkLists) {
         this.checkLists.clear();
         if (checkLists != null) {
             this.checkLists.addAll(checkLists);
             checkLists.forEach(notice -> notice.setStaff(this));
         }
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void setHealthDoc(HealthDoc healthDoc) {
+        this.healthDoc = healthDoc;
+    }
+
+    public void setWorkDoc(WorkDoc workDoc) {
+        this.workDoc = workDoc;
     }
 
     //회원 테이블과 1대다 조인
@@ -112,12 +127,23 @@ public class Staff {
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<Commute> commutes;
 
+    //캘린더 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<Calendar> calendars;
 
+    //공지사항 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<Notice> notices;
 
+    //체크 리스트 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private List<CheckList> checkLists;
+
+    //보건증 테이블과 1대1조인
+    @OneToOne
+    private HealthDoc healthDoc;
+
+    //근로 계약서 테이블과 1대1조인
+    @OneToOne
+    private WorkDoc workDoc;
 }

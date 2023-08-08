@@ -5,6 +5,7 @@ import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.commute.dto.CommuteRequestDto;
 import com.sstep.demo.notice.dto.NoticeRequestDto;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
+import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
@@ -85,4 +86,28 @@ public class StaffController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    //보건증을 등록한 직원 목록
+    @GetMapping("/{storeId}/reg/health-doc/staffs")
+    public List<Staff> getRegHealthDocStaffs(@PathVariable Long storeId) {
+        return staffService.getRegHealthDocStaffs(storeId);
+    }
+
+    //보건증을 미 등록한 직원 목록
+    @GetMapping("/{storeId}/un-reg/health-doc/staffs")
+    public List<Staff> getUnRegHealthDocStaffs(@PathVariable Long storeId) {
+        return staffService.getUnRegHealthDocStaffs(storeId);
+    }
+
+    //근로 계약서 등록한 직원 목록
+    @GetMapping("/{storeId}/reg/work-doc/staffs")
+    public List<Staff> getRegWorkDocStaffs(@PathVariable Long storeId) {
+        return staffService.getRegWorkDocStaffs(storeId);
+    }
+
+
+    //근로 계약서 미 등록한 직원 목록
+    @GetMapping("/{storeId}/un-reg/work-doc/staffs")
+    public List<Staff> getUnRegWorkDocStaffs(@PathVariable Long storeId) {
+        return staffService.getUnRegWorkDocStaffs(storeId);
+    }
 }

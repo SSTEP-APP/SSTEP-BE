@@ -2,6 +2,7 @@ package com.sstep.demo.store;
 
 
 import com.sstep.demo.commute.domain.Commute;
+import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.domain.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,4 +32,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     @Query("SELECT s.staffList FROM Store s,Commute c WHERE s.id = :storeId and c.disputeMessage is not null ")
     List<Staff> findDisputeStaffsByExistMessage(Long storeId);
+
+    //해당 사업장의 사장 찾기
+    @Query("SELECT s.staffList FROM Store s, Staff st WHERE s.id = :storeId and st.ownerStatus = true")
+    Staff findOwnerById(Long storeId);
 }
