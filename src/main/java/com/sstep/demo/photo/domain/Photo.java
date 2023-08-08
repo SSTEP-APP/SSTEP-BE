@@ -1,7 +1,9 @@
 package com.sstep.demo.photo.domain;
 
 import com.sstep.demo.checklist.domain.CheckList;
+import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.notice.domain.Notice;
+import com.sstep.demo.workdoc.domain.WorkDoc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,9 +54,19 @@ public class Photo {
         this.checkList = checkList;
     }
 
+    public void setHealthDoc(HealthDoc healthDoc) {
+        this.healthDoc = healthDoc;
+    }
+
     @ManyToOne
     private Notice notice;
 
     @ManyToOne
     private CheckList checkList;
+
+    @OneToOne(mappedBy = "photo")
+    private HealthDoc healthDoc;
+
+    @OneToOne(mappedBy = "photo")
+    private WorkDoc workDoc;
 }

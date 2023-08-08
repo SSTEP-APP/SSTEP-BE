@@ -7,19 +7,21 @@ import com.sstep.demo.commute.dto.CommuteRequestDto;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.notice.dto.NoticeRequestDto;
 import com.sstep.demo.notice.service.NoticeService;
-import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.StaffMapper;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
+import com.sstep.demo.store.StoreRepository;
+import com.sstep.demo.store.domain.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,6 +31,12 @@ public class StaffService {
     private final StaffRepository staffRepository;
     private final StaffMapper staffMapper;
     private final NoticeService noticeService;
+    private final StoreRepository storeRepository;
+
+
+    public Staff getStaff(Long staffId) {
+        return staffRepository.findById(staffId).orElseThrow();
+    }
 
     public void updateStaff(Long storeId, Long staffId, StaffRequestDto staffRequestDto) {
         Staff existingStaff = staffRepository.findByIdAndStoreId(staffId, storeId);
@@ -44,7 +52,7 @@ public class StaffService {
     }
 
     public void saveSchedule(ScheduleRequestDto scheduleRequestDto, Long staffId) {
-        Staff staff = staffRepository.findById(staffId).orElseThrow();
+        Staff staff = getStaff(staffId);
         List<Schedule> schedules = getSchedulesByStaffId(staffId);
         Schedule schedule = getScheduleEntity(scheduleRequestDto);
         schedules.add(schedule);
@@ -62,7 +70,7 @@ public class StaffService {
     }
 
     public void saveCalendar(CalendarRequestDto calendarRequestDto, Long staffId) {
-        Staff staff = staffRepository.findById(staffId).orElseThrow();
+        Staff staff = getStaff(staffId);
         List<Calendar> calendars = getCalendarsByStaffId(staffId);
         Calendar calendar = getCalendarEntity(calendarRequestDto);
         calendars.add(calendar);
@@ -79,7 +87,7 @@ public class StaffService {
     }
 
     public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) {
-        Staff staff = staffRepository.findById(staffId).orElseThrow();
+        Staff staff = getStaff(staffId);
         boolean late = isLate(commuteRequestDto, staff.getSchedules());
 
         List<Commute> commutes = getCommutesByStaffId(staffId);
@@ -148,7 +156,7 @@ public class StaffService {
     }
 
     public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto, MultipartFile[] multipartFile) throws IOException {
-        Staff staff = staffRepository.findById(staffId).orElseThrow();
+        Staff staff = getStaff(staffId);
 
         List<Notice> notices = getNoticesByStaffId(staffId);
         Notice notice = getNoticeEntity(noticeRequestDto);
@@ -168,5 +176,57 @@ public class StaffService {
 
     private List<Notice> getNoticesByStaffId(Long staffId) {
         return staffRepository.findNoticesByStaffId(staffId);
+    }
+
+    public List<Staff> getRegHealthDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        List<Staff> staffList = store.getStaffList();
+        List<Staff> staffs = new ArrayList<>();
+        for (Staff staff : staffList) {
+            if (staff.getHealthDoc().isRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
+    }
+
+    private Store getStore(Long storeId) {
+        return storeRepository.findById(storeId).orElseThrow();
+    }
+
+    public List<Staff> getUnRegHealthDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        List<Staff> staffList = store.getStaffList();
+        List<Staff> staffs = new ArrayList<>();
+        for (Staff staff : staffList) {
+            if (!staff.getHealthDoc().isRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
+    }
+
+    public List<Staff> getRegWorkDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        List<Staff> staffList = store.getStaffList();
+        List<Staff> staffs = new ArrayList<>();
+        for (Staff staff : staffList) {
+            if (staff.getWorkDoc().isSecondRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
+    }
+
+    public List<Staff> getUnRegWorkDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        List<Staff> staffList = store.getStaffList();
+        List<Staff> staffs = new ArrayList<>();
+        for (Staff staff : staffList) {
+            if (!staff.getWorkDoc().isSecondRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
     }
 }
