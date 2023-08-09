@@ -1,6 +1,7 @@
 package com.sstep.demo.store;
 
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
+import com.sstep.demo.member.dto.MemberRequestDto;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
@@ -21,9 +22,10 @@ public class StoreController {
 
     //사업장 등록 => 등록한 사람은 바로 직원으로 추가, 사장으로 취급
     @PostMapping("/register")
-    public ResponseEntity<Void> registerStore(@RequestBody StoreRequestDto storeRequestDto, StaffRequestDto staffRequestDto) {
+    public ResponseEntity<Void> registerStore(@RequestBody StoreRequestDto storeRequestDto, @RequestBody StaffRequestDto staffRequestDto
+            , @RequestBody MemberRequestDto memberRequestDto) {
         storeService.saveStore(storeRequestDto); //사업장 등록 로직
-        storeService.setOwner(storeRequestDto, staffRequestDto);//사업장 등록한 사람을 사장으로 취급하는 로직
+        storeService.setOwner(storeRequestDto, staffRequestDto, memberRequestDto);//사업장 등록한 사람을 사장으로 취급하는 로직
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -35,8 +37,8 @@ public class StoreController {
 
     //직원 추가 => 사업장 코드 입력 후 사장이 승인을 받아줬을 경우
     @PostMapping("/{code}/add/staff")
-    public ResponseEntity<Void> addStaffToStore(@PathVariable Long code, @RequestBody StaffRequestDto staffRequestDto) {
-        storeService.addStaffToStore(code, staffRequestDto);
+    public ResponseEntity<Void> addStaffToStore(@PathVariable Long code, @RequestBody MemberRequestDto memberRequestDto, @RequestBody StaffRequestDto staffRequestDto) {
+        storeService.addStaffToStore(code, staffRequestDto, memberRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

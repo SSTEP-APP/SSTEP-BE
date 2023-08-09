@@ -36,4 +36,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     //해당 사업장의 사장 찾기
     @Query("SELECT s.staffList FROM Store s, Staff st WHERE s.id = :storeId and st.ownerStatus = true")
     Staff findOwnerById(Long storeId);
+
+    //회원이 소속된 사업장 리스트 출력을 위한 기능
+    @Query("SELECT m.staffList FROM Member m WHERE m.id = :memberId")
+    List<Staff> findStaffsByMemberId(String memberId);
 }
