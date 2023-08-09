@@ -51,6 +51,14 @@ public class Member {
         this.password = password;
     }
 
+    public void setStaffList(List<Staff> staffList) {
+        this.staffList.clear();
+        if (staffList != null) {
+            this.staffList.addAll(staffList);
+            staffList.forEach(staff -> staff.setMember(this));
+        }
+    }
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Staff> staffList;
 
