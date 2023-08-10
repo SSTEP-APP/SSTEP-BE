@@ -16,15 +16,11 @@ public class Member {
     @Id //기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성을 DB에 위임 => DB에서 AUTO_INCREMENT 기능 사용
     private long id; //회원 고유번호
-    @Column(nullable = false, length = 30, unique = true)
     private String username; //회원 아이디
-    @Column(nullable = false, length = 10)
     private String name; //회원명
 
-    @Column(nullable = false, length = 20)
     private String phoneNum; //회원 전화번호
 
-    @Column(nullable = false, length = 30)
     private String password; //비밀번호
 
 //    private String profileImage; //프로필 사진

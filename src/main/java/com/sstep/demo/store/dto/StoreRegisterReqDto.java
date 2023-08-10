@@ -1,7 +1,7 @@
 package com.sstep.demo.store.dto;
 
 public class StoreRegisterReqDto { //사업장 등록용 RequestDto
-    private long memberId; //회원 고유번호
+    private String memberUsername; //회원 아이디
     private String storeName; //사업장명
     private String storeAddress; //사업장 주소
     private String latitude; //사업장 위도 좌표
@@ -10,8 +10,8 @@ public class StoreRegisterReqDto { //사업장 등록용 RequestDto
     private boolean plan; //사업장 유료 플랜 여부
     private long code; //사업장 초대 코드 번호
 
-    public long getMemberId() {
-        return memberId;
+    public String getMemberUsername() {
+        return memberUsername;
     }
 
     public String getStoreName() {

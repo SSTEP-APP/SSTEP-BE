@@ -52,7 +52,7 @@ public class StoreService {
 
     public void addOwnerToStore(StoreRegisterReqDto dto) {
         Store store = getCodeToEntity(dto.getCode());
-        Member member = memberRepository.findById(dto.getMemberId()).orElseThrow();
+        Member member = memberRepository.findByUsername(dto.getMemberUsername());
         Staff staff = Staff.builder()
                 .joinStatus(true) //합류여부 true
                 .ownerStatus(true) //사장 여부 true
