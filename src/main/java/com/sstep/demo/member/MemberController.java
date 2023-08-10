@@ -21,20 +21,19 @@ public class MemberController {
     @PostMapping("/join")
     public ResponseEntity<Void> join(@RequestBody MemberRequestDto memberRequestDto) {
         memberService.save(memberRequestDto);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //아이디로 회원 조회
-    @GetMapping("/{memberId}")
-    public ResponseEntity<MemberResponseDto> findByMemberId(@PathVariable(value = "memberId") String memberId) {
-        return ResponseEntity.ok().body(memberService.getEntityByMemberId(memberId));
+    @GetMapping("/{username}")
+    public ResponseEntity<MemberResponseDto> findByMemberId(@PathVariable String username) {
+        return ResponseEntity.ok().body(memberService.getEntityByUsername(username));
     }
 
     //아이디를 통한 중복 체크
     @GetMapping("/check/duplicate")
-    public ResponseEntity<String> checkDuplicateMemberId(@RequestParam String memberId) {
-        if (memberService.isMemberIdDuplicate(memberId)) {
+    public ResponseEntity<String> checkDuplicateMemberId(@RequestBody MemberRequestDto memberRequestDto) {
+        if (memberService.isMemberIdDuplicate(memberRequestDto)) {
             return ResponseEntity.badRequest().body("중복된 아이디입니다.");
         } else {
             return ResponseEntity.ok("사용가능한 아이디입니다.");
