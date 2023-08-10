@@ -4,6 +4,7 @@ import com.sstep.demo.staff.domain.Staff;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -49,7 +50,7 @@ public class Member {
     }
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Staff> staffList;
+    private List<Staff> staffList ;
 }
 
 

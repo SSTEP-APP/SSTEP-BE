@@ -29,12 +29,12 @@ public class MemberService {
         return memberMapper.EntityToResponseDto(getEntity(memberId));
     }
 
-    public void save(MemberRequestDto member) {
-        String memberId = member.getMemberId();
+    public void save(MemberRequestDto memberDto) {
+        String memberId = memberDto.getMemberId();
         if (!isMemberIdDuplicate(memberId)) {
-            memberRepository.save(memberMapper.toEntity(member));
-        } else {
-            throw new IllegalStateException("이미 가입된 회원입니다.");
+            Member member = memberMapper.toEntity(memberDto);
+            member.setStaffList(new ArrayList<>());
+            memberRepository.save(member);
         }
     }
 
