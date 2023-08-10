@@ -58,19 +58,16 @@ public class StoreService {
                 .member(member)
                 .build();
 
-        List<Staff> memberStaff;
-        List<Staff> staffList;
-        if (getStaffsByMemberId(member.getId()) == null) {
+        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        if (memberStaff == null) {
             memberStaff = new ArrayList<>();
-        } else {
-            memberStaff = getStaffsByMemberId(member.getId());
         }
 
-        if (getStaffsByStoreId(store.getId()) == null) {
+        List<Staff> staffList = getStaffsByStoreId(store.getId());
+        if (staffList == null) {
             staffList = new ArrayList<>();
-        } else {
-            staffList = getStaffsByStoreId(store.getId());
         }
+
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
 
