@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,11 +58,22 @@ public class StoreService {
                 .member(member)
                 .build();
 
-        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        List<Staff> memberStaff;
+        List<Staff> staffList;
+        if (getStaffsByMemberId(member.getId()) == null) {
+            memberStaff = new ArrayList<>();
+        } else {
+            memberStaff = getStaffsByMemberId(member.getId());
+        }
+
+        if (getStaffsByStoreId(store.getId()) == null) {
+            staffList = new ArrayList<>();
+        } else {
+            staffList = getStaffsByStoreId(store.getId());
+        }
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
 
-        List<Staff> staffList = getStaffsByStoreId(store.getId());
         staffList.add(staff);
         store.setStaffList(staffList);
 

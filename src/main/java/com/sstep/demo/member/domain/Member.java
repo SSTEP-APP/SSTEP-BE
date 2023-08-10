@@ -40,17 +40,6 @@ public class Member {
 //    @Column(name = "user_push4")
 //    private boolean userPush4; //공지사항 푸시 알람 여부
 
-    //Lombok 애노테이션으로 Getter & Setter 생성
-
-
-    public Member(long id, String username, String name, String phoneNum, String password) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.password = password;
-    }
-
     public void setStaffList(List<Staff> staffList) {
         this.staffList.clear();
         if (staffList != null) {
@@ -61,8 +50,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Staff> staffList;
-
-
 }
 
 
