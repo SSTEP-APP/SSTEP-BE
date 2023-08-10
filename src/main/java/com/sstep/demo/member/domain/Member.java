@@ -16,7 +16,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성을 DB에 위임 => DB에서 AUTO_INCREMENT 기능 사용
     private long id; //회원 고유번호
     @Column(nullable = false, length = 30, unique = true)
-    private String memberId; //회원 아이디
+    private String username; //회원 아이디
     @Column(nullable = false, length = 10)
     private String name; //회원명
 
@@ -43,9 +43,9 @@ public class Member {
     //Lombok 애노테이션으로 Getter & Setter 생성
 
 
-    public Member(long id, String memberId, String name, String phoneNum, String password) {
+    public Member(long id, String username, String name, String phoneNum, String password) {
         this.id = id;
-        this.memberId = memberId;
+        this.username = username;
         this.name = name;
         this.phoneNum = phoneNum;
         this.password = password;

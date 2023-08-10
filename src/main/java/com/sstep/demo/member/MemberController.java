@@ -28,7 +28,7 @@ public class MemberController {
     //아이디로 회원 조회
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberResponseDto> findByMemberId(@PathVariable(value = "memberId") String memberId) {
-        return ResponseEntity.ok().body(memberService.findByMemberId(memberId));
+        return ResponseEntity.ok().body(memberService.getEntityByMemberId(memberId));
     }
 
     //아이디를 통한 중복 체크
