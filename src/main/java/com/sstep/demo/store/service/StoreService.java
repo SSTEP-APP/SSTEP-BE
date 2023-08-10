@@ -44,6 +44,7 @@ public class StoreService {
                 .scale(storeRequestDto.isScale())
                 .plan(storeRequestDto.isPlan())
                 .code(storeRequestDto.getCode())
+                .staffList(new ArrayList<>())
                 .build();
 
         storeRepository.save(store);
@@ -59,14 +60,7 @@ public class StoreService {
                 .build();
 
         List<Staff> memberStaff = getStaffsByMemberId(member.getId());
-        if (memberStaff == null) {
-            memberStaff = new ArrayList<>();
-        }
-
         List<Staff> staffList = getStaffsByStoreId(store.getId());
-        if (staffList == null) {
-            staffList = new ArrayList<>();
-        }
 
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
