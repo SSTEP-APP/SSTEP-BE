@@ -20,20 +20,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreService {
     private final StoreRepository storeRepository;
-    private final StoreMapper storeMapper;
     private final MemberRepository memberRepository;
-    private final MemberMapper memberMapper;
 
     public Store getCodeToEntity(long code) {
         return storeRepository.findByCode(code).orElseThrow(EntityNotFoundException::new);
-    }
-
-    private Member getMemberEntity(MemberRequestDto memberRequestDto) {
-        return memberMapper.toEntity(memberRequestDto);
-    }
-
-    private Staff getStaffEntity(StaffRequestDto staffRequestDto) {
-        return storeMapper.toStaffEntity(staffRequestDto);
     }
 
     private List<Staff> getStaffsByMemberId(Long id) {
