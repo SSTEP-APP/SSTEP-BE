@@ -16,7 +16,7 @@ public class MemberRequestDto {
 
     private String phoneNum;
 
-    private String memberId;
+    private String username;
 
     private String password;
 }

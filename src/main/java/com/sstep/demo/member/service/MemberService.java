@@ -25,21 +25,18 @@ public class MemberService {
         return memberRepository.findByUsername(memberId).orElseThrow(EntityNotFoundException::new);
     }
 
-    public MemberResponseDto getEntityByMemberId(String memberId) {
-        return memberMapper.EntityToResponseDto(getEntity(memberId));
+    public MemberResponseDto getEntityByUsername(String username) {
+        return memberMapper.EntityToResponseDto(getEntity(username));
     }
 
     public void save(MemberRequestDto memberDto) {
-        String memberId = memberDto.getMemberId();
-        if (!isMemberIdDuplicate(memberId)) {
-            Member member = memberMapper.toEntity(memberDto);
-            member.setStaffList(new ArrayList<>());
-            memberRepository.save(member);
-        }
+        Member member = memberMapper.toEntity(memberDto);
+        member.setStaffList(new ArrayList<>());
+        memberRepository.save(member);
     }
 
-    public boolean isMemberIdDuplicate(String memberId) {
-        Optional<Member> findMember = memberRepository.findByUsername(memberId);
+    public boolean isMemberIdDuplicate(MemberRequestDto memberRequestDto) {
+        Optional<Member> findMember = memberRepository.findByUsername(memberRequestDto.getUsername());
         return findMember.isPresent();
     }
 
