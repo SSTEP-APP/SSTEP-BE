@@ -2,7 +2,6 @@ package com.sstep.demo.member;
 
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.member.dto.MemberRequestDto;
-import com.sstep.demo.member.dto.MemberResponseDto;
 import com.sstep.demo.member.service.MemberService;
 import com.sstep.demo.store.domain.Store;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +32,8 @@ public class MemberController {
 
     //아이디를 통한 중복 체크
     @GetMapping("/check/duplicate")
-    public ResponseEntity<String> checkDuplicateMemberId(@RequestBody MemberRequestDto memberRequestDto) {
-        if (memberService.isMemberIdDuplicate(memberRequestDto)) {
+    public ResponseEntity<String> checkDuplicateUsername(@RequestBody MemberRequestDto memberRequestDto) {
+        if (memberService.isUsernameDuplicate(memberRequestDto)) {
             return ResponseEntity.badRequest().body("중복된 아이디입니다.");
         } else {
             return ResponseEntity.ok("사용가능한 아이디입니다.");
@@ -42,8 +41,8 @@ public class MemberController {
     }
 
     //회원이 소속된 사업장 리스트
-    @GetMapping("/{memberId}/stores")
-    public List<Store> getStoresBelongMember(@PathVariable Long memberId) {
-        return memberService.getStoresBelongMember(memberId);
+    @GetMapping("/{username}/stores")
+    public List<Store> getStoresBelongMember(@PathVariable Long username) {
+        return memberService.getStoresBelongMember(username);
     }
 }

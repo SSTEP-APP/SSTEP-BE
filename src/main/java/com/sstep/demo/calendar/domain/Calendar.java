@@ -25,11 +25,6 @@ public class Calendar {
     private LocalTime startCalTime;
     private LocalTime endCalTime;
 
-    public Calendar(Date calendarDate, LocalTime startCalTime, LocalTime endCalTime) {
-        this.calendarDate = calendarDate;
-        this.startCalTime = startCalTime;
-        this.endCalTime = endCalTime;
-    }
 
     public void setStaff(Staff staff) {
         this.staff = staff;
