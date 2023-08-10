@@ -19,12 +19,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberMapper memberMapper;
 
     public void save(MemberRequestDto memberDto) {
-        Member member = memberMapper.toEntity(memberDto);
-        List<Staff> staffList = new ArrayList<>();
-        member.setStaffList(staffList);
+        Member member = Member.builder()
+                .username(memberDto.getUsername())
+                .name(memberDto.getName())
+                .phoneNum(memberDto.getPhoneNum())
+                .password(memberDto.getPassword())
+                .staffList(new ArrayList<>())
+                .build();
+
         memberRepository.save(member);
     }
 
