@@ -1,8 +1,6 @@
 package com.sstep.demo.store;
 
 
-import com.sstep.demo.commute.domain.Commute;
-import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.domain.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,5 +37,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     //회원이 소속된 사업장 리스트 출력을 위한 기능
     @Query("SELECT m.staffList FROM Member m WHERE m.id = :memberId")
-    List<Staff> findStaffsByMemberId(String memberId);
+    List<Staff> findStaffsByMemberId(Long memberId);
 }

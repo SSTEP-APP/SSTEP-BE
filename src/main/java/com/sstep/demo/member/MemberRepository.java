@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> { //<Entity 클래스, PK 타입>
-    Optional<Member> findByMemberId(String memberId); //아이디로 회원찾기
+    Optional<Member> findByUsername(String username); //아이디로 회원찾기
 }

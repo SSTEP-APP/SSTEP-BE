@@ -22,10 +22,10 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     public Member getEntity(String memberId) {
-        return memberRepository.findByMemberId(memberId).orElseThrow(EntityNotFoundException::new);
+        return memberRepository.findByUsername(memberId).orElseThrow(EntityNotFoundException::new);
     }
 
-    public MemberResponseDto findByMemberId(String memberId) {
+    public MemberResponseDto getEntityByMemberId(String memberId) {
         return memberMapper.EntityToResponseDto(getEntity(memberId));
     }
 
@@ -39,7 +39,7 @@ public class MemberService {
     }
 
     public boolean isMemberIdDuplicate(String memberId) {
-        Optional<Member> findMember = memberRepository.findByMemberId(memberId);
+        Optional<Member> findMember = memberRepository.findByUsername(memberId);
         return findMember.isPresent();
     }
 
