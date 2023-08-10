@@ -27,8 +27,8 @@ public class StoreService {
         return storeRepository.findByCode(code).orElseThrow(EntityNotFoundException::new);
     }
 
-    private List<Staff> getStaffsByMemberId(Long id) {
-        return storeRepository.findStaffsByMemberId(id);
+    private List<Staff> getStaffsByMemberId(Long memberId) {
+        return storeRepository.findStaffsByMemberId(memberId);
     }
 
     public List<Staff> getStaffsByStoreId(Long storeId) {
