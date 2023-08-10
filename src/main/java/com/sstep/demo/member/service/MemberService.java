@@ -21,17 +21,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
 
-    public Member getEntity(String memberId) {
-        return memberRepository.findByUsername(memberId).orElseThrow(EntityNotFoundException::new);
-    }
-
-    public MemberResponseDto getEntityByUsername(String username) {
-        return memberMapper.EntityToResponseDto(getEntity(username));
-    }
-
     public void save(MemberRequestDto memberDto) {
         Member member = memberMapper.toEntity(memberDto);
-        member.setStaffList(new ArrayList<>());
+        List<Staff> staffList = new ArrayList<>();
+        member.setStaffList(staffList);
         memberRepository.save(member);
     }
 
@@ -47,5 +40,9 @@ public class MemberService {
             stores.add(staff.getStore());
         }
         return stores;
+    }
+
+    public Member getMemberByUsername(String username) {
+        return memberRepository.findByUsername(username).orElseThrow();
     }
 }

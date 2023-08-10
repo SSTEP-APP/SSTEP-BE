@@ -1,5 +1,6 @@
 package com.sstep.demo.member;
 
+import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.member.dto.MemberRequestDto;
 import com.sstep.demo.member.dto.MemberResponseDto;
 import com.sstep.demo.member.service.MemberService;
@@ -26,8 +27,8 @@ public class MemberController {
 
     //아이디로 회원 조회
     @GetMapping("/{username}")
-    public ResponseEntity<MemberResponseDto> findByMemberId(@PathVariable String username) {
-        return ResponseEntity.ok().body(memberService.getEntityByUsername(username));
+    public Member getMemberByUsername(@PathVariable String username) {
+        return memberService.getMemberByUsername(username);
     }
 
     //아이디를 통한 중복 체크
