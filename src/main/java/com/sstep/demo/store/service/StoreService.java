@@ -1,12 +1,8 @@
 package com.sstep.demo.store.service;
 
-import com.sstep.demo.member.MemberMapper;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
-import com.sstep.demo.member.dto.MemberRequestDto;
 import com.sstep.demo.staff.domain.Staff;
-import com.sstep.demo.staff.dto.StaffRequestDto;
-import com.sstep.demo.store.StoreMapper;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
@@ -60,6 +56,9 @@ public class StoreService {
                 .build();
 
         List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        if (memberStaff == null) {
+            throw new EntityNotFoundException();
+        }
         List<Staff> staffList = getStaffsByStoreId(store.getId());
 
         memberStaff.add(staff);
