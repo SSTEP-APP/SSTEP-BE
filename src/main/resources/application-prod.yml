@@ -10,10 +10,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        show-sql: true
-        format-sql: true
 
 server:
   port: 3306
