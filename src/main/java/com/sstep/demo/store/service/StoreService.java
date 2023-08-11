@@ -58,7 +58,13 @@ public class StoreService {
                 .build();
 
         List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        if (memberStaff == null) {
+            throw new EntityNotFoundException();
+        }
         List<Staff> staffList = getStaffsByStoreId(store.getId());
+        if (staffList == null) {
+            throw new IllegalArgumentException();
+        }
 
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
