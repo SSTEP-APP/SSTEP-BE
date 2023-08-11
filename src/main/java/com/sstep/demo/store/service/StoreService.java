@@ -48,7 +48,7 @@ public class StoreService {
         storeRepository.save(store);
     }
 
-    public void addOwnerToStore(StoreRegisterReqDto dto) throws Exception{
+    public void addOwnerToStore(StoreRegisterReqDto dto){
         Store store = getCodeToEntity(dto.getCode());
         Member member = memberRepository.findByUsername(dto.getMemberUsername());
 
