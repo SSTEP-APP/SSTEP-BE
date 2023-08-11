@@ -48,16 +48,9 @@ public class StoreService {
         storeRepository.save(store);
     }
 
-    public void addOwnerToStore(StoreRegisterReqDto dto) {
+    public void addOwnerToStore(StoreRegisterReqDto dto) throws Exception{
         Store store = getCodeToEntity(dto.getCode());
         Member member = memberRepository.findByUsername(dto.getMemberUsername());
-
-        if (getStaffsByMemberId(member.getId()) == null) {
-            throw new EntityNotFoundException("No staff found for member with ID: " + member.getId());
-        }
-        if (getStaffsByStoreId(store.getId()) == null) {
-            throw new IllegalArgumentException("No staff found for store with ID: " + store.getId());
-        }
 
         Staff staff = Staff.builder()
                 .joinStatus(true)
