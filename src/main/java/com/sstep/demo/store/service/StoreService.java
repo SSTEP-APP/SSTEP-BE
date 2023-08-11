@@ -56,6 +56,7 @@ public class StoreService {
                 .ownerStatus(true) //사장 여부 true
                 .member(member)
                 .build();
+
         if (getStaffsByMemberId(member.getId()) == null) {
             throw new EntityNotFoundException();
         }
