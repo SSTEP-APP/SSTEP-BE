@@ -37,5 +37,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     //회원이 소속된 사업장 리스트 출력을 위한 기능
     @Query("SELECT s FROM Staff s WHERE s.member.id= :memberId")
+//    @Query("SELECT m.staffList from Member m WHERE m.id= :memberId")
     List<Staff> findStaffsByMemberId(Long memberId);
 }
