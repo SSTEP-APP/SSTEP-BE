@@ -2,6 +2,7 @@ package com.sstep.demo.store.service;
 
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
+import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
@@ -18,6 +19,7 @@ import java.util.List;
 public class StoreService {
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
+    private final StaffRepository staffRepository;
 
     public Store getCodeToEntity(long code) {
         return storeRepository.findByCode(code).orElseThrow(EntityNotFoundException::new);
@@ -56,9 +58,6 @@ public class StoreService {
                 .build();
 
         List<Staff> memberStaff = getStaffsByMemberId(member.getId());
-        if (memberStaff == null) {
-            throw new EntityNotFoundException();
-        }
         List<Staff> staffList = getStaffsByStoreId(store.getId());
 
         memberStaff.add(staff);
@@ -67,6 +66,7 @@ public class StoreService {
         staffList.add(staff);
         store.setStaffList(staffList);
 
+        staffRepository.save(staff);
         memberRepository.save(member);
         storeRepository.save(store);
     }
