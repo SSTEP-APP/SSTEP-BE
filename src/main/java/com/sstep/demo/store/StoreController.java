@@ -15,7 +15,7 @@ public class StoreController {
 
     //사업장 등록 => 등록한 사람은 바로 직원으로 추가, 사장으로 취급
     @PostMapping("/register")
-    public ResponseEntity<Void> registerStore(@RequestBody StoreRegisterReqDto dto) throws Exception{
+    public ResponseEntity<Void> registerStore(@RequestBody StoreRegisterReqDto dto) {
         storeService.saveStore(dto); //사업장 등록 로직
         storeService.addOwnerToStore(dto);//사업장 등록한 사람을 사장으로 취급하는 로직
         return ResponseEntity.status(HttpStatus.CREATED).build();
