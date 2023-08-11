@@ -51,26 +51,25 @@ public class StoreService {
     public void addOwnerToStore(StoreRegisterReqDto dto) {
         Store store = getCodeToEntity(dto.getCode());
         Member member = memberRepository.findByUsername(dto.getMemberUsername());
+
+        if (getStaffsByMemberId(member.getId()) == null) {
+            throw new EntityNotFoundException("No staff found for member with ID: " + member.getId());
+        }
+        if (getStaffsByStoreId(store.getId()) == null) {
+            throw new IllegalArgumentException("No staff found for store with ID: " + store.getId());
+        }
+
         Staff staff = Staff.builder()
-                .joinStatus(true) //합류여부 true
-                .ownerStatus(true) //사장 여부 true
+                .joinStatus(true)
+                .ownerStatus(true)
                 .member(member)
                 .build();
 
-        if (getStaffsByMemberId(member.getId()) == null) {
-            throw new EntityNotFoundException();
-        }
-        if (getStaffsByStoreId(store.getId()) == null) {
-            throw new IllegalArgumentException();
-        }
         List<Staff> memberStaff = getStaffsByMemberId(member.getId());
-
-        List<Staff> staffList = getStaffsByStoreId(store.getId());
-
-
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
 
+        List<Staff> staffList = getStaffsByStoreId(store.getId());
         staffList.add(staff);
         store.setStaffList(staffList);
 
@@ -78,6 +77,7 @@ public class StoreService {
         memberRepository.save(member);
         storeRepository.save(store);
     }
+
 
 //    public void addMemberToStore(StoreRegisterReqDto dto) {
 //        Store store = getCodeToEntity(dto.getCode());
