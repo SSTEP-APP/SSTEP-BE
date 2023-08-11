@@ -57,14 +57,16 @@ public class StoreService {
                 .member(member)
                 .build();
 
-        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
-        if (memberStaff == null) {
+        if (getStaffsByMemberId(member.getId()) == null) {
             throw new EntityNotFoundException();
         }
-        List<Staff> staffList = getStaffsByStoreId(store.getId());
-        if (staffList == null) {
+        if (getStaffsByStoreId(store.getId()) == null) {
             throw new IllegalArgumentException();
         }
+        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+
+        List<Staff> staffList = getStaffsByStoreId(store.getId());
+
 
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
