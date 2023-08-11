@@ -18,9 +18,7 @@ public class Member {
     private long id; //회원 고유번호
     private String username; //회원 아이디
     private String name; //회원명
-
     private String phoneNum; //회원 전화번호
-
     private String password; //비밀번호
 
 //    private String profileImage; //프로필 사진
