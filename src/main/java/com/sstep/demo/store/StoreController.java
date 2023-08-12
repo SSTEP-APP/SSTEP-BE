@@ -3,6 +3,7 @@ package com.sstep.demo.store;
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
@@ -63,13 +64,13 @@ public class StoreController {
 
     //초대 여부가 true 직원 리스트 가져오기
     @GetMapping("/{storeId}/invite-staffs")
-    public List<Staff> getInviteStaffs(@PathVariable Long storeId) {
+    public List<StaffInviteResponseDto> getInviteStaffs(@PathVariable Long storeId) {
         return storeService.getInviteStaffs(storeId);
     }
 
     //코드 입력 여부가 true인 직원 리스트 가져오기
     @GetMapping("/{storeId}/input-code/staffs")
-    public List<Staff> getInputCodeStaffs(@PathVariable Long storeId) {
+    public List<StaffInviteResponseDto> getInputCodeStaffs(@PathVariable Long storeId) {
         return storeService.getInputCodeStaffs(storeId);
     }
 
