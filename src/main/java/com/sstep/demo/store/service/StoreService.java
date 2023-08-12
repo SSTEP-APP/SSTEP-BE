@@ -1,9 +1,12 @@
 package com.sstep.demo.store.service;
 
+import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
+import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
@@ -48,7 +51,7 @@ public class StoreService {
         storeRepository.save(store);
     }
 
-    public void addOwnerToStore(StoreRegisterReqDto dto){
+    public void addOwnerToStore(StoreRegisterReqDto dto) {
         Store store = getCodeToEntity(dto.getCode());
         Member member = memberRepository.findByUsername(dto.getMemberUsername());
 
@@ -72,48 +75,72 @@ public class StoreService {
     }
 
 
-//    public void addMemberToStore(StoreRegisterReqDto dto) {
-//        Store store = getCodeToEntity(dto.getCode());
-//        Member member = memberRepository.findById(dto.getMemberId()).orElseThrow();
-//        Staff staff = Staff.builder()
-//                .joinStatus(true) //합류여부 true
-//                .ownerStatus(true) //사장 여부 true
-//                .member(member)
-//                .build();
-//
-//        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
-//        memberStaff.add(staff);
-//
-//        List<Staff> staffList = getStaffsByStoreId(store.getId());
-//
-//        staffList.add(staff);
-//        member.setStaffList(memberStaff);
-//        store.setStaffList(staffList);
-//        storeRepository.save(store);
-//        memberRepository.save(member);
-//    }
+    public void inviteMemberToStore(StaffRequestDto dto) {
+        Store store = getCodeToEntity(dto.getCode());
+        Member member = memberRepository.findByUsername(dto.getUsername());
+        Staff staff = Staff.builder()
+                .joinStatus(true) //합류여부
+                .member(member)
+                .build();
 
-//    public List<Staff> getUnRegStaffs(Long storeId) {
-//        return storeRepository.findUnRegStaffsByStoreId(storeId);
-//    }
-//
-//
-//    public List<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
-//        return storeRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
-//    }
-//
-//    public List<Staff> getDisputeStaffs(Long storeId) {
-//        return storeRepository.findDisputeStaffsByExistMessage(storeId);
-//    }
-//
-//    public List<Notice> getNotices(Long storeId) {
-//        List<Staff> staffs = getStaffsByStoreId(storeId);
-//        List<Notice> notices = new ArrayList<>();
-//        for (Staff staff : staffs) {
-//            if (!staff.getNotices().isEmpty()) {
-//                notices.addAll(staff.getNotices());
-//            }
-//        }
-//        return notices;
-//    }
+        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        memberStaff.add(staff);
+        member.setStaffList(memberStaff);
+
+        List<Staff> staffList = getStaffsByStoreId(store.getId());
+        staffList.add(staff);
+        store.setStaffList(staffList);
+
+        staffRepository.save(staff);
+        memberRepository.save(member);
+        storeRepository.save(store);
+    }
+
+    /*public void addMemberToStore(StaffRequestDto dto) {
+        Store store = getCodeToEntity(dto.getCode());
+        Member member = memberRepository.findByUsername(dto.getUsername());
+
+        Staff staff = staffRepository.findById(dto.getId()).orElseThrow();
+        staff.setStartDay(dto.getStartDay());
+        staff.setPaymentDate(dto.getPaymentDate());
+        staff.setHourMoney(dto.getHourMoney());
+        staff.setWageType(dto.getWageType());
+        staff.setSubmitStatus();
+
+        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        memberStaff.add(staff);
+        member.setStaffList(memberStaff);
+
+        List<Staff> staffList = getStaffsByStoreId(store.getId());
+        staffList.add(staff);
+        store.setStaffList(staffList);
+
+        staffRepository.save(staff);
+        memberRepository.save(member);
+        storeRepository.save(store);
+    }*/
+
+    public List<Staff> getUnRegStaffs(Long storeId) {
+        return storeRepository.findUnRegStaffsByStoreId(storeId);
+    }
+
+
+    public List<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
+        return storeRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
+    }
+
+    public List<Staff> getDisputeStaffs(Long storeId) {
+        return storeRepository.findDisputeStaffsByExistMessage(storeId);
+    }
+
+    public List<Notice> getNotices(Long storeId) {
+        List<Staff> staffs = getStaffsByStoreId(storeId);
+        List<Notice> notices = new ArrayList<>();
+        for (Staff staff : staffs) {
+            if (!staff.getNotices().isEmpty()) {
+                notices.addAll(staff.getNotices());
+            }
+        }
+        return notices;
+    }
 }
