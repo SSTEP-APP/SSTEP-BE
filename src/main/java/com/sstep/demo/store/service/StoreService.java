@@ -6,6 +6,7 @@ import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.StoreRepository;
@@ -114,10 +115,6 @@ public class StoreService {
         staffRepository.save(staff);
     }
 
-    public List<Staff> getInputCodeStaffs(Long storeId) {
-        return storeRepository.findInputCodeStaffsByStoreId(storeId);
-    }
-
     public StaffResponseDto getStaffByStaffId(Long staffId) {
         Staff findStaff = storeRepository.findStaffByStaffId(staffId);
         StaffResponseDto staff = StaffResponseDto.builder()
@@ -128,13 +125,37 @@ public class StoreService {
                 .startDay(findStaff.getStartDay())
                 .submitStatus(findStaff.isSubmitStatus())
                 .wageType(findStaff.getWageType())
-                .build(); ;
+                .build();
+        ;
 
         return staff;
     }
 
-    public List<Staff> getInviteStaffs(Long storeId) {
-        return storeRepository.findInviteStaffsByStoreId(storeId);
+    public List<StaffInviteResponseDto> getInputCodeStaffs(Long storeId) {
+        List<StaffInviteResponseDto> staffs = new ArrayList<>();
+        for (Staff findStaff : storeRepository.findInputCodeStaffsByStoreId(storeId)) {
+            StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
+                    .username(findStaff.getMember().getUsername())
+                    .name(findStaff.getMember().getName())
+                    .build();
+
+            staffs.add(staff);
+        }
+
+        return staffs;
+    }
+
+    public List<StaffInviteResponseDto> getInviteStaffs(Long storeId) {
+        List<StaffInviteResponseDto> staffs = new ArrayList<>();
+        for (Staff findStaff : storeRepository.findInviteStaffsByStoreId(storeId)) {
+            StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
+                    .username(findStaff.getMember().getUsername())
+                    .name(findStaff.getMember().getName())
+                    .build();
+
+            staffs.add(staff);
+        }
+        return staffs;
     }
 
 
