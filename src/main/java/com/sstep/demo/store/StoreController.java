@@ -40,17 +40,30 @@ public class StoreController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    //직원이 사업장 코드 입력시
+    @PostMapping("/input-code/staff")
+    public ResponseEntity<Void> inputCode(@RequestBody StaffRequestDto dto){
+        storeService.inputCode(dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    
     //직원 추가 => 사업장 코드 입력 후 사장이 승인을 받아줬을 경우
-    /*@PostMapping("/add/staff")
+    @PostMapping("/add/staff")
     public ResponseEntity<Void> addStaffToStore(@RequestBody StaffRequestDto dto) {
         storeService.addMemberToStore(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }*/
+    }
 
-    //합류 여부가 false인 직원 리스트 가져오기
-    @GetMapping("/{storeId}/unregister-staffs")
-    public List<Staff> getUnRegStaffs(@PathVariable Long storeId) {
-        return storeService.getUnRegStaffs(storeId);
+    //초대 여부가 true 직원 리스트 가져오기
+    @GetMapping("/{storeId}/invite-staffs")
+    public List<Staff> getInviteStaffs(@PathVariable Long storeId) {
+        return storeService.getInviteStaffs(storeId);
+    }
+
+    //코드 입력 여부가 true인 직원 리스트 가져오기
+    @GetMapping("/{storeId}/input-code/staffs")
+    public List<Staff> getInputCodeStaffs(@PathVariable Long storeId) {
+        return storeService.getInputCodeStaffs(storeId);
     }
 
     //해당 날짜에 근무하는 직원 리스트 가져오기
