@@ -2,6 +2,7 @@ package com.sstep.demo.member;
 
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.member.dto.MemberRequestDto;
+import com.sstep.demo.member.dto.MemberResponseDto;
 import com.sstep.demo.member.service.MemberService;
 import com.sstep.demo.store.domain.Store;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class MemberController {
 
     //아이디로 회원 조회
     @GetMapping("/{username}")
-    public Member getMemberByUsername(@PathVariable String username) {
+    public MemberResponseDto getMemberByUsername(@PathVariable String username) {
         return memberService.getMemberByUsername(username);
     }
 
