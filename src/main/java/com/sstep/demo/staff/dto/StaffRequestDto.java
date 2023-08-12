@@ -7,7 +7,7 @@ import java.sql.Date;
 
 @Builder
 public class StaffRequestDto {
-    private String Username; //회원 아이디
+    private String username; //회원 아이디
     private long code; //사업장 초대 코드 번호
     private long id; //직원 고유번호
     private Date startDay; //입사일
@@ -54,7 +54,7 @@ public class StaffRequestDto {
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public long getCode() {
