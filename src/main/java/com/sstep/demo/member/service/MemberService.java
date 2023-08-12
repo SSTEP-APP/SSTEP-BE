@@ -3,9 +3,11 @@ package com.sstep.demo.member.service;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.member.dto.MemberRequestDto;
+import com.sstep.demo.member.dto.MemberResponseDto;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.domain.Store;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,7 +44,14 @@ public class MemberService {
         return stores;
     }
 
-    public Member getMemberByUsername(String username) {
-        return memberRepository.findByUsername(username);
+    public MemberResponseDto getMemberByUsername(String username) {
+        Member findMember = memberRepository.findByUsername(username);
+        MemberResponseDto member = MemberResponseDto.builder()
+                .name(findMember.getName())
+                .username(findMember.getUsername())
+                .password(findMember.getPassword())
+                .phoneNum(findMember.getPhoneNum())
+                .build();
+        return member;
     }
 }
