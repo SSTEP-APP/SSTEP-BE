@@ -33,7 +33,9 @@ public class Staff {
     @Column(nullable = false, columnDefinition = "TINYINT default 0")
     private boolean ownerStatus; //사장 여부
     @Column(nullable = false, columnDefinition = "TINYINT default 0")
-    private boolean joinStatus; //합류 여부, 직원이 사업장 번호로 검색해서 찾으면 false에 나머지 값들은 null인 상태로 직원 저장,사장이 수락을 누르면 true로 변경,
+    private boolean joinStatus; //초대 여부, 초대를 보냈으면 true
+    @Column(nullable = false, columnDefinition = "TINYINT default 0")
+    private boolean submitStatus; //코드 입력 여부, 코드를 입력했으면 true
 
     public void setStore(Store store) {
         this.store = store;
@@ -57,6 +59,14 @@ public class Staff {
 
     public void setJoinStatus(boolean joinStatus) {
         this.joinStatus = joinStatus;
+    }
+
+    public void setOwnerStatus(boolean ownerStatus) {
+        this.ownerStatus = ownerStatus;
+    }
+
+    public void setSubmitStatus(boolean submitStatus) {
+        this.submitStatus = submitStatus;
     }
 
     public void setSchedules(List<Schedule> schedules) {
