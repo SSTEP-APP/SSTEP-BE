@@ -20,8 +20,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("SELECT s.staffList FROM Store s WHERE s.id = :storeId")
     List<Staff> findStaffsByStoreId(@Param("storeId") Long storeId);
 
-    @Query("SELECT s.staffList FROM Store s,Staff t WHERE s.id = :storeId and t.joinStatus = false")
-    List<Staff> findUnRegStaffsByStoreId(Long storeId);
+    //초대 코드를 받은 직원 리스트 출력
+    @Query("SELECT s.staffList FROM Store s,Staff t WHERE s.id = :storeId and t.joinStatus = true")
+    List<Staff> findInviteStaffsByStoreId(Long storeId);
 
     //캘린더에 별도 추가로 추가 근무하는 직원 리스트 + 스케줄에 등록해 고정으로 근무하는 직원 리스트
     @Query("SELECT s.staffList FROM Store s,Calendar c,Schedule sc WHERE s.id = :storeId and " +
@@ -37,6 +38,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     //회원이 소속된 사업장 리스트 출력을 위한 기능
     @Query("SELECT s FROM Staff s WHERE s.member.id= :memberId")
-//    @Query("SELECT m.staffList from Member m WHERE m.id= :memberId")
     List<Staff> findStaffsByMemberId(Long memberId);
+
+    //코드 입력한 직원 리스트 출력
+    @Query("SELECT s.staffList FROM Store s,Staff t WHERE s.id = :storeId and t.submitStatus = true")
+    List<Staff> findInputCodeStaffsByStoreId(Long storeId);
 }

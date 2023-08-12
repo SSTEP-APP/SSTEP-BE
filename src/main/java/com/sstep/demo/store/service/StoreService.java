@@ -96,32 +96,29 @@ public class StoreService {
         storeRepository.save(store);
     }
 
-    /*public void addMemberToStore(StaffRequestDto dto) {
-        Store store = getCodeToEntity(dto.getCode());
-        Member member = memberRepository.findByUsername(dto.getUsername());
+    public void inputCode(StaffRequestDto dto) {
+        Staff staff = staffRepository.findById(dto.getId()).orElseThrow();
+        staff.setSubmitStatus(true); //코드 입력 여부
 
+        staffRepository.save(staff);
+    }
+
+    public void addMemberToStore(StaffRequestDto dto) {
         Staff staff = staffRepository.findById(dto.getId()).orElseThrow();
         staff.setStartDay(dto.getStartDay());
         staff.setPaymentDate(dto.getPaymentDate());
         staff.setHourMoney(dto.getHourMoney());
         staff.setWageType(dto.getWageType());
-        staff.setSubmitStatus();
-
-        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
-        memberStaff.add(staff);
-        member.setStaffList(memberStaff);
-
-        List<Staff> staffList = getStaffsByStoreId(store.getId());
-        staffList.add(staff);
-        store.setStaffList(staffList);
 
         staffRepository.save(staff);
-        memberRepository.save(member);
-        storeRepository.save(store);
-    }*/
+    }
 
-    public List<Staff> getUnRegStaffs(Long storeId) {
-        return storeRepository.findUnRegStaffsByStoreId(storeId);
+    public List<Staff> getInputCodeStaffs(Long storeId) {
+        return storeRepository.findInputCodeStaffsByStoreId(storeId);
+    }
+
+    public List<Staff> getInviteStaffs(Long storeId) {
+        return storeRepository.findInviteStaffsByStoreId(storeId);
     }
 
 
