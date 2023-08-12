@@ -2,6 +2,7 @@ package com.sstep.demo.store;
 
 
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.domain.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -43,4 +44,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     //코드 입력한 직원 리스트 출력
     @Query("SELECT s.staffList FROM Store s,Staff t WHERE s.id = :storeId and t.submitStatus = true")
     List<Staff> findInputCodeStaffsByStoreId(Long storeId);
+
+    //해당 직원 조회
+    @Query("SELECT s FROM Staff s WHERE s.id = :staffId")
+    Staff findStaffByStaffId(Long staffId);
 }
