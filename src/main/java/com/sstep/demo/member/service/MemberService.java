@@ -6,13 +6,12 @@ import com.sstep.demo.member.dto.MemberRequestDto;
 import com.sstep.demo.member.dto.MemberResponseDto;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.domain.Store;
+import com.sstep.demo.store.dto.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,11 +34,16 @@ public class MemberService {
         return memberRepository.findByUsername(memberRequestDto.getUsername()) != null;
     }
 
-    public List<Store> getStoresBelongMember(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
-        List<Store> stores = new ArrayList<>();
+    public List<StoreResponseDto> getStoresBelongMember(String username) {
+        Member member = memberRepository.findByUsername(username);
+        List<StoreResponseDto> stores = new ArrayList<>();
         for (Staff staff : member.getStaffList()) {
-            stores.add(staff.getStore());
+            StoreResponseDto store = StoreResponseDto.builder()
+                    .name(staff.getStore().getName())
+                    .address(staff.getStore().getAddress())
+                    .count(staff.getStore().getStaffList().size()).build();
+
+            stores.add(store);
         }
         return stores;
     }

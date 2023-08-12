@@ -1,8 +1,11 @@
 package com.sstep.demo.staff.dto;
 
 
+import lombok.Builder;
+
 import java.sql.Date;
 
+@Builder
 public class StaffRequestDto {
     private String Username; //회원 아이디
     private long code; //사업장 초대 코드 번호

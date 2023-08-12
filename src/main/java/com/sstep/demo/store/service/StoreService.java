@@ -7,6 +7,7 @@ import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
+import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
@@ -115,6 +116,21 @@ public class StoreService {
 
     public List<Staff> getInputCodeStaffs(Long storeId) {
         return storeRepository.findInputCodeStaffsByStoreId(storeId);
+    }
+
+    public StaffResponseDto getStaffByStaffId(Long staffId) {
+        Staff findStaff = storeRepository.findStaffByStaffId(staffId);
+        StaffResponseDto staff = StaffResponseDto.builder()
+                .hourMoney(findStaff.getHourMoney())
+                .joinStatus(findStaff.isJoinStatus())
+                .ownerStatus(findStaff.isOwnerStatus())
+                .paymentDate(findStaff.getPaymentDate())
+                .startDay(findStaff.getStartDay())
+                .submitStatus(findStaff.isSubmitStatus())
+                .wageType(findStaff.getWageType())
+                .build(); ;
+
+        return staff;
     }
 
     public List<Staff> getInviteStaffs(Long storeId) {

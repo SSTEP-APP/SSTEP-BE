@@ -4,6 +4,7 @@ import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
+import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
 import com.sstep.demo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,12 @@ public class StoreController {
         return storeService.getStaffsByStoreId(storeId);
     }
 
+    //직원 조회
+    @GetMapping("/{staffId}")
+    public StaffResponseDto getStaffByStaffId(@PathVariable Long staffId) {
+        return storeService.getStaffByStaffId(staffId);
+    }
+
     //직원 초대 => 사업장 코드 전송
     @PostMapping("/invite/staff")
     public ResponseEntity<Void> inviteStaffToStore(@RequestBody StaffRequestDto dto) {
@@ -42,11 +49,11 @@ public class StoreController {
 
     //직원이 사업장 코드 입력시
     @PostMapping("/input-code/staff")
-    public ResponseEntity<Void> inputCode(@RequestBody StaffRequestDto dto){
+    public ResponseEntity<Void> inputCode(@RequestBody StaffRequestDto dto) {
         storeService.inputCode(dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-    
+
     //직원 추가 => 사업장 코드 입력 후 사장이 승인을 받아줬을 경우
     @PostMapping("/add/staff")
     public ResponseEntity<Void> addStaffToStore(@RequestBody StaffRequestDto dto) {
