@@ -1,7 +1,16 @@
 package com.sstep.demo.workdoc.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class WorkDocResponseDto {
     private String storeName; //사업체 명 => Store
     private String storeAddress; //사업체 주소 => Store

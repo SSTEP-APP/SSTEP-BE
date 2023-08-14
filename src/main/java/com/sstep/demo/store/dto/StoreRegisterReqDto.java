@@ -1,5 +1,14 @@
 package com.sstep.demo.store.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class StoreRegisterReqDto { //사업장 등록용 RequestDto
     private String memberUsername; //회원 아이디
     private String storeName; //사업장명

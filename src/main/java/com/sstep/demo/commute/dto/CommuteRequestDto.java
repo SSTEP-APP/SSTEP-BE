@@ -1,9 +1,18 @@
 package com.sstep.demo.commute.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class CommuteRequestDto {
     private long id; //실 출퇴근시간 고유번호
     private Date commuteDate; //출퇴근 일자
