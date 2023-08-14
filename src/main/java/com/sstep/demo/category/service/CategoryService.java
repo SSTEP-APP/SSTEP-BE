@@ -9,7 +9,6 @@ import com.sstep.demo.store.domain.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
