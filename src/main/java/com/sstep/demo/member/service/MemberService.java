@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +36,9 @@ public class MemberService {
         return memberRepository.findByUsername(memberRequestDto.getUsername()) != null;
     }
 
-    public List<StoreResponseDto> getStoresBelongMember(String username) {
+    public Set<StoreResponseDto> getStoresBelongMember(String username) {
         Member member = memberRepository.findByUsername(username);
-        List<StoreResponseDto> stores = new ArrayList<>();
+        Set<StoreResponseDto> stores = new HashSet<>();
         for (Staff staff : member.getStaffList()) {
             StoreResponseDto store = StoreResponseDto.builder()
                     .name(staff.getStore().getName())

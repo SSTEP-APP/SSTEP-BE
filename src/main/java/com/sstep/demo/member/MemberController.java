@@ -1,10 +1,8 @@
 package com.sstep.demo.member;
 
-import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.member.dto.MemberRequestDto;
 import com.sstep.demo.member.dto.MemberResponseDto;
 import com.sstep.demo.member.service.MemberService;
-import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -44,7 +43,7 @@ public class MemberController {
 
     //회원이 소속된 사업장 리스트
     @GetMapping("/{username}/stores")
-    public List<StoreResponseDto> getStoresBelongMember(@PathVariable String username) {
+    public Set<StoreResponseDto> getStoresBelongMember(@PathVariable String username) {
         return memberService.getStoresBelongMember(username);
     }
 }
