@@ -1,9 +1,18 @@
 package com.sstep.demo.calendar.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class CalendarRequestDto {
     private long id; //일정 고유번호
     private Date calendarDate; //일자

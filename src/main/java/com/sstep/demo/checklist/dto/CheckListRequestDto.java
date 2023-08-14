@@ -1,7 +1,16 @@
 package com.sstep.demo.checklist.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.sql.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class CheckListRequestDto {
     private long id; //체크 리스트 고유번호
     private String title; //체크 리스트 제목

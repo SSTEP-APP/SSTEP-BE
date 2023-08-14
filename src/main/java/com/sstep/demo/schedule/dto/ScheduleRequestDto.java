@@ -1,8 +1,17 @@
 package com.sstep.demo.schedule.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class ScheduleRequestDto {
     private long id;
     private DayOfWeek weekDay;
@@ -41,10 +50,4 @@ public class ScheduleRequestDto {
         this.endTime = endTime;
     }
 
-    public ScheduleRequestDto(long id, DayOfWeek weekDay, LocalTime startTime, LocalTime endTime) {
-        this.id = id;
-        this.weekDay = weekDay;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
 }

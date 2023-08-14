@@ -1,10 +1,16 @@
 package com.sstep.demo.staff.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 @Builder
 public class StaffRequestDto {
     private String username; //회원 아이디
