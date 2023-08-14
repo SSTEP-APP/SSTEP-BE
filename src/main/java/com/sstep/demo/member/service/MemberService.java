@@ -50,12 +50,11 @@ public class MemberService {
 
     public MemberResponseDto getMemberByUsername(String username) {
         Member findMember = memberRepository.findByUsername(username);
-        MemberResponseDto member = MemberResponseDto.builder()
+        return MemberResponseDto.builder()
                 .name(findMember.getName())
                 .username(findMember.getUsername())
                 .password(findMember.getPassword())
                 .phoneNum(findMember.getPhoneNum())
                 .build();
-        return member;
     }
 }
