@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +26,7 @@ public class CategoryController {
 
     //카테고리 목록 조회
     @GetMapping("/{storeId}/categories")
-    public List<Category> getCategories(@PathVariable Long storeId) {
+    public Set<Category> getCategories(@PathVariable Long storeId) {
         return categoryService.getCategories(storeId);
     }
 }
