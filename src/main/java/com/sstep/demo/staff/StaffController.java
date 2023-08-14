@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -74,7 +74,7 @@ public class StaffController {
 
     //해당 직원의 이의 신청 리스트 가져오기
     @GetMapping("/{storeId}/{staffId}/dispute-list")
-    public List<Commute> getDisputeList(@PathVariable Long storeId, @PathVariable Long staffId) {
+    public Set<Commute> getDisputeList(@PathVariable Long storeId, @PathVariable Long staffId) {
         return staffService.getDisputeList(storeId, staffId);
     }
 
@@ -88,26 +88,26 @@ public class StaffController {
 
     //보건증을 등록한 직원 목록
     @GetMapping("/{storeId}/reg/health-doc/staffs")
-    public List<Staff> getRegHealthDocStaffs(@PathVariable Long storeId) {
+    public Set<Staff> getRegHealthDocStaffs(@PathVariable Long storeId) {
         return staffService.getRegHealthDocStaffs(storeId);
     }
 
     //보건증을 미 등록한 직원 목록
     @GetMapping("/{storeId}/un-reg/health-doc/staffs")
-    public List<Staff> getUnRegHealthDocStaffs(@PathVariable Long storeId) {
+    public Set<Staff> getUnRegHealthDocStaffs(@PathVariable Long storeId) {
         return staffService.getUnRegHealthDocStaffs(storeId);
     }
 
     //근로 계약서 등록한 직원 목록
     @GetMapping("/{storeId}/reg/work-doc/staffs")
-    public List<Staff> getRegWorkDocStaffs(@PathVariable Long storeId) {
+    public Set<Staff> getRegWorkDocStaffs(@PathVariable Long storeId) {
         return staffService.getRegWorkDocStaffs(storeId);
     }
 
 
     //근로 계약서 미 등록한 직원 목록
     @GetMapping("/{storeId}/un-reg/work-doc/staffs")
-    public List<Staff> getUnRegWorkDocStaffs(@PathVariable Long storeId) {
+    public Set<Staff> getUnRegWorkDocStaffs(@PathVariable Long storeId) {
         return staffService.getUnRegWorkDocStaffs(storeId);
     }
 }

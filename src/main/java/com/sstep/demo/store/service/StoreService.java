@@ -16,8 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +30,11 @@ public class StoreService {
         return storeRepository.findByCode(code).orElseThrow(EntityNotFoundException::new);
     }
 
-    private List<Staff> getStaffsByMemberId(Long memberId) {
+    private Set<Staff> getStaffsByMemberId(Long memberId) {
         return storeRepository.findStaffsByMemberId(memberId);
     }
 
-    public List<Staff> getStaffsByStoreId(Long storeId) {
+    public Set<Staff> getStaffsByStoreId(Long storeId) {
         return storeRepository.findStaffsByStoreId(storeId);
     }
 
@@ -47,7 +47,7 @@ public class StoreService {
                 .scale(storeRequestDto.isScale())
                 .plan(storeRequestDto.isPlan())
                 .code(storeRequestDto.getCode())
-                .staffList(new ArrayList<>())
+                .staffList(new HashSet<>())
                 .build();
 
         storeRepository.save(store);
@@ -63,11 +63,11 @@ public class StoreService {
                 .member(member)
                 .build();
 
-        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        Set<Staff> memberStaff = getStaffsByMemberId(member.getId());
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
 
-        List<Staff> staffList = getStaffsByStoreId(store.getId());
+        Set<Staff> staffList = getStaffsByStoreId(store.getId());
         staffList.add(staff);
         store.setStaffList(staffList);
 
@@ -85,11 +85,11 @@ public class StoreService {
                 .member(member)
                 .build();
 
-        List<Staff> memberStaff = getStaffsByMemberId(member.getId());
+        Set<Staff> memberStaff = getStaffsByMemberId(member.getId());
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
 
-        List<Staff> staffList = getStaffsByStoreId(store.getId());
+        Set<Staff> staffList = getStaffsByStoreId(store.getId());
         staffList.add(staff);
         store.setStaffList(staffList);
 
@@ -131,8 +131,8 @@ public class StoreService {
         return staff;
     }
 
-    public List<StaffInviteResponseDto> getInputCodeStaffs(Long storeId) {
-        List<StaffInviteResponseDto> staffs = new ArrayList<>();
+    public Set<StaffInviteResponseDto> getInputCodeStaffs(Long storeId) {
+        Set<StaffInviteResponseDto> staffs = new HashSet<>();
         for (Staff findStaff : storeRepository.findInputCodeStaffsByStoreId(storeId)) {
             StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
                     .username(findStaff.getMember().getUsername())
@@ -145,8 +145,8 @@ public class StoreService {
         return staffs;
     }
 
-    public List<StaffInviteResponseDto> getInviteStaffs(Long storeId) {
-        List<StaffInviteResponseDto> staffs = new ArrayList<>();
+    public Set<StaffInviteResponseDto> getInviteStaffs(Long storeId) {
+        Set<StaffInviteResponseDto> staffs = new HashSet<>();
         for (Staff findStaff : storeRepository.findInviteStaffsByStoreId(storeId)) {
             StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
                     .username(findStaff.getMember().getUsername())
@@ -159,17 +159,17 @@ public class StoreService {
     }
 
 
-    public List<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
+    public Set<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
         return storeRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
     }
 
-    public List<Staff> getDisputeStaffs(Long storeId) {
+    public Set<Staff> getDisputeStaffs(Long storeId) {
         return storeRepository.findDisputeStaffsByExistMessage(storeId);
     }
 
-    public List<Notice> getNotices(Long storeId) {
-        List<Staff> staffs = getStaffsByStoreId(storeId);
-        List<Notice> notices = new ArrayList<>();
+    public Set<Notice> getNotices(Long storeId) {
+        Set<Staff> staffs = getStaffsByStoreId(storeId);
+        Set<Notice> notices = new HashSet<>();
         for (Staff staff : staffs) {
             if (!staff.getNotices().isEmpty()) {
                 notices.addAll(staff.getNotices());

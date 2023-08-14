@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +31,7 @@ public class StoreController {
 
     //직원 목록 조회
     @GetMapping("/{storeId}/staffs")
-    public List<Staff> getStaffsByStoreId(@PathVariable Long storeId) {
+    public Set<Staff> getStaffsByStoreId(@PathVariable Long storeId) {
         return storeService.getStaffsByStoreId(storeId);
     }
 
@@ -64,31 +64,31 @@ public class StoreController {
 
     //초대 여부가 true 직원 리스트 가져오기
     @GetMapping("/{storeId}/invite-staffs")
-    public List<StaffInviteResponseDto> getInviteStaffs(@PathVariable Long storeId) {
+    public Set<StaffInviteResponseDto> getInviteStaffs(@PathVariable Long storeId) {
         return storeService.getInviteStaffs(storeId);
     }
 
     //코드 입력 여부가 true인 직원 리스트 가져오기
     @GetMapping("/{storeId}/input-code/staffs")
-    public List<StaffInviteResponseDto> getInputCodeStaffs(@PathVariable Long storeId) {
+    public Set<StaffInviteResponseDto> getInputCodeStaffs(@PathVariable Long storeId) {
         return storeService.getInputCodeStaffs(storeId);
     }
 
     //해당 날짜에 근무하는 직원 리스트 가져오기
     @GetMapping("/{storeId}/day-work-staffs")
-    public List<Staff> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
+    public Set<Staff> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
         return storeService.getDayWorkStaffs(storeId, calendarRequestDto);
     }
 
     //이의 신청한 직원 리스트 가져오기
     @GetMapping("/{storeId}/dispute-staffs")
-    public List<Staff> getDisputeStaffs(@PathVariable Long storeId) {
+    public Set<Staff> getDisputeStaffs(@PathVariable Long storeId) {
         return storeService.getDisputeStaffs(storeId);
     }
 
     //사업장 내 전체 공지사항 목록 조회
     @GetMapping("/{storeId}/notices")
-    public List<Notice> getNotices(@PathVariable Long storeId) {
+    public Set<Notice> getNotices(@PathVariable Long storeId) {
         return storeService.getNotices(storeId);
     }
 

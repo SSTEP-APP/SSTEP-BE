@@ -10,27 +10,27 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Long> { //<Entity 클래스, PK 타입>
     Staff findByIdAndStoreId(Long staffId, Long storeId);
 
     @Query("SELECT s.schedules FROM Staff s WHERE s.id = :staffId")
-    List<Schedule> findSchedulesByStaffId(@Param("staffId") Long staffId);
+    Set<Schedule> findSchedulesByStaffId(@Param("staffId") Long staffId);
 
     @Query("SELECT s.calendars FROM Staff s WHERE s.id = :staffId")
-    List<Calendar> findCalendarsByStaffId(Long staffId);
+    Set<Calendar> findCalendarsByStaffId(Long staffId);
 
     @Query("SELECT s.commutes FROM Staff s WHERE s.id = :staffId")
-    List<Commute> findCommutesByStaffId(Long staffId);
+    Set<Commute> findCommutesByStaffId(Long staffId);
 
     @Query("SELECT s.commutes FROM Staff s, Commute c WHERE s.id = :staffId and c.id = :commuteId")
     Commute findByCommuteIdAndStoreId(Long staffId, Long commuteId);
 
     @Query("SELECT s.commutes FROM Staff s,Store st WHERE st.id = :storeId and s.id = :staffId ")
-    List<Commute> findDisputeListByStoreIdAndStaffId(Long storeId, Long staffId);
+    Set<Commute> findDisputeListByStoreIdAndStaffId(Long storeId, Long staffId);
 
     @Query("SELECT s.notices FROM Staff s WHERE s.id = :staffId ")
-    List<Notice> findNoticesByStaffId(Long staffId);
+    Set<Notice> findNoticesByStaffId(Long staffId);
 }

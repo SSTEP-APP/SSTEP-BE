@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class NoticeService {
     private final PhotoService photoService;
 
     public void saveNotice(Notice notice, MultipartFile imageFile) throws IOException {
-        List<Photo> photos = getPhotosByNoticeId(notice.getId());
+        Set<Photo> photos = getPhotosByNoticeId(notice.getId());
 
         if (imageFile != null && !imageFile.isEmpty()) {
             Photo photo = photoService.savePhoto(imageFile);
@@ -30,7 +30,7 @@ public class NoticeService {
         noticeRepository.save(notice);
     }
 
-    private List<Photo> getPhotosByNoticeId(long id) {
+    private Set<Photo> getPhotosByNoticeId(long id) {
         return noticeRepository.findPhotosById(id);
     }
 
