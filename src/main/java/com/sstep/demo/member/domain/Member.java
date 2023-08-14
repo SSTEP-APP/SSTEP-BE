@@ -4,8 +4,8 @@ import com.sstep.demo.staff.domain.Staff;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,7 +35,7 @@ public class Member {
 //    @Column(name = "user_push4")
 //    private boolean userPush4; //공지사항 푸시 알람 여부
 
-    public void setStaffList(List<Staff> staffList) {
+    public void setStaffList(Set<Staff> staffList) {
         this.staffList.clear();
         if (staffList != null) {
             this.staffList.addAll(staffList);

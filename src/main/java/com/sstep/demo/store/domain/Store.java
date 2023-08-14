@@ -6,7 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -65,7 +65,7 @@ public class Store {
         this.code = code;
     }
 
-    public void setStaffList(List<Staff> staffList) {
+    public void setStaffList(Set<Staff> staffList) {
         this.staffList.clear();
         if (staffList != null) {
             this.staffList.addAll(staffList);
@@ -73,7 +73,7 @@ public class Store {
         }
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories.clear();
         if (categories != null) {
             this.categories.addAll(categories);
@@ -82,8 +82,8 @@ public class Store {
     }
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
-    private List<Staff> staffList;
+    private Set<Staff> staffList;
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
-    private List<Category> categories;
+    private Set<Category> categories;
 
 }

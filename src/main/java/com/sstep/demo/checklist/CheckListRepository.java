@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface CheckListRepository extends JpaRepository<CheckList, Long> {
     @Query("SELECT s.checkLists FROM Staff s WHERE s.id = :staffId ")
-    List<CheckList> findCheckListsByStaffId(Long staffId);
+    Set<CheckList> findCheckListsByStaffId(Long staffId);
 
     @Query("SELECT ch FROM CheckList ch WHERE ch.id = :checklistId ")
     CheckList findCheckListById(Long checklistId);

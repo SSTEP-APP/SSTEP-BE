@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -69,7 +70,7 @@ public class Staff {
         this.submitStatus = submitStatus;
     }
 
-    public void setSchedules(List<Schedule> schedules) {
+    public void setSchedules(Set<Schedule> schedules) {
         this.schedules.clear();
         if (schedules != null) {
             this.schedules.addAll(schedules);
@@ -77,7 +78,7 @@ public class Staff {
         }
     }
 
-    public void setCommutes(List<Commute> commutes) {
+    public void setCommutes(Set<Commute> commutes) {
         this.commutes.clear();
         if (commutes != null) {
             this.commutes.addAll(commutes);
@@ -85,7 +86,7 @@ public class Staff {
         }
     }
 
-    public void setCalendars(List<Calendar> calendars) {
+    public void setCalendars(Set<Calendar> calendars) {
         this.calendars.clear();
         if (calendars != null) {
             this.calendars.addAll(calendars);
@@ -93,7 +94,7 @@ public class Staff {
         }
     }
 
-    public void setNotices(List<Notice> notices) {
+    public void setNotices(Set<Notice> notices) {
         this.notices.clear();
         if (notices != null) {
             this.notices.addAll(notices);
@@ -101,11 +102,11 @@ public class Staff {
         }
     }
 
-    public void setCheckLists(List<CheckList> checkLists) {
+    public void setCheckLists(Set<CheckList> checkLists) {
         this.checkLists.clear();
         if (checkLists != null) {
             this.checkLists.addAll(checkLists);
-            checkLists.forEach(notice -> notice.setStaff(this));
+            checkLists.forEach(checkList -> checkList.setStaff(this));
         }
     }
 
@@ -131,23 +132,23 @@ public class Staff {
 
     //요일별 근무 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules;
+    private Set<Schedule> schedules;
 
     //일자별 실 출퇴근시간 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
-    private List<Commute> commutes;
+    private Set<Commute> commutes;
 
     //캘린더 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
-    private List<Calendar> calendars;
+    private Set<Calendar> calendars;
 
     //공지사항 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
-    private List<Notice> notices;
+    private Set<Notice> notices;
 
     //체크 리스트 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
-    private List<CheckList> checkLists;
+    private Set<CheckList> checkLists;
 
     //보건증 테이블과 1대1조인
     @OneToOne

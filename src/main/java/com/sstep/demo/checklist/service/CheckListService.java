@@ -20,9 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -40,16 +38,16 @@ public class CheckListService {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
 
         //직원 고유번호로 해당 직원이 작성한 체크 리스트들 가져오기
-        List<CheckList> checkLists = getCheckListsByStaffId(staffId);
+        Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = getCheckListEntity(checkListRequestDto);
 
-        List<Category> categories = new ArrayList<>();
+        Set<Category> categories = new HashSet<>();
         for (CategoryRequestDto categoryDto : categoryRequestDto) {
             categories.add(categoryMapper.toCategoryEntity(categoryDto));
         }
         checkList.setCategories(categories);
 
-        List<CheckListManager> checkListManagers = new ArrayList<>();
+        Set<CheckListManager> checkListManagers = new HashSet<>();
         for (CheckListManagerRequestDto managerRequestDto : checkListManagerRequestDto) {
             checkListManagers.add(checkListManagerService.saveManagers(managerRequestDto));
         }
@@ -64,13 +62,13 @@ public class CheckListService {
         return checkListMapper.toCheckListEntity(checkListRequestDto);
     }
 
-    private List<CheckList> getCheckListsByStaffId(Long staffId) {
+    private Set<CheckList> getCheckListsByStaffId(Long staffId) {
         return checkListRepository.findCheckListsByStaffId(staffId);
     }
 
-    public List<CheckList> getCompleteCheckListsByCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
-        List<Staff> staffs = storeService.getStaffsByStoreId(storeId);
-        List<CheckList> checkLists = new ArrayList<>();
+    public Set<CheckList> getCompleteCheckListsByCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
+        Set<Staff> staffs = storeService.getStaffsByStoreId(storeId);
+        Set<CheckList> checkLists = new HashSet<>();
         for (Staff staff : staffs) {
             if (!staff.getCheckLists().isEmpty()) {
                 for (CheckList checkList : staff.getCheckLists()) {
@@ -83,9 +81,9 @@ public class CheckListService {
         return checkLists;
     }
 
-    public List<CheckList> getUnCompletedCheckListsByCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
-        List<Staff> staffs = storeService.getStaffsByStoreId(storeId);
-        List<CheckList> checkLists = new ArrayList<>();
+    public Set<CheckList> getUnCompletedCheckListsByCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
+        Set<Staff> staffs = storeService.getStaffsByStoreId(storeId);
+        Set<CheckList> checkLists = new HashSet<>();
         for (Staff staff : staffs) {
             if (!staff.getCheckLists().isEmpty()) {
                 for (CheckList checkList : staff.getCheckLists()) {
@@ -109,11 +107,11 @@ public class CheckListService {
     public void completeCheckList(Long checklistId, Long staffId, MultipartFile[] multipartFile, String memo) throws IOException {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
 
-        List<CheckList> checkLists = getCheckListsByStaffId(staffId);
+        Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = checkListRepository.findById(checklistId).orElseThrow();
         if (Arrays.stream(multipartFile).findAny().isPresent()) {
             for (MultipartFile imageFile : multipartFile) {
-                List<Photo> photos = new ArrayList<>();
+                Set<Photo> photos = new HashSet<>();
 
                 Photo photo = photoService.savePhoto(imageFile);
                 photos.add(photo);

@@ -21,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +51,7 @@ public class StaffService {
 
     public void saveSchedule(ScheduleRequestDto scheduleRequestDto, Long staffId) {
         Staff staff = getStaff(staffId);
-        List<Schedule> schedules = getSchedulesByStaffId(staffId);
+        Set<Schedule> schedules = getSchedulesByStaffId(staffId);
         Schedule schedule = getScheduleEntity(scheduleRequestDto);
         schedules.add(schedule);
         staff.setSchedules(schedules);
@@ -65,13 +63,13 @@ public class StaffService {
     }
 
 
-    private List<Schedule> getSchedulesByStaffId(long id) {
+    private Set<Schedule> getSchedulesByStaffId(long id) {
         return staffRepository.findSchedulesByStaffId(id);
     }
 
     public void saveCalendar(CalendarRequestDto calendarRequestDto, Long staffId) {
         Staff staff = getStaff(staffId);
-        List<Calendar> calendars = getCalendarsByStaffId(staffId);
+        Set<Calendar> calendars = getCalendarsByStaffId(staffId);
         Calendar calendar = getCalendarEntity(calendarRequestDto);
         calendars.add(calendar);
         staff.setCalendars(calendars);
@@ -82,7 +80,7 @@ public class StaffService {
         return staffMapper.toCalendarEntity(calendarRequestDto);
     }
 
-    private List<Calendar> getCalendarsByStaffId(Long staffId) {
+    private Set<Calendar> getCalendarsByStaffId(Long staffId) {
         return staffRepository.findCalendarsByStaffId(staffId);
     }
 
@@ -90,7 +88,7 @@ public class StaffService {
         Staff staff = getStaff(staffId);
         boolean late = isLate(commuteRequestDto, staff.getSchedules());
 
-        List<Commute> commutes = getCommutesByStaffId(staffId);
+        Set<Commute> commutes = getCommutesByStaffId(staffId);
         Commute commute = getCommuteEntity(commuteRequestDto);
         commute.setLate(late);
         commutes.add(commute);
@@ -98,7 +96,7 @@ public class StaffService {
         staffRepository.save(staff);
     }
 
-    private boolean isLate(CommuteRequestDto commuteRequestDto, List<Schedule> schedules) { //지각 여부 확인
+    private boolean isLate(CommuteRequestDto commuteRequestDto, Set<Schedule> schedules) { //지각 여부 확인
         //해당 직원의 해당 날짜의 출근 시간 가져와서 비교
         //기준 시간 10분 이후부터 지각 처리
         for (Schedule schedule : schedules) {
@@ -115,7 +113,7 @@ public class StaffService {
         return staffMapper.toCommuteEntity(commuteRequestDto);
     }
 
-    private List<Commute> getCommutesByStaffId(Long staffId) {
+    private Set<Commute> getCommutesByStaffId(Long staffId) {
         return staffRepository.findCommutesByStaffId(staffId);
     }
 
@@ -151,14 +149,14 @@ public class StaffService {
         }
     }
 
-    public List<Commute> getDisputeList(Long storeId, Long staffId) {
+    public Set<Commute> getDisputeList(Long storeId, Long staffId) {
         return staffRepository.findDisputeListByStoreIdAndStaffId(storeId, staffId);
     }
 
     public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto, MultipartFile[] multipartFile) throws IOException {
         Staff staff = getStaff(staffId);
 
-        List<Notice> notices = getNoticesByStaffId(staffId);
+        Set<Notice> notices = getNoticesByStaffId(staffId);
         Notice notice = getNoticeEntity(noticeRequestDto);
         if (Arrays.stream(multipartFile).findAny().isPresent()) {
             for (MultipartFile imageFile : multipartFile) {
@@ -174,14 +172,14 @@ public class StaffService {
         return staffMapper.toNoticeEntity(noticeRequestDto);
     }
 
-    private List<Notice> getNoticesByStaffId(Long staffId) {
+    private Set<Notice> getNoticesByStaffId(Long staffId) {
         return staffRepository.findNoticesByStaffId(staffId);
     }
 
-    public List<Staff> getRegHealthDocStaffs(Long storeId) {
+    public Set<Staff> getRegHealthDocStaffs(Long storeId) {
         Store store = getStore(storeId);
-        List<Staff> staffList = store.getStaffList();
-        List<Staff> staffs = new ArrayList<>();
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
         for (Staff staff : staffList) {
             if (staff.getHealthDoc().isRegister()) {
                 staffs.add(staff);
@@ -194,10 +192,10 @@ public class StaffService {
         return storeRepository.findById(storeId).orElseThrow();
     }
 
-    public List<Staff> getUnRegHealthDocStaffs(Long storeId) {
+    public Set<Staff> getUnRegHealthDocStaffs(Long storeId) {
         Store store = getStore(storeId);
-        List<Staff> staffList = store.getStaffList();
-        List<Staff> staffs = new ArrayList<>();
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
         for (Staff staff : staffList) {
             if (!staff.getHealthDoc().isRegister()) {
                 staffs.add(staff);
@@ -206,10 +204,10 @@ public class StaffService {
         return staffs;
     }
 
-    public List<Staff> getRegWorkDocStaffs(Long storeId) {
+    public Set<Staff> getRegWorkDocStaffs(Long storeId) {
         Store store = getStore(storeId);
-        List<Staff> staffList = store.getStaffList();
-        List<Staff> staffs = new ArrayList<>();
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
         for (Staff staff : staffList) {
             if (staff.getWorkDoc().isSecondRegister()) {
                 staffs.add(staff);
@@ -218,10 +216,10 @@ public class StaffService {
         return staffs;
     }
 
-    public List<Staff> getUnRegWorkDocStaffs(Long storeId) {
+    public Set<Staff> getUnRegWorkDocStaffs(Long storeId) {
         Store store = getStore(storeId);
-        List<Staff> staffList = store.getStaffList();
-        List<Staff> staffs = new ArrayList<>();
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
         for (Staff staff : staffList) {
             if (!staff.getWorkDoc().isSecondRegister()) {
                 staffs.add(staff);

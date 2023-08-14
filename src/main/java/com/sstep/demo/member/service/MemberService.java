@@ -5,14 +5,12 @@ import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.member.dto.MemberRequestDto;
 import com.sstep.demo.member.dto.MemberResponseDto;
 import com.sstep.demo.staff.domain.Staff;
-import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service

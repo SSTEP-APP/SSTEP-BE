@@ -3,7 +3,6 @@ package com.sstep.demo.checklist.domain;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.checklistmanager.domain.CheckListManager;
 import com.sstep.demo.photo.domain.Photo;
-import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.staff.domain.Staff;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -58,7 +58,7 @@ public class CheckList {
         return isComplete;
     }
 
-    public void setPhotos(List<Photo> photos) {
+    public void setPhotos(Set<Photo> photos) {
         this.photos.clear();
         if (photos != null) {
             this.photos.addAll(photos);
@@ -66,7 +66,7 @@ public class CheckList {
         }
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories.clear();
         if (categories != null) {
             this.categories.addAll(categories);
@@ -74,7 +74,7 @@ public class CheckList {
         }
     }
 
-    public void setCheckListManagers(List<CheckListManager> checkListManagers) {
+    public void setCheckListManagers(Set<CheckListManager> checkListManagers) {
         this.checkListManagers.clear();
         if (checkListManagers != null) {
             this.checkListManagers.addAll(checkListManagers);

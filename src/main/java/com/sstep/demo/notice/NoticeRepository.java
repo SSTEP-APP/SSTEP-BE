@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
     @Query("SELECT n.photos FROM Notice n WHERE n.id = :id ")
-    List<Photo> findPhotosById(long id);
+    Set<Photo> findPhotosById(long id);
 
     Notice findNoticeById(Long noticeId);
 }

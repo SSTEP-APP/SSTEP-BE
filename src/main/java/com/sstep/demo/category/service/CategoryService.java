@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class CategoryService {
     public void saveCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
         Store store = storeRepository.findById(storeId).orElseThrow();
 
-        List<Category> categories = getAllCategoriesByStoreId(storeId);
+        Set<Category> categories = getAllCategoriesByStoreId(storeId);
         Category category = getCategoryEntity(categoryRequestDto);
         categories.add(category);
         store.setCategories(categories);
@@ -31,11 +32,11 @@ public class CategoryService {
         return categoryMapper.toCategoryEntity(categoryRequestDto);
     }
 
-    public List<Category> getAllCategoriesByStoreId(Long storeId) {
+    public Set<Category> getAllCategoriesByStoreId(Long storeId) {
         return categoryRepository.findCategoriesByStoreId(storeId);
     }
 
-    public List<Category> getCategories(Long storeId) {
+    public Set<Category> getCategories(Long storeId) {
         return getAllCategoriesByStoreId(storeId);
     }
 }

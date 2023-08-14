@@ -8,9 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -48,10 +48,12 @@ public class Notice {
         return hits;
     }
 
-    public void setPhotos(List<Photo> photos) {
-        this.photos.addAll(photos);
-        photos.forEach(photo -> photo.setNotice(this));
-
+    public void setPhotos(Set<Photo> photos) {
+        this.photos.clear();
+        if (photos != null) {
+            this.photos.addAll(photos);
+            photos.forEach(photo -> photo.setNotice(this));
+        }
     }
 
     public void setStaff(Staff staff) {
