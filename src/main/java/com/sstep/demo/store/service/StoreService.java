@@ -97,7 +97,7 @@ public class StoreService {
     }
 
     public void inputCode(StaffRequestDto dto) {
-        Staff staff = staffRepository.findById(dto.getId()).orElseThrow();
+        Staff staff = staffRepository.findByStoreCodeAndUsername(dto.getCode(),dto.getUsername());
         staff.setSubmitStatus(true); //코드 입력 여부
 
         staffRepository.save(staff);
