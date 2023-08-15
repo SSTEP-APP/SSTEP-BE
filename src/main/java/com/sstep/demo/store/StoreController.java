@@ -45,7 +45,7 @@ public class StoreController {
     @PostMapping("/invite/staff")
     public ResponseEntity<Void> inviteStaffToStore(@RequestBody StaffRequestDto dto) {
         storeService.inviteMemberToStore(dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //직원이 사업장 코드 입력시

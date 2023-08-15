@@ -33,4 +33,7 @@ public interface StaffRepository extends JpaRepository<Staff, Long> { //<Entity 
 
     @Query("SELECT s.notices FROM Staff s WHERE s.id = :staffId ")
     Set<Notice> findNoticesByStaffId(Long staffId);
+
+    @Query("SELECT Staff FROM Store s, Member m WHERE s.code = :code and m.username = :username ")
+    Staff findByStoreCodeAndUsername(long code, String username);
 }
