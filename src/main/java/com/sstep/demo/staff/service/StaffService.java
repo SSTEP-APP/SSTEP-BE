@@ -36,17 +36,14 @@ public class StaffService {
         return staffRepository.findById(staffId).orElseThrow();
     }
 
-    public void updateStaff(Long storeId, Long staffId, StaffRequestDto staffRequestDto) {
-        Staff existingStaff = staffRepository.findByIdAndStoreId(staffId, storeId);
-        if (existingStaff != null) {
-            existingStaff.setHourMoney(staffRequestDto.getHourMoney());
-            existingStaff.setPaymentDate(staffRequestDto.getPaymentDate());
-            existingStaff.setStartDay(staffRequestDto.getStartDay());
-            existingStaff.setWageType(staffRequestDto.getWageType());
-            existingStaff.setJoinStatus(true);
-        } else {
-            throw new RuntimeException("해당 직원을 찾을 수 없습니다.");
-        }
+    public void updateStaff(Long staffId, StaffRequestDto staffRequestDto) {
+        Staff existingStaff = staffRepository.findById(staffId).orElseThrow();
+        existingStaff.setHourMoney(staffRequestDto.getHourMoney());
+        existingStaff.setPaymentDate(staffRequestDto.getPaymentDate());
+        existingStaff.setStartDay(staffRequestDto.getStartDay());
+        existingStaff.setWageType(staffRequestDto.getWageType());
+
+        staffRepository.save(existingStaff);
     }
 
     public void saveSchedule(ScheduleRequestDto scheduleRequestDto, Long staffId) {
@@ -153,13 +150,13 @@ public class StaffService {
         return staffRepository.findDisputeListByStoreIdAndStaffId(storeId, staffId);
     }
 
-    public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto, MultipartFile[] multipartFile) throws IOException {
+    public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto) throws IOException {
         Staff staff = getStaff(staffId);
 
         Set<Notice> notices = getNoticesByStaffId(staffId);
         Notice notice = getNoticeEntity(noticeRequestDto);
-        if (Arrays.stream(multipartFile).findAny().isPresent()) {
-            for (MultipartFile imageFile : multipartFile) {
+        if (Arrays.stream(noticeRequestDto.getMultipartFile()).findAny().isPresent()) {
+            for (MultipartFile imageFile : noticeRequestDto.getMultipartFile()) {
                 noticeService.saveNotice(notice, imageFile);
             }
         }

@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Set;
@@ -24,9 +23,9 @@ public class StaffController {
     private final StaffService staffService;
 
     //직원 정보 입력 시 직원 등록 => null로 저장되어있던 직원 정보를 입력된 정보로 update 과정
-    @PostMapping("/{storeId}/{staffId}/update-staff")
-    public ResponseEntity<Void> updateStaff(@PathVariable Long storeId, @PathVariable Long staffId, @RequestBody StaffRequestDto staffRequestDto) {
-        staffService.updateStaff(storeId, staffId, staffRequestDto);
+    @PostMapping("/{staffId}/update-staff")
+    public ResponseEntity<Void> updateStaff(@PathVariable Long staffId, @RequestBody StaffRequestDto staffRequestDto) {
+        staffService.updateStaff(staffId, staffRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -81,8 +80,8 @@ public class StaffController {
     //공지사항 등록
     @PostMapping("/{staffId}/add-notice")
     public ResponseEntity<Void> registerNotice(@PathVariable Long staffId,
-                                               @RequestBody NoticeRequestDto noticeRequestDto, @RequestBody MultipartFile[] multipartFile) throws IOException {
-        staffService.saveNotice(staffId, noticeRequestDto, multipartFile);
+                                               @RequestBody NoticeRequestDto noticeRequestDto) throws IOException {
+        staffService.saveNotice(staffId, noticeRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

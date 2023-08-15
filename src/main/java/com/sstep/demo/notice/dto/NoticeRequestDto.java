@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -17,4 +18,5 @@ public class NoticeRequestDto {
     private LocalDateTime writeDate; //공지글 작성 일자
     private String contents; //공지글 내용
     private int hits; //공지 조회수
+    private MultipartFile[] multipartFile; //사진 정보
 }
