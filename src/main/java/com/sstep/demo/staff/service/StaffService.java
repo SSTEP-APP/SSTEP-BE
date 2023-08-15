@@ -13,6 +13,7 @@ import com.sstep.demo.staff.StaffMapper;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffRequestDto;
+import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,21 @@ public class StaffService {
     private final NoticeService noticeService;
     private final StoreRepository storeRepository;
 
+    public StaffResponseDto getStaff(Long staffId) {
+        Staff findStaff = getStaffById(staffId);
 
-    public Staff getStaff(Long staffId) {
+        return StaffResponseDto.builder()
+                .hourMoney(findStaff.getHourMoney())
+                .joinStatus(findStaff.isJoinStatus())
+                .ownerStatus(findStaff.isOwnerStatus())
+                .paymentDate(findStaff.getPaymentDate())
+                .startDay(findStaff.getStartDay())
+                .submitStatus(findStaff.isSubmitStatus())
+                .wageType(findStaff.getWageType())
+                .build();
+    }
+
+    public Staff getStaffById(Long staffId) {
         return staffRepository.findById(staffId).orElseThrow();
     }
 
@@ -47,7 +61,7 @@ public class StaffService {
     }
 
     public void saveSchedule(ScheduleRequestDto scheduleRequestDto, Long staffId) {
-        Staff staff = getStaff(staffId);
+        Staff staff = getStaffById(staffId);
         Set<Schedule> schedules = getSchedulesByStaffId(staffId);
         Schedule schedule = getScheduleEntity(scheduleRequestDto);
         schedules.add(schedule);
@@ -65,7 +79,7 @@ public class StaffService {
     }
 
     public void saveCalendar(CalendarRequestDto calendarRequestDto, Long staffId) {
-        Staff staff = getStaff(staffId);
+        Staff staff = getStaffById(staffId);
         Set<Calendar> calendars = getCalendarsByStaffId(staffId);
         Calendar calendar = getCalendarEntity(calendarRequestDto);
         calendars.add(calendar);
@@ -82,7 +96,7 @@ public class StaffService {
     }
 
     public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) {
-        Staff staff = getStaff(staffId);
+        Staff staff = getStaffById(staffId);
         boolean late = isLate(commuteRequestDto, staff.getSchedules());
 
         Set<Commute> commutes = getCommutesByStaffId(staffId);
@@ -151,7 +165,7 @@ public class StaffService {
     }
 
     public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto) throws IOException {
-        Staff staff = getStaff(staffId);
+        Staff staff = getStaffById(staffId);
 
         Set<Notice> notices = getNoticesByStaffId(staffId);
         Notice notice = getNoticeEntity(noticeRequestDto);
