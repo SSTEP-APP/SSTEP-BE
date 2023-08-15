@@ -8,7 +8,6 @@ import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
-import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
@@ -63,6 +62,11 @@ public class StoreService {
                 .ownerStatus(true)
                 .member(member)
                 .build();
+
+        saveStaff(store, member, staff);
+    }
+
+    private void saveStaff(Store store, Member member, Staff staff) {
         staffRepository.save(staff);
 
         Set<Staff> memberStaff = getStaffsByMemberId(member.getId());
@@ -84,17 +88,8 @@ public class StoreService {
                 .joinStatus(true) //합류여부
                 .member(member)
                 .build();
-        staffRepository.save(staff);
 
-        Set<Staff> memberStaff = getStaffsByMemberId(member.getId());
-        memberStaff.add(staff);
-        member.setStaffList(memberStaff);
-        memberRepository.save(member);
-
-        Set<Staff> staffList = getStaffsByStoreId(store.getId());
-        staffList.add(staff);
-        store.setStaffList(staffList);
-        storeRepository.save(store);
+        saveStaff(store, member, staff);
     }
 
     public void inputCode(long staffId) {
@@ -163,12 +158,19 @@ public class StoreService {
         return notices;
     }
 
-    public StoreResponseDto getStore(Long storeId) {
-        Store findStore = storeRepository.findById(storeId).orElseThrow();
+    public StoreResponseDto getStore(Long code) {
+        Store findStore = storeRepository.findByCode(code).orElseThrow();
 
         return StoreResponseDto.builder()
+                .id(findStore.getId())
                 .name(findStore.getName())
                 .address(findStore.getAddress())
+                .latitude(findStore.getLatitude())
+                .longitude(findStore.getLongitude())
+                .scale(findStore.isScale())
+                .plan(findStore.isPlan())
+                .code(findStore.getCode())
+                .count(findStore.getStaffList().size())
                 .build();
     }
 }

@@ -5,7 +5,6 @@ import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
-import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
 import com.sstep.demo.store.dto.StoreResponseDto;
 import com.sstep.demo.store.service.StoreService;
@@ -36,12 +35,10 @@ public class StoreController {
         return storeService.getStaffsByStoreId(storeId);
     }
 
-
-
     //사업장 조회
-    @GetMapping("/{storeId}")
-    public StoreResponseDto getStore(@PathVariable Long storeId) {
-        return storeService.getStore(storeId);
+    @GetMapping("/{storeCode}")
+    public StoreResponseDto getStore(@PathVariable Long storeCode) {
+        return storeService.getStore(storeCode);
     }
 
     //직원 초대 => 사업장 코드 전송
