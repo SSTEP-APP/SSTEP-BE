@@ -62,17 +62,16 @@ public class StoreService {
                 .ownerStatus(true)
                 .member(member)
                 .build();
+        staffRepository.save(staff);
 
         Set<Staff> memberStaff = getStaffsByMemberId(member.getId());
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
+        memberRepository.save(member);
 
         Set<Staff> staffList = getStaffsByStoreId(store.getId());
         staffList.add(staff);
         store.setStaffList(staffList);
-
-        staffRepository.save(staff);
-        memberRepository.save(member);
         storeRepository.save(store);
     }
 
@@ -84,17 +83,16 @@ public class StoreService {
                 .joinStatus(true) //합류여부
                 .member(member)
                 .build();
+        staffRepository.save(staff);
 
         Set<Staff> memberStaff = getStaffsByMemberId(member.getId());
         memberStaff.add(staff);
         member.setStaffList(memberStaff);
+        memberRepository.save(member);
 
         Set<Staff> staffList = getStaffsByStoreId(store.getId());
         staffList.add(staff);
         store.setStaffList(staffList);
-
-        staffRepository.save(staff);
-        memberRepository.save(member);
         storeRepository.save(store);
     }
 
