@@ -27,20 +27,8 @@ public class Commute { //일자별 실 출근/퇴근 시간 도메인
     private boolean isLate; //지각 여부
     private String disputeMessage; //출퇴근 관련 이의 신청 메시지
 
-    public String getDisputeMessage() {
-        return disputeMessage;
-    }
-
     public void setDisputeMessage(String lateMessage) {
         this.disputeMessage = lateMessage;
-    }
-
-    public void setCommuteDate(Date commuteDate) {
-        this.commuteDate = commuteDate;
-    }
-
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
     }
 
     public void setStartTime(LocalTime startTime) {
@@ -62,20 +50,5 @@ public class Commute { //일자별 실 출근/퇴근 시간 도메인
     //직원 테이블과 1대다 조인
     @ManyToOne
     private Staff staff;
-
-    //    // 1. LocalDate 생성
-//    LocalDate date = LocalDate.of(2021, 12, 25);
-//    // LocalDateTime date = LocalDateTime.of(2021, 12, 25, 1, 15, 20);
-//        System.out.println(date);  // // 2021-12-25
-//
-//    // 2. DayOfWeek 객체 구하기
-//    DayOfWeek dayOfWeek = date.getDayOfWeek();
-//
-//    // 3. 숫자 요일 구하기
-//    int dayOfWeekNumber = dayOfWeek.getValue();
-//
-//    // 4. 숫자 요일 출력
-//        System.out.println(dayOfWeekNumber);  //
-
 
 }

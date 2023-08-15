@@ -34,14 +34,6 @@ public class Photo {
         return id;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
     public byte[] getData() {
         return data;
     }
@@ -52,10 +44,6 @@ public class Photo {
 
     public void setCheckList(CheckList checkList) {
         this.checkList = checkList;
-    }
-
-    public void setHealthDoc(HealthDoc healthDoc) {
-        this.healthDoc = healthDoc;
     }
 
     @ManyToOne

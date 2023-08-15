@@ -41,8 +41,4 @@ public class CommuteRequestDto {
     public LocalTime getEndTime() {
         return endTime;
     }
-
-    public boolean isLate() {
-        return isLate;
-    }
 }

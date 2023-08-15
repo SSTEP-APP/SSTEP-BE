@@ -26,19 +26,6 @@ public class StaffRequestDto {
     private boolean joinStatus; //합류 여부
     private boolean submitStatus; //코드 입력 여부
 
-
-    public void setJoinStatus(boolean joinStatus) {
-        this.joinStatus = joinStatus;
-    }
-
-    public void setOwnerStatus(boolean ownerStatus) {
-        this.ownerStatus = ownerStatus;
-    }
-
-    public void setSubmitStatus(boolean submitStatus) {
-        this.submitStatus = submitStatus;
-    }
-
     public String getPaymentDate() {
         return paymentDate;
     }
@@ -65,17 +52,5 @@ public class StaffRequestDto {
 
     public long getCode() {
         return code;
-    }
-
-    public boolean isOwnerStatus() {
-        return ownerStatus;
-    }
-
-    public boolean isJoinStatus() {
-        return joinStatus;
-    }
-
-    public boolean isSubmitStatus() {
-        return submitStatus;
     }
 }

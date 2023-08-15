@@ -23,13 +23,6 @@ public class Schedule { //요일별 근무시간 도메인
     private LocalTime startTime; //출근해야할 시간 (HH:MM:SS)
     private LocalTime endTime;  //퇴근해야할 시간
 
-    public Schedule(long id, DayOfWeek weekDay, LocalTime startTime, LocalTime endTime) {
-        this.id = id;
-        this.weekDay = weekDay;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
     public void setStaff(Staff staff) {
         this.staff = staff;
     }

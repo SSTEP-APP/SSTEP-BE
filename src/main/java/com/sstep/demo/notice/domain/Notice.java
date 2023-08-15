@@ -31,21 +31,8 @@ public class Notice {
         this.writeDate = writeDate;
     }
 
-
     public long getId() {
         return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public int getHits() {
-        return hits;
     }
 
     public void setPhotos(Set<Photo> photos) {

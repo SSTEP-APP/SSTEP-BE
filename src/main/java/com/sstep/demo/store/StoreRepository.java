@@ -43,8 +43,4 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     //코드 입력한 직원 리스트 출력
     @Query("SELECT s.staffList FROM Store s,Staff t WHERE s.id = :storeId and t.submitStatus = true")
     Set<Staff> findInputCodeStaffsByStoreId(Long storeId);
-
-    //해당 직원 조회
-    @Query("SELECT s FROM Staff s WHERE s.id = :staffId")
-    Staff findStaffByStaffId(Long staffId);
 }

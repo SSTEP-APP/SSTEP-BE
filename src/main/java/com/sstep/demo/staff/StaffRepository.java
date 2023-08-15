@@ -14,8 +14,6 @@ import java.util.Set;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Long> { //<Entity 클래스, PK 타입>
-    Staff findByIdAndStoreId(Long staffId, Long storeId);
-
     @Query("SELECT s.schedules FROM Staff s WHERE s.id = :staffId")
     Set<Schedule> findSchedulesByStaffId(@Param("staffId") Long staffId);
 
@@ -33,7 +31,4 @@ public interface StaffRepository extends JpaRepository<Staff, Long> { //<Entity 
 
     @Query("SELECT s.notices FROM Staff s WHERE s.id = :staffId ")
     Set<Notice> findNoticesByStaffId(Long staffId);
-
-    @Query("SELECT s FROM  Staff s WHERE s.store.code = :code and s.member.username = :username")
-    Staff findByStoreCodeAndUsername(long code, String username);
 }

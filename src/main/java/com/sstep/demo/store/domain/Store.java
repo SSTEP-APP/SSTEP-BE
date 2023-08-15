@@ -29,30 +29,6 @@ public class Store {
         this.name = name;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setScale(boolean scale) {
-        this.scale = scale;
-    }
-
-    public void setPlan(boolean plan) {
-        this.plan = plan;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
     public Store(long id, String name, String address, String latitude,
                  String longitude, boolean scale, boolean plan, long code) {
         this.id = id;

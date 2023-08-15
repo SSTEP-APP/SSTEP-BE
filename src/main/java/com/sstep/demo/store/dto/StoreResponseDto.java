@@ -1,6 +1,5 @@
 package com.sstep.demo.store.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @AllArgsConstructor

@@ -14,7 +14,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 
@@ -57,15 +56,6 @@ public class Staff {
     public void setWageType(int wageType) {
         this.wageType = wageType;
     }
-
-    public void setJoinStatus(boolean joinStatus) {
-        this.joinStatus = joinStatus;
-    }
-
-    public void setOwnerStatus(boolean ownerStatus) {
-        this.ownerStatus = ownerStatus;
-    }
-
     public void setSubmitStatus(boolean submitStatus) {
         this.submitStatus = submitStatus;
     }
