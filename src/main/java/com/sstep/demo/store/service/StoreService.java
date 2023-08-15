@@ -12,6 +12,7 @@ import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
+import com.sstep.demo.store.dto.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -176,5 +177,14 @@ public class StoreService {
             }
         }
         return notices;
+    }
+
+    public StoreResponseDto getStore(Long storeId) {
+        Store findStore = storeRepository.findById(storeId).orElseThrow();
+
+        return StoreResponseDto.builder()
+                .name(findStore.getName())
+                .address(findStore.getAddress())
+                .build();
     }
 }
