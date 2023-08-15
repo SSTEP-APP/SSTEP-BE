@@ -96,8 +96,8 @@ public class StoreService {
         storeRepository.save(store);
     }
 
-    public void inputCode(StaffRequestDto dto) {
-        Staff staff = staffRepository.findByStoreCodeAndUsername(dto.getCode(),dto.getUsername());
+    public void inputCode(long staffId) {
+        Staff staff = staffRepository.findById(staffId).orElseThrow();
         staff.setSubmitStatus(true); //코드 입력 여부
 
         staffRepository.save(staff);
@@ -135,6 +135,7 @@ public class StoreService {
             StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
                     .username(findStaff.getMember().getUsername())
                     .name(findStaff.getMember().getName())
+                    .staffId(findStaff.getId())
                     .build();
 
             staffs.add(staff);
@@ -149,6 +150,7 @@ public class StoreService {
             StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
                     .username(findStaff.getMember().getUsername())
                     .name(findStaff.getMember().getName())
+                    .staffId(findStaff.getId())
                     .build();
 
             staffs.add(staff);

@@ -49,9 +49,9 @@ public class StoreController {
     }
 
     //직원이 사업장 코드 입력시
-    @PostMapping("/input-code/staff")
-    public ResponseEntity<Void> inputCode(@RequestBody StaffRequestDto dto) {
-        storeService.inputCode(dto);
+    @PostMapping("/{staffId}/input-code/staff")
+    public ResponseEntity<Void> inputCode(@PathVariable long staffId) {
+        storeService.inputCode(staffId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
