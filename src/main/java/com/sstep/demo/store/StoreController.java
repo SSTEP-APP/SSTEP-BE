@@ -7,6 +7,7 @@ import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
+import com.sstep.demo.store.dto.StoreResponseDto;
 import com.sstep.demo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,12 @@ public class StoreController {
     @GetMapping("/{staffId}")
     public StaffResponseDto getStaffByStaffId(@PathVariable Long staffId) {
         return storeService.getStaffByStaffId(staffId);
+    }
+
+    //사업장 조회
+    @GetMapping("/{storeId}")
+    public StoreResponseDto getStore(@PathVariable Long storeId) {
+        return storeService.getStore(storeId);
     }
 
     //직원 초대 => 사업장 코드 전송
