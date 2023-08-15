@@ -36,11 +36,7 @@ public class StoreController {
         return storeService.getStaffsByStoreId(storeId);
     }
 
-    //직원 조회
-    @GetMapping("/{staffId}")
-    public StaffResponseDto getStaffByStaffId(@PathVariable Long staffId) {
-        return storeService.getStaffByStaffId(staffId);
-    }
+
 
     //사업장 조회
     @GetMapping("/{storeId}")

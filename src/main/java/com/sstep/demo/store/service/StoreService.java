@@ -114,22 +114,6 @@ public class StoreService {
         staffRepository.save(staff);
     }
 
-    public StaffResponseDto getStaffByStaffId(Long staffId) {
-        Staff findStaff = storeRepository.findStaffByStaffId(staffId);
-        StaffResponseDto staff = StaffResponseDto.builder()
-                .hourMoney(findStaff.getHourMoney())
-                .joinStatus(findStaff.isJoinStatus())
-                .ownerStatus(findStaff.isOwnerStatus())
-                .paymentDate(findStaff.getPaymentDate())
-                .startDay(findStaff.getStartDay())
-                .submitStatus(findStaff.isSubmitStatus())
-                .wageType(findStaff.getWageType())
-                .build();
-        ;
-
-        return staff;
-    }
-
     public Set<StaffInviteResponseDto> getInputCodeStaffs(Long storeId) {
         Set<StaffInviteResponseDto> staffs = new HashSet<>();
         for (Staff findStaff : storeRepository.findInputCodeStaffsByStoreId(storeId)) {
