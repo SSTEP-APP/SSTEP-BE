@@ -80,12 +80,6 @@ public class StoreController {
         return storeService.getDayWorkStaffs(storeId, calendarRequestDto);
     }
 
-    //이의 신청한 직원 리스트 가져오기
-    @GetMapping("/{storeId}/dispute-staffs")
-    public Set<Staff> getDisputeStaffs(@PathVariable Long storeId) {
-        return storeService.getDisputeStaffs(storeId);
-    }
-
     //사업장 내 전체 공지사항 목록 조회
     @GetMapping("/{storeId}/notices")
     public Set<Notice> getNotices(@PathVariable Long storeId) {

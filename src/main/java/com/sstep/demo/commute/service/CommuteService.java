@@ -84,6 +84,8 @@ public class CommuteService {
 
         for (Commute commute : commuteRepository.findDisputeListByStoreIdAndMessageIsNotNull(storeId)) {
             CommuteResponseDto dto = CommuteResponseDto.builder()
+                    .staffId(commute.getStaff().getId())
+                    .staffName(commute.getStaff().getMember().getName())
                     .id(commute.getId())
                     .commuteDate(commute.getCommuteDate())
                     .dayOfWeek(commute.getDayOfWeek())
