@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Getter
 @Builder
-public class CommuteRequestDto {
+public class CommuteResponseDto {
     private long id; //실 출퇴근시간 고유번호
     private Date commuteDate; //출퇴근 일자
     private DayOfWeek dayOfWeek; //출퇴근 요일
@@ -23,5 +23,4 @@ public class CommuteRequestDto {
     private String disputeMessage; //출퇴근 관련 이의 신청 메시지
     private LocalTime disputeStartTime; //정정 출근 시간
     private LocalTime disputeEndTime; //정정 퇴근 시간
-    
 }

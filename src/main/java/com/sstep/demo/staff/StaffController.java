@@ -36,54 +36,6 @@ public class StaffController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //직원별 스케줄 저장
-    @PostMapping("/{staffId}/add-schedule")
-    public ResponseEntity<Void> registerSchedule(@PathVariable Long staffId, @RequestBody ScheduleRequestDto scheduleRequestDto) {
-        staffService.saveSchedule(scheduleRequestDto, staffId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    //직원별 캘린더(일정) 저장
-    @PostMapping("/{staffId}/add-calendar")
-    public ResponseEntity<Void> registerCalendar(@PathVariable Long staffId, @RequestBody CalendarRequestDto calendarRequestDto) {
-        staffService.saveCalendar(calendarRequestDto, staffId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    //직원별 실시간 출근정보 저장
-    @PostMapping("/{staffId}/add-commute")
-    public ResponseEntity<Void> registerCommute(@PathVariable Long staffId, @RequestBody CommuteRequestDto commuteRequestDto) {
-        staffService.saveCommute(commuteRequestDto, staffId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    //직원별 실시간 퇴근정보 저장
-    @PostMapping("/{staffId}/{commuteId}/update-commute")
-    public ResponseEntity<Void> updateCommute(@PathVariable Long staffId, @PathVariable Long commuteId, @RequestBody CommuteRequestDto commuteRequestDto) {
-        staffService.updateCommute(staffId, commuteId, commuteRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    //이의 신청 시 메시지 업데이트
-    @PostMapping("/{staffId}/{commuteId}/dispute")
-    public ResponseEntity<Void> DisputeCommute(@PathVariable Long staffId, @PathVariable Long commuteId, @RequestBody CommuteRequestDto commuteRequestDto) {
-        staffService.disputeCommute(staffId, commuteId, commuteRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    //이의 신청 사항 처리 완료시 메시지 삭제
-    @PostMapping("/{staffId}/{commuteId}/update-dispute")
-    public ResponseEntity<Void> UpdateDisputeCommute(@PathVariable Long staffId, @PathVariable Long commuteId, @RequestBody CommuteRequestDto commuteRequestDto) {
-        staffService.UpdateDisputeCommute(staffId, commuteId, commuteRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    //해당 직원의 이의 신청 리스트 가져오기
-    @GetMapping("/{storeId}/{staffId}/dispute-list")
-    public Set<Commute> getDisputeList(@PathVariable Long storeId, @PathVariable Long staffId) {
-        return staffService.getDisputeList(storeId, staffId);
-    }
-
     //공지사항 등록
     @PostMapping("/{staffId}/add-notice")
     public ResponseEntity<Void> registerNotice(@PathVariable Long staffId,

@@ -12,11 +12,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface StaffMapper {
-    Schedule ToScheduleEntity(ScheduleRequestDto scheduleRequestDto);
-
-    Calendar toCalendarEntity(CalendarRequestDto calendarRequestDto);
-
-    Commute toCommuteEntity(CommuteRequestDto commuteRequestDto);
-
     Notice toNoticeEntity(NoticeRequestDto noticeRequestDto);
 }

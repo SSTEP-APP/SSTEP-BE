@@ -26,6 +26,8 @@ public class Commute { //일자별 실 출근/퇴근 시간 도메인
     private LocalTime endTime; //퇴근 시간
     private boolean isLate; //지각 여부
     private String disputeMessage; //출퇴근 관련 이의 신청 메시지
+    private LocalTime disputeStartTime; //정정 출근 시간
+    private LocalTime disputeEndTime; //정정 퇴근 시간
 
     public void setDisputeMessage(String lateMessage) {
         this.disputeMessage = lateMessage;
@@ -45,6 +47,14 @@ public class Commute { //일자별 실 출근/퇴근 시간 도메인
 
     public void setStaff(Staff staff) {
         this.staff = staff;
+    }
+
+    public void setDisputeStartTime(LocalTime disputeStartTime) {
+        this.disputeStartTime = disputeStartTime;
+    }
+
+    public void setDisputeEndTime(LocalTime disputeEndTime) {
+        this.disputeEndTime = disputeEndTime;
     }
 
     //직원 테이블과 1대다 조인
