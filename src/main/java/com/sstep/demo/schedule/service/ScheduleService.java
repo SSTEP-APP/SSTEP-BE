@@ -6,21 +6,37 @@ import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
-import com.sstep.demo.staff.dto.StaffRequestDto;
+import com.sstep.demo.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
-//    private final ScheduleRepository scheduleRepository;
-//    private final ScheduleMapper scheduleMapper;
+    private final ScheduleRepository scheduleRepository;
+    private final ScheduleMapper scheduleMapper;
+    private final StaffRepository staffRepository;
+    private final StaffService staffService;
 
+    public void saveSchedule(ScheduleRequestDto scheduleRequestDto, Long staffId) {
+        Staff staff = staffService.getStaffById(staffId);
 
+        Schedule schedule = getScheduleEntity(scheduleRequestDto);
+        scheduleRepository.save(schedule);
 
+        Set<Schedule> schedules = getSchedulesByStaffId(staffId);
+        schedules.add(schedule);
+        staff.setSchedules(schedules);
+        staffRepository.save(staff);
+    }
 
+    private Schedule getScheduleEntity(ScheduleRequestDto scheduleRequestDto) {
+        return scheduleMapper.ToScheduleEntity(scheduleRequestDto);
+    }
 
+    private Set<Schedule> getSchedulesByStaffId(Long staffId) {
+        return scheduleRepository.findSchedulesByStaffId(staffId);
+    }
 }

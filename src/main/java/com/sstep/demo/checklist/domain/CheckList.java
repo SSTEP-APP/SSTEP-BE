@@ -37,23 +37,6 @@ public class CheckList {
     public void setMemo(String memo) {
         this.memo = memo;
     }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public Date getEndDay() {
-        return endDay;
-    }
-
-    public boolean isNeedPhoto() {
-        return needPhoto;
-    }
-
     public boolean isComplete() {
         return isComplete;
     }
