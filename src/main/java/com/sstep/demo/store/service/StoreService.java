@@ -1,9 +1,7 @@
 package com.sstep.demo.store.service;
 
-import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
-import com.sstep.demo.member.service.MemberService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
@@ -12,7 +10,6 @@ import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
 import com.sstep.demo.store.dto.StoreResponseDto;
-import com.sstep.demo.workdoc.domain.WorkDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -83,8 +80,6 @@ public class StoreService {
                 .notices(new HashSet<>())
                 .checkLists(new HashSet<>())
                 .calendars(new HashSet<>())
-                .workDoc(new WorkDoc())
-                .healthDoc(new HealthDoc())
                 .build();
 
         saveStaff(store, member, staff);

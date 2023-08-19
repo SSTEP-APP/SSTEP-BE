@@ -1,11 +1,11 @@
 package com.sstep.demo.category.service;
 
-import com.sstep.demo.category.CategoryMapper;
 import com.sstep.demo.category.CategoryRepository;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.category.dto.CategoryRequestDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
+import com.sstep.demo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +16,25 @@ import java.util.Set;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final StoreRepository storeRepository;
-    private final CategoryMapper categoryMapper;
+    private final StoreService storeService;
 
     public void saveCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
-        Store store = storeRepository.findById(storeId).orElseThrow();
+        Store store = getStore(storeId);
+
+        Category category = Category.builder()
+                .name(categoryRequestDto.getName())
+                .store(store)
+                .build();
+        categoryRepository.save(category);
 
         Set<Category> categories = getAllCategoriesByStoreId(storeId);
-        Category category = getCategoryEntity(categoryRequestDto);
         categories.add(category);
         store.setCategories(categories);
+        storeRepository.save(store);
     }
 
-    private Category getCategoryEntity(CategoryRequestDto categoryRequestDto) {
-        return categoryMapper.toCategoryEntity(categoryRequestDto);
+    private Store getStore(Long storeId) {
+        return storeService.getStore(storeId);
     }
 
     public Set<Category> getAllCategoriesByStoreId(Long storeId) {

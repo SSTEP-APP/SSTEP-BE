@@ -9,7 +9,6 @@ import com.sstep.demo.store.dto.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +23,7 @@ public class MemberService {
                 .name(memberDto.getName())
                 .phoneNum(memberDto.getPhoneNum())
                 .password(memberDto.getPassword())
-                .staffList(new ArrayList<>())
+                .staffList(new HashSet<>())
                 .build();
 
         memberRepository.save(member);
@@ -37,7 +36,7 @@ public class MemberService {
     public Set<StoreResponseDto> getStoresBelongMember(String username) {
         Member member = memberRepository.findByUsername(username);
         Set<StoreResponseDto> stores = new HashSet<>();
-        for (Staff staff : member.getStaffList()) {
+        for (Staff staff : getStaffList(member.getStaffList())) {
             StoreResponseDto store = StoreResponseDto.builder()
                     .name(staff.getStore().getName())
                     .address(staff.getStore().getAddress())
@@ -63,12 +62,22 @@ public class MemberService {
     }
 
     public MemberResponseDto getMemberByNameAndPhoneNum(String name, String phoneNum) {
-        Member findMember = memberRepository.findByNameAndPhoneNum(name,phoneNum);
+        Member findMember = memberRepository.findByNameAndPhoneNum(name, phoneNum);
         return MemberResponseDto.builder()
                 .name(findMember.getName())
                 .username(findMember.getUsername())
                 .password(findMember.getPassword())
                 .phoneNum(findMember.getPhoneNum())
                 .build();
+    }
+
+    private HashSet<Staff> getStaffList(Set<Staff> staffList) {
+        HashSet<Staff> staffs = new HashSet<>();
+        for (Staff staff : staffList) {
+            if (!staff.isJoinStatus() && !staff.isSubmitStatus()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
     }
 }

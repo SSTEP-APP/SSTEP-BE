@@ -1,6 +1,5 @@
 package com.sstep.demo.calendar.service;
 
-import com.sstep.demo.calendar.CalendarMapper;
 import com.sstep.demo.calendar.CalendarRepository;
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
@@ -8,14 +7,12 @@ import com.sstep.demo.calendar.dto.CalendarResponseDto;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
-import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,14 +21,20 @@ import java.util.Set;
 public class CalendarService {
     private final CalendarRepository calendarRepository;
     private final StaffRepository staffRepository;
-    private final CalendarMapper calendarMapper;
     private final StaffService staffService;
 
 
     public void saveCalendar(CalendarRequestDto calendarRequestDto, Long staffId) {
         Staff staff = getStaffById(staffId);
 
-        Calendar calendar = getCalendarEntity(calendarRequestDto);
+        Calendar calendar = Calendar.builder()
+                .calendarDate(calendarRequestDto.getCalendarDate())
+                .dayOfWeek(calendarRequestDto.getDayOfWeek())
+                .startCalTime(calendarRequestDto.getStartCalTime())
+                .endCalTime(calendarRequestDto.getEndCalTime())
+                .staff(staff)
+                .build();
+
         calendarRepository.save(calendar);
 
         Set<Calendar> calendars = getCalendarsByStaffId(staffId);
@@ -67,10 +70,6 @@ public class CalendarService {
 
     private Staff getStaffById(Long staffId) {
         return staffService.getStaffById(staffId);
-    }
-
-    private Calendar getCalendarEntity(CalendarRequestDto calendarRequestDto) {
-        return calendarMapper.toCalendarEntity(calendarRequestDto);
     }
 
     private Set<Calendar> getCalendarsByStaffId(Long staffId) {
