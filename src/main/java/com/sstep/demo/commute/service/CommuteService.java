@@ -58,7 +58,7 @@ public class CommuteService {
     }
 
     private Commute getCommuteByStaffIdAndDate(Long staffId, Date date) {
-        return commuteRepository.findByCommuteStaffIdAndDate(staffId, date);
+        return commuteRepository.findCommuteByStaffIdAndDate(staffId, date);
     }
 
     public void disputeCommute(Long commuteId, CommuteRequestDto commuteRequestDto) {
