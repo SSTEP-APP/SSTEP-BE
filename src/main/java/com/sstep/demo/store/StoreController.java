@@ -1,7 +1,5 @@
 package com.sstep.demo.store;
 
-import com.sstep.demo.calendar.dto.CalendarRequestDto;
-import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
@@ -29,7 +27,7 @@ public class StoreController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //직원 목록 조회
+    //해당 사업장의 직원 목록 조회
     @GetMapping("/{storeId}/staffs")
     public Set<Staff> getStaffsByStoreId(@PathVariable Long storeId) {
         return storeService.getStaffsByStoreId(storeId);
@@ -38,7 +36,7 @@ public class StoreController {
     //사업장 코드로 사업장 조회
     @GetMapping("/{storeCode}")
     public StoreResponseDto getStore(@PathVariable Long storeCode) {
-        return storeService.getStore(storeCode);
+        return storeService.getStoreByCode(storeCode);
     }
 
     //직원 초대 => 사업장 코드 전송
@@ -73,18 +71,4 @@ public class StoreController {
     public Set<StaffInviteResponseDto> getInputCodeStaffs(@PathVariable Long storeId) {
         return storeService.getInputCodeStaffs(storeId);
     }
-
-    //해당 날짜에 근무하는 직원 리스트 가져오기
-    @GetMapping("/{storeId}/day-work-staffs")
-    public Set<Staff> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
-        return storeService.getDayWorkStaffs(storeId, calendarRequestDto);
-    }
-
-    //사업장 내 전체 공지사항 목록 조회
-    @GetMapping("/{storeId}/notices")
-    public Set<Notice> getNotices(@PathVariable Long storeId) {
-        return storeService.getNotices(storeId);
-    }
-
-
 }

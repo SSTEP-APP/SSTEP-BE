@@ -22,7 +22,7 @@ public class CalendarService {
 
 
     public void saveCalendar(CalendarRequestDto calendarRequestDto, Long staffId) {
-        Staff staff = staffService.getStaffById(staffId);
+        Staff staff = getStaffById(staffId);
 
         Calendar calendar = getCalendarEntity(calendarRequestDto);
         calendarRepository.save(calendar);
@@ -33,11 +33,19 @@ public class CalendarService {
         staffRepository.save(staff);
     }
 
-    private Set<Calendar> getCalendarsByStaffId(Long staffId) {
-        return calendarRepository.findCalendarsByStaffId(staffId);
+    public Set<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
+        return calendarRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
+    }
+
+    private Staff getStaffById(Long staffId) {
+        return staffService.getStaffById(staffId);
     }
 
     private Calendar getCalendarEntity(CalendarRequestDto calendarRequestDto) {
         return calendarMapper.toCalendarEntity(calendarRequestDto);
+    }
+
+    private Set<Calendar> getCalendarsByStaffId(Long staffId) {
+        return calendarRepository.findCalendarsByStaffId(staffId);
     }
 }
