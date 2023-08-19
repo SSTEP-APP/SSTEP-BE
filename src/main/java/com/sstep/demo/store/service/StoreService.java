@@ -145,10 +145,6 @@ public class StoreService {
         return storeRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
     }
 
-    public Set<Staff> getDisputeStaffs(Long storeId) {
-        return storeRepository.findDisputeStaffsByExistMessage(storeId);
-    }
-
     public Set<Notice> getNotices(Long storeId) {
         Set<Staff> staffs = getStaffsByStoreId(storeId);
         Set<Notice> notices = new HashSet<>();

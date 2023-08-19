@@ -41,7 +41,10 @@ public class MemberService {
             StoreResponseDto store = StoreResponseDto.builder()
                     .name(staff.getStore().getName())
                     .address(staff.getStore().getAddress())
-                    .count(staff.getStore().getStaffList().size()).build();
+                    .count(staff.getStore().getStaffList().size())
+                    .id(staff.getStore().getId())
+                    .code(staff.getStore().getCode())
+                    .build();
 
             stores.add(store);
         }

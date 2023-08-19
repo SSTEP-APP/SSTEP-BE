@@ -35,7 +35,7 @@ public class StoreController {
         return storeService.getStaffsByStoreId(storeId);
     }
 
-    //사업장 조회
+    //사업장 코드로 사업장 조회
     @GetMapping("/{storeCode}")
     public StoreResponseDto getStore(@PathVariable Long storeCode) {
         return storeService.getStore(storeCode);
