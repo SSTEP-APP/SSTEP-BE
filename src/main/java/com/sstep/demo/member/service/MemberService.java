@@ -60,4 +60,14 @@ public class MemberService {
                 .phoneNum(findMember.getPhoneNum())
                 .build();
     }
+
+    public MemberResponseDto getMemberByNameAndPhoneNum(String name, String phoneNum) {
+        Member findMember = memberRepository.findByNameAndPhoneNum(name,phoneNum);
+        return MemberResponseDto.builder()
+                .name(findMember.getName())
+                .username(findMember.getUsername())
+                .password(findMember.getPassword())
+                .phoneNum(findMember.getPhoneNum())
+                .build();
+    }
 }

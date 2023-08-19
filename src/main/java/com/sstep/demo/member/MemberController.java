@@ -45,4 +45,10 @@ public class MemberController {
     public Set<StoreResponseDto> getStoresBelongMember(@PathVariable String username) {
         return memberService.getStoresBelongMember(username);
     }
+
+    //이름 & 전화번호로 회원 조회
+    @GetMapping("/{name}/{phoneNum}")
+    public MemberResponseDto getMemberByNameAndPhoneNum(@PathVariable String name, @PathVariable String phoneNum) {
+        return memberService.getMemberByNameAndPhoneNum(name, phoneNum);
+    }
 }
