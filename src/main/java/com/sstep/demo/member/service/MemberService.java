@@ -44,6 +44,7 @@ public class MemberService {
                     .count(staff.getStore().getStaffList().size())
                     .id(staff.getStore().getId())
                     .code(staff.getStore().getCode())
+                    .isOwner(staff.isOwnerStatus())
                     .build();
 
             stores.add(store);
