@@ -94,6 +94,7 @@ public class StoreService {
 
     public void inputCode(long staffId) {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
+        staff.setJoinStatus(false);
         staff.setSubmitStatus(true); //코드 입력 여부
 
         staffRepository.save(staff);
@@ -105,6 +106,7 @@ public class StoreService {
         staff.setPaymentDate(dto.getPaymentDate());
         staff.setHourMoney(dto.getHourMoney());
         staff.setWageType(dto.getWageType());
+        staff.setSubmitStatus(false);
 
         staffRepository.save(staff);
     }

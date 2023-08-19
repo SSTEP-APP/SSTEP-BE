@@ -60,6 +60,10 @@ public class Staff {
         this.submitStatus = submitStatus;
     }
 
+    public void setJoinStatus(boolean joinStatus) {
+        this.joinStatus = joinStatus;
+    }
+
     public void setSchedules(Set<Schedule> schedules) {
         this.schedules.clear();
         if (schedules != null) {
