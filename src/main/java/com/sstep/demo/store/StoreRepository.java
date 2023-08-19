@@ -29,9 +29,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "(c.calendarDate = :date or sc.weekDay = :day)")
     Set<Staff> findDayWorkStaffsByDate(Long storeId, Date date, DayOfWeek day);
 
-    @Query("SELECT s.staffList FROM Store s,Commute c WHERE s.id = :storeId and c.disputeMessage is not null ")
-    Set<Staff> findDisputeStaffsByExistMessage(Long storeId);
-
     //해당 사업장의 사장 찾기
     @Query("SELECT s.staffList FROM Store s, Staff st WHERE s.id = :storeId and st.ownerStatus = true")
     Staff findOwnerById(Long storeId);

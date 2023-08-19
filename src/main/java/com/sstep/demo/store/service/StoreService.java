@@ -94,6 +94,7 @@ public class StoreService {
 
     public void inputCode(long staffId) {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
+        staff.setJoinStatus(false);
         staff.setSubmitStatus(true); //코드 입력 여부
 
         staffRepository.save(staff);
@@ -105,6 +106,7 @@ public class StoreService {
         staff.setPaymentDate(dto.getPaymentDate());
         staff.setHourMoney(dto.getHourMoney());
         staff.setWageType(dto.getWageType());
+        staff.setSubmitStatus(false);
 
         staffRepository.save(staff);
     }
@@ -141,10 +143,6 @@ public class StoreService {
 
     public Set<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
         return storeRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
-    }
-
-    public Set<Staff> getDisputeStaffs(Long storeId) {
-        return storeRepository.findDisputeStaffsByExistMessage(storeId);
     }
 
     public Set<Notice> getNotices(Long storeId) {
