@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface CalendarRepository extends JpaRepository<Calendar, Long> {
-    @Query("SELECT s.calendars FROM Staff s WHERE s.id = :staffId")
+    @Query("SELECT c FROM Calendar c WHERE c.staff.id = :staffId")
     Set<Calendar> findCalendarsByStaffId(Long staffId);
 
     //캘린더에 별도 추가로 추가 근무하는 직원 리스트 + 스케줄에 등록해 고정으로 근무하는 직원 리스트

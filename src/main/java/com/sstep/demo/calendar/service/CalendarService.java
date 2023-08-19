@@ -4,12 +4,19 @@ import com.sstep.demo.calendar.CalendarMapper;
 import com.sstep.demo.calendar.CalendarRepository;
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
+import com.sstep.demo.calendar.dto.CalendarResponseDto;
+import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -33,8 +40,29 @@ public class CalendarService {
         staffRepository.save(staff);
     }
 
-    public Set<Staff> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
-        return calendarRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek());
+    public Set<CalendarResponseDto> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
+        Set<CalendarResponseDto> staffs = new HashSet<>();
+        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek())) {
+            CalendarResponseDto dto = CalendarResponseDto.builder()
+                    .staffName(findStaff.getMember().getName())
+                    .startCalTime(getSchedule(findStaff, calendarRequestDto.getDayOfWeek()).getStartTime())
+                    .endCalTime(getSchedule(findStaff, calendarRequestDto.getDayOfWeek()).getEndTime())
+                    .dayOfWeek(calendarRequestDto.getDayOfWeek())
+                    .calendarDate(calendarRequestDto.getCalendarDate())
+                    .build();
+
+            staffs.add(dto);
+        }
+        return staffs;
+    }
+
+    private Schedule getSchedule(Staff findStaff, DayOfWeek dayOfWeek) {
+        for (Schedule schedule : findStaff.getSchedules()) {
+            if (schedule.getWeekDay() == dayOfWeek) {
+                return schedule;
+            }
+        }
+        throw new EntityNotFoundException();
     }
 
     private Staff getStaffById(Long staffId) {

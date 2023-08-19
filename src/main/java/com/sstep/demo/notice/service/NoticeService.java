@@ -4,6 +4,7 @@ import com.sstep.demo.notice.NoticeMapper;
 import com.sstep.demo.notice.NoticeRepository;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.notice.dto.NoticeRequestDto;
+import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
@@ -25,6 +26,7 @@ import java.util.Set;
 public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final StaffRepository staffRepository;
+    private final PhotoRepository photoRepository;
     private final PhotoService photoService;
     private final StoreService storeService;
     private final StaffService staffService;
@@ -54,8 +56,8 @@ public class NoticeService {
         staffRepository.save(staff);
     }
 
-    private Set<Photo> getPhotosByNoticeId(long id) {
-        return noticeRepository.findPhotosById(id);
+    private Set<Photo> getPhotosByNoticeId(long noticeId) {
+        return photoRepository.findPhotosByNoticeId(noticeId);
     }
 
     public Notice getNotice(Long noticeId) {

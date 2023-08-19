@@ -1,8 +1,10 @@
 package com.sstep.demo.calendar;
 
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
+import com.sstep.demo.calendar.dto.CalendarResponseDto;
 import com.sstep.demo.calendar.service.CalendarService;
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class CalendarController {
 
     //해당 날짜에 근무하는 직원 리스트 가져오기
     @GetMapping("/{storeId}/day-work-staffs")
-    public Set<Staff> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
+    public Set<CalendarResponseDto> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
         return calendarService.getDayWorkStaffs(storeId, calendarRequestDto);
     }
 }
