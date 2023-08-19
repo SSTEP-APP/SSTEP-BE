@@ -58,8 +58,8 @@ public class StoreService {
         Member member = memberRepository.findByUsername(dto.getMemberUsername());
 
         Staff staff = Staff.builder()
-                .joinStatus(true)
-                .ownerStatus(true)
+                .joinStatus(false)
+                .ownerStatus(false)
                 .member(member)
                 .build();
 
