@@ -11,8 +11,8 @@ import java.util.Set;
 @Repository
 public interface CommuteRepository extends JpaRepository<Commute, Long> {
 
-    @Query("SELECT s.notices FROM Staff s WHERE s.id = :staffId ")
-    Commute findByCommuteStaffIdAndDate(Long staffId, Date nowDate);
+    @Query("SELECT c FROM Commute c WHERE c.staff.id = :staffId and c.commuteDate = :nowDate ")
+    Commute findCommuteByStaffIdAndDate(Long staffId, Date nowDate);
 
     @Query("SELECT c FROM Staff s, Commute c WHERE s.id = :staffId and c.id = :commuteId")
     Commute findByIdAndStoreId(Long staffId, Long commuteId);
