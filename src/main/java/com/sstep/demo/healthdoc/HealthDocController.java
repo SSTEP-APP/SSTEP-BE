@@ -20,12 +20,12 @@ public class HealthDocController {
     private final HealthDocService healthDocService;
 
     //보건증 등록
-    @PostMapping("/{staffId}/add")
-    public ResponseEntity<Void> registerHealthDoc(@PathVariable Long staffId, @RequestBody HealthDocRequestDto healthDocRequestDto
-            , @RequestBody MultipartFile multipartFile) throws IOException {
-        healthDocService.saveHealthDoc(staffId, healthDocRequestDto, multipartFile);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+//    @PostMapping("/{staffId}/add")
+//    public ResponseEntity<Void> registerHealthDoc(@PathVariable Long staffId, @RequestBody HealthDocRequestDto healthDocRequestDto
+//            , @RequestBody MultipartFile multipartFile) throws IOException {
+//        healthDocService.saveHealthDoc(staffId, healthDocRequestDto, multipartFile);
+//        return ResponseEntity.status(HttpStatus.CREATED).build();
+//    }
 
     //직원별 보건증 상세 정보 조회
     @GetMapping("/{staffId}/detail")

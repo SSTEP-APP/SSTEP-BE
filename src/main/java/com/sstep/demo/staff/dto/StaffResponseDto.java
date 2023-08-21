@@ -12,6 +12,7 @@ import java.sql.Date;
 @Getter
 @Builder
 public class StaffResponseDto {
+    private long id; //직원 고유 번호
     private Date startDay; //입사일
     private int hourMoney; //시급
     private int wageType; //급여 지급 방식 일급(1), 주급(2), 월급(3)

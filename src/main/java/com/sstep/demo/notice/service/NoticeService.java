@@ -10,7 +10,7 @@ import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.service.StaffService;
-import com.sstep.demo.store.service.StoreService;
+import com.sstep.demo.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +28,7 @@ public class NoticeService {
     private final StaffRepository staffRepository;
     private final PhotoRepository photoRepository;
     private final PhotoService photoService;
-    private final StoreService storeService;
+    private final StoreRepository storeRepository;
     private final StaffService staffService;
     private final NoticeMapper noticeMapper;
 
@@ -78,7 +78,7 @@ public class NoticeService {
     }
 
     private Set<Staff> getStaffsByStoreId(Long storeId) {
-        return storeService.getStaffsByStoreId(storeId);
+        return storeRepository.findStaffsByStoreId(storeId);
     }
 
     public Staff getStaffById(Long staffId) {

@@ -6,6 +6,7 @@ import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
+import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
@@ -32,8 +33,23 @@ public class StoreService {
         return storeRepository.findStaffsByMemberId(memberId);
     }
 
-    public Set<Staff> getStaffsByStoreId(Long storeId) {
-        return storeRepository.findStaffsByStoreId(storeId);
+    public Set<StaffResponseDto> getStaffsByStoreId(Long storeId) {
+        Set<StaffResponseDto> staff = new HashSet<>();
+        for (Staff findStaff : storeRepository.findStaffsByStoreId(storeId)) {
+            StaffResponseDto s = StaffResponseDto.builder()
+                    .hourMoney(findStaff.getHourMoney())
+                    .id(findStaff.getId())
+                    .startDay(findStaff.getStartDay())
+                    .wageType(findStaff.getWageType())
+                    .submitStatus(findStaff.isSubmitStatus())
+                    .paymentDate(findStaff.getPaymentDate())
+                    .ownerStatus(findStaff.isOwnerStatus())
+                    .joinStatus(findStaff.isJoinStatus())
+                    .build();
+            staff.add(s);
+        }
+
+        return staff;
     }
 
     public void saveStore(StoreRegisterReqDto storeRequestDto) {
@@ -157,7 +173,7 @@ public class StoreService {
         member.setStaffList(memberStaff);
         memberRepository.save(member);
 
-        Set<Staff> staffList = getStaffsByStoreId(store.getId());
+        Set<Staff> staffList = storeRepository.findStaffsByStoreId(store.getId());
         staffList.add(staff);
         store.setStaffList(staffList);
         storeRepository.save(store);
