@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Set;
@@ -20,11 +19,11 @@ public class CheckListController {
     private final CheckListService checkListService;
 
     //    체크 리스트 작성
-//    @PostMapping("/{staffId}/add")
-//    public ResponseEntity<Void> registerCheckList(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
-//        checkListService.saveCheckList(staffId, checkListRequestDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
+    @PostMapping("/{staffId}/add")
+    public ResponseEntity<Void> registerCheckList(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) throws IOException {
+        checkListService.saveCheckList(staffId, checkListRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
     //카테고리 별 체크 리스트 완료 목록
     @GetMapping("/{storeId}/complete-checklists")
@@ -46,9 +45,8 @@ public class CheckListController {
 
     //체크 리스트 완료 처리
     @PostMapping("/{staffId}/{checklistId}/complete")
-    public ResponseEntity<Void> completeCheckList(@PathVariable Long staffId, @PathVariable Long checklistId, @RequestParam(name = "memo") String memo,
-                                                  @RequestBody MultipartFile[] multipartFile) throws IOException {
-        checkListService.completeCheckList(staffId, checklistId, multipartFile, memo);
+    public ResponseEntity<Void> completeCheckList(@PathVariable Long staffId, @PathVariable Long checklistId, @RequestBody CheckListRequestDto checkListRequestDto) throws IOException {
+        checkListService.completeCheckList(staffId, checklistId, checkListRequestDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

@@ -6,9 +6,7 @@ import com.sstep.demo.checklist.CheckListRepository;
 import com.sstep.demo.checklist.domain.CheckList;
 import com.sstep.demo.checklist.dto.CheckListRequestDto;
 import com.sstep.demo.checklist.dto.CheckListResponseDto;
-import com.sstep.demo.checklistmanager.domain.CheckListManager;
-import com.sstep.demo.checklistmanager.dto.CheckListManagerRequestDto;
-import com.sstep.demo.checklistmanager.service.CheckListManagerService;
+import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -26,34 +25,49 @@ public class CheckListService {
     private final CheckListRepository checkListRepository;
     private final StaffRepository staffRepository;
     private final PhotoService photoService;
-    private final CheckListManagerService checkListManagerService;
+    private final PhotoRepository photoRepository;
 
+    public void saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) throws IOException {
+        Set<Category> categories = new HashSet<>();
+        for (CategoryRequestDto findCategory : checkListRequestDto.getCategoryRequestDto()) {
+            Category c = Category.builder()
+                    .name(findCategory.getName())
+                    .id(findCategory.getId())
+                    .build();
 
-//    public void saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) {
-//        Staff staff = getStaff(staffId);
-//
-//        //직원 고유번호로 해당 직원이 작성한 체크 리스트들 가져오기
-//        Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
-//        CheckList checkList = getCheckListEntity(checkListRequestDto);
-//
-//        Set<Category> categories = new HashSet<>();
-//        for (CategoryRequestDto categoryDto : categoryRequestDto) {
-//            Category category = Category.builder()
-//                    .name(categoryDto.getName()).build();
-//            categories.add(categoryMapper.toCategoryEntity(categoryDto));
-//        }
-//        checkList.setCategories(categories);
-//
-//        Set<CheckListManager> checkListManagers = new HashSet<>();
-//        for (CheckListManagerRequestDto managerRequestDto : checkListManagerRequestDto) {
-//            checkListManagers.add(checkListManagerService.saveManagers(managerRequestDto));
-//        }
-//        checkList.setCheckListManagers(checkListManagers);
-//
-//        checkLists.add(checkList);
-//        staff.setCheckLists(checkLists);
-//        staffRepository.save(staff);
-//    }
+            categories.add(c);
+        }
+
+        Set<Photo> photos = new HashSet<>();
+        if (Arrays.stream(checkListRequestDto.getMultipartFiles()).findAny().isPresent()) {
+            for (MultipartFile imageFile : checkListRequestDto.getMultipartFiles()) {
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    Photo photo = photoService.savePhoto(imageFile);
+                    photos.add(photo);
+                }
+            }
+        }
+
+        Staff staff = getStaff(staffId);
+        Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
+        CheckList checkList = CheckList.builder()
+                .categories(categories)
+                .contents(checkListRequestDto.getContents())
+                .endDay(checkListRequestDto.getEndDay())
+                .id(checkListRequestDto.getId())
+                .isComplete(checkListRequestDto.isComplete())
+                .memo(checkListRequestDto.getMemo())
+                .title(checkListRequestDto.getTitle())
+                .needPhoto(checkListRequestDto.isNeedPhoto())
+                .staff(staff)
+                .photos(photos)
+                .build();
+
+        checkListRepository.save(checkList);
+        checkLists.add(checkList);
+        staff.setCheckLists(checkLists);
+        staffRepository.save(staff);
+    }
 
 
     public Set<CheckListResponseDto> getCompleteCheckListsByCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
@@ -103,23 +117,24 @@ public class CheckListService {
                 .build();
     }
 
-    public void completeCheckList(Long checklistId, Long staffId, MultipartFile[] multipartFile, String memo) throws
-            IOException {
+    public void completeCheckList(Long staffId, Long checklistId, CheckListRequestDto checkListRequestDto) throws IOException {
         Staff staff = getStaff(staffId);
 
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = checkListRepository.findById(checklistId).orElseThrow();
-        if (Arrays.stream(multipartFile).findAny().isPresent()) {
-            for (MultipartFile imageFile : multipartFile) {
+        if (Arrays.stream(checkListRequestDto.getMultipartFiles()).findAny().isPresent()) {
+            for (MultipartFile imageFile : checkListRequestDto.getMultipartFiles()) {
                 Set<Photo> photos = new HashSet<>();
-
                 Photo photo = photoService.savePhoto(imageFile);
+                photoRepository.save(photo);
                 photos.add(photo);
                 checkList.setPhotos(photos);
             }
         }
-        checkList.setMemo(memo);
+        checkList.setMemo(checkListRequestDto.getMemo());
         checkList.setComplete(true);
+        checkListRepository.save(checkList);
+
         checkLists.add(checkList);
         staff.setCheckLists(checkLists);
         staffRepository.save(staff);
