@@ -3,12 +3,14 @@ package com.sstep.demo.category.service;
 import com.sstep.demo.category.CategoryRepository;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.category.dto.CategoryRequestDto;
+import com.sstep.demo.category.dto.CategoryResponseDto;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -41,7 +43,15 @@ public class CategoryService {
         return categoryRepository.findCategoriesByStoreId(storeId);
     }
 
-    public Set<Category> getCategories(Long storeId) {
-        return getAllCategoriesByStoreId(storeId);
+    public Set<CategoryResponseDto> getCategories(Long storeId) {
+        Set<CategoryResponseDto> category = new HashSet<>();
+        for (Category findCategory : getAllCategoriesByStoreId(storeId)) {
+            CategoryResponseDto c = CategoryResponseDto.builder()
+                    .id(findCategory.getId())
+                    .name(findCategory.getName())
+                    .build();
+            category.add(c);
+        }
+        return category;
     }
 }
