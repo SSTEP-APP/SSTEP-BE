@@ -1,6 +1,6 @@
 package com.sstep.demo.staff;
 
-import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.staff.service.StaffService;
@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,5 +26,11 @@ public class StaffController {
     public ResponseEntity<Void> updateStaff(@PathVariable Long staffId, @RequestBody StaffRequestDto staffRequestDto) {
         staffService.updateStaff(staffId, staffRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    //아이디와 매장 고유 번호로 직원 고유 번호 가져오기
+    @GetMapping("/{username}/{storeCode}")
+    public StaffInviteResponseDto getStaffByUsernameAndStoreCode(@PathVariable String username, @PathVariable Long storeCode) {
+        return staffService.getStaffByUsernameAndStoreCode(username,storeCode);
     }
 }

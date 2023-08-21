@@ -2,6 +2,7 @@ package com.sstep.demo.staff.service;
 
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
 import com.sstep.demo.staff.dto.StaffResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class StaffService {
                 .wageType(findStaff.getWageType())
                 .build();
     }
+
     public void updateStaff(Long staffId, StaffRequestDto staffRequestDto) {
         Staff existingStaff = staffRepository.findById(staffId).orElseThrow();
         existingStaff.setHourMoney(staffRequestDto.getHourMoney());
@@ -33,6 +35,13 @@ public class StaffService {
         existingStaff.setWageType(staffRequestDto.getWageType());
 
         staffRepository.save(existingStaff);
+    }
+
+    public StaffInviteResponseDto getStaffByUsernameAndStoreCode(String username, Long storeCode) {
+        Staff findStaff = staffRepository.findByUsernameAndStoreCode(username, storeCode);
+        return StaffInviteResponseDto.builder()
+                .staffId(findStaff.getId())
+                .build();
     }
 
     public Staff getStaffById(Long staffId) {
