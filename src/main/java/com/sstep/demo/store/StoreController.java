@@ -1,8 +1,8 @@
 package com.sstep.demo.store;
 
-import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
 import com.sstep.demo.staff.dto.StaffRequestDto;
+import com.sstep.demo.staff.dto.StaffResponseDto;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
 import com.sstep.demo.store.dto.StoreResponseDto;
 import com.sstep.demo.store.service.StoreService;
@@ -29,7 +29,7 @@ public class StoreController {
 
     //해당 사업장의 직원 목록 조회
     @GetMapping("/{storeId}/staffs")
-    public Set<Staff> getStaffsByStoreId(@PathVariable Long storeId) {
+    public Set<StaffResponseDto> getStaffsByStoreId(@PathVariable Long storeId) {
         return storeService.getStaffsByStoreId(storeId);
     }
 
