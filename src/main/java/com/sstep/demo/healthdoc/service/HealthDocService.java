@@ -8,11 +8,16 @@ import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
+import com.sstep.demo.staff.service.StaffService;
+import com.sstep.demo.store.domain.Store;
+import com.sstep.demo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -23,6 +28,7 @@ public class HealthDocService {
     private final HealthDocRepository healthDocRepository;
     private final HealthDocMapper healthDocMapper;
     private final PhotoService photoService;
+    private final StoreService storeService;
 
     public void saveHealthDoc(Long staffId, HealthDocRequestDto healthDocRequestDto, MultipartFile multipartFile) throws IOException {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
@@ -41,5 +47,33 @@ public class HealthDocService {
 
     public HealthDoc getHealthDoc(Long staffId) {
         return healthDocRepository.findByStaffId(staffId);
+    }
+
+    public Set<Staff> getRegHealthDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
+        for (Staff staff : staffList) {
+            if (staff.getHealthDoc().isRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
+    }
+
+    public Set<Staff> getUnRegHealthDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
+        for (Staff staff : staffList) {
+            if (!staff.getHealthDoc().isRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
+    }
+
+    private Store getStore(Long storeId) {
+        return storeService.getStore(storeId);
     }
 }

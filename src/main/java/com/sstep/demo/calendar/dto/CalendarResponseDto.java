@@ -13,10 +13,11 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Getter
 @Builder
-public class CalendarRequestDto {
+public class CalendarResponseDto {
     private long id; //일정 고유번호
     private Date calendarDate; //일자
     private DayOfWeek dayOfWeek; //요일
     private LocalTime startCalTime; //근무 시작 시간
     private LocalTime endCalTime; //근무 종료 시간
+    private String staffName; //직원 이름
 }

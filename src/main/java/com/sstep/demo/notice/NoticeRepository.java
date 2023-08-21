@@ -10,9 +10,6 @@ import java.util.Set;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
-
-    @Query("SELECT n.photos FROM Notice n WHERE n.id = :id ")
-    Set<Photo> findPhotosById(long id);
-
-    Notice findNoticeById(Long noticeId);
+    @Query("SELECT n FROM Notice n WHERE n.staff.id = :staffId ")
+    Set<Notice> findNoticesByStaffId(Long staffId);
 }

@@ -24,11 +24,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("SELECT s.staffList FROM Store s,Staff t WHERE s.id = :storeId and t.joinStatus = true")
     Set<Staff> findInviteStaffsByStoreId(Long storeId);
 
-    //캘린더에 별도 추가로 추가 근무하는 직원 리스트 + 스케줄에 등록해 고정으로 근무하는 직원 리스트
-    @Query("SELECT s.staffList FROM Store s,Calendar c,Schedule sc WHERE s.id = :storeId and " +
-            "(c.calendarDate = :date or sc.weekDay = :day)")
-    Set<Staff> findDayWorkStaffsByDate(Long storeId, Date date, DayOfWeek day);
-
     //해당 사업장의 사장 찾기
     @Query("SELECT s.staffList FROM Store s, Staff st WHERE s.id = :storeId and st.ownerStatus = true")
     Staff findOwnerById(Long storeId);

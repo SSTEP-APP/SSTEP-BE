@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,7 @@ public class WorkDocService {
         if (!multipartFile.isEmpty() && staff.getWorkDoc().isFirstRegister()) {
             Photo photo = photoService.savePhoto(multipartFile);
             workDoc.setPhoto(photo);
+            workDoc.setFirstRegister(false);
             workDoc.setSecondRegister(true);
             staff.setWorkDoc(workDoc);
             staffRepository.save(staff);
@@ -50,7 +53,7 @@ public class WorkDocService {
         Store store = getStore(storeId);
         Staff staff = getStaff(staffId); //근로 계약서 작성 직원
         Staff owner = storeRepository.findOwnerById(storeId); //사장
-        
+
         WorkDocResponseDto workDocResponseDto = new WorkDocResponseDto();
         workDocResponseDto.setStoreName(store.getName());
         workDocResponseDto.setStoreAddress(store.getAddress());
@@ -60,8 +63,32 @@ public class WorkDocService {
         workDocResponseDto.setHourMoney(staff.getHourMoney());
         workDocResponseDto.setWageType(staff.getWageType());
         workDocResponseDto.setPaymentDate(staff.getPaymentDate());
-        
+
         return workDocResponseDto;
+    }
+
+    public Set<Staff> getRegWorkDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
+        for (Staff staff : staffList) {
+            if (staff.getWorkDoc().isSecondRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
+    }
+
+    public Set<Staff> getUnRegWorkDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffs = new HashSet<>();
+        for (Staff staff : staffList) {
+            if (!staff.getWorkDoc().isSecondRegister()) {
+                staffs.add(staff);
+            }
+        }
+        return staffs;
     }
 
     private Staff getStaff(Long staffId) {

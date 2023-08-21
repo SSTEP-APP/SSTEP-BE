@@ -20,10 +20,6 @@ public class Category {
     private long id; //카테고리 고유번호
     private String name; //카테고리 명
 
-    public String getName() {
-        return name;
-    }
-
     public void setCheckList(CheckList checkList) {
         this.checkList = checkList;
     }

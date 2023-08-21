@@ -1,5 +1,6 @@
 package com.sstep.demo.workdoc;
 
+import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.workdoc.dto.WorkDocResponseDto;
 import com.sstep.demo.workdoc.service.WorkDocService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,5 +36,18 @@ public class WorkDocController {
     public ResponseEntity<Void> registerWorkDocSecond(@PathVariable Long staffId, @RequestBody MultipartFile multipartFile) throws IOException {
         workDocService.saveSecond(staffId, multipartFile);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    //근로 계약서 등록한 직원 목록
+    @GetMapping("/{storeId}/reg/work-doc/staffs")
+    public Set<Staff> getRegWorkDocStaffs(@PathVariable Long storeId) {
+        return workDocService.getRegWorkDocStaffs(storeId);
+    }
+
+
+    //근로 계약서 미 등록한 직원 목록
+    @GetMapping("/{storeId}/un-reg/work-doc/staffs")
+    public Set<Staff> getUnRegWorkDocStaffs(@PathVariable Long storeId) {
+        return workDocService.getUnRegWorkDocStaffs(storeId);
     }
 }
