@@ -8,6 +8,7 @@ import com.sstep.demo.checklist.dto.CheckListRequestDto;
 import com.sstep.demo.checklist.dto.CheckListResponseDto;
 import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
+import com.sstep.demo.photo.dto.PhotoResponseDto;
 import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -105,6 +105,19 @@ public class CheckListService {
     }
 
     public CheckListResponseDto getCheckList(Long checklistId) {
+        Set<PhotoResponseDto> photos = new HashSet<>();
+        for (Photo photo : photoRepository.findPhotosByCheckListId(checklistId)) {
+            PhotoResponseDto p = PhotoResponseDto.builder()
+                    .contentType(photo.getContentType())
+                    .data(photo.getData())
+                    .fileName(photo.getFileName())
+                    .id(photo.getId())
+                    .build();
+
+            photos.add(p);
+        }
+
+
         CheckList findCheckList = checkListRepository.findById(checklistId).orElseThrow();
         return CheckListResponseDto.builder()
                 .memo(findCheckList.getMemo())
@@ -114,6 +127,7 @@ public class CheckListService {
                 .title(findCheckList.getTitle())
                 .isComplete(findCheckList.isComplete())
                 .needPhoto(findCheckList.isNeedPhoto())
+                .photoResponseDto(photos)
                 .build();
     }
 
