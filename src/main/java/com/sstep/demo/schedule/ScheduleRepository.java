@@ -9,6 +9,6 @@ import java.util.Set;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    @Query("SELECT s.schedules FROM Staff s WHERE s.id = :staffId")
+    @Query("SELECT s FROM Schedule s WHERE s.staff.id = :staffId")
     Set<Schedule> findSchedulesByStaffId(Long staffId);
 }

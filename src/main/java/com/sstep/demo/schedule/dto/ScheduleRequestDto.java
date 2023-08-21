@@ -18,24 +18,4 @@ public class ScheduleRequestDto {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public DayOfWeek getWeekDay() {
-        return weekDay;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
 }
