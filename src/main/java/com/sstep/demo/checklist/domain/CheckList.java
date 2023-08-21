@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -72,10 +71,10 @@ public class CheckList {
     @ManyToOne
     private Staff staff;
     @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
-    private List<Photo> photos;
+    private Set<Photo> photos;
     @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
-    private List<Category> categories;
+    private Set<Category> categories;
     @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
-    private List<CheckListManager> checkListManagers;
+    private Set<CheckListManager> checkListManagers;
 
 }

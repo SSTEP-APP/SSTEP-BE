@@ -1,21 +1,15 @@
 package com.sstep.demo.healthdoc.service;
 
-import com.sstep.demo.healthdoc.HealthDocMapper;
 import com.sstep.demo.healthdoc.HealthDocRepository;
 import com.sstep.demo.healthdoc.domain.HealthDoc;
-import com.sstep.demo.healthdoc.dto.HealthDocRequestDto;
-import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
-import com.sstep.demo.staff.service.StaffService;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,24 +20,23 @@ public class HealthDocService {
 
     private final StaffRepository staffRepository;
     private final HealthDocRepository healthDocRepository;
-    private final HealthDocMapper healthDocMapper;
     private final PhotoService photoService;
     private final StoreService storeService;
 
-    public void saveHealthDoc(Long staffId, HealthDocRequestDto healthDocRequestDto, MultipartFile multipartFile) throws IOException {
+    /*public void saveHealthDoc(Long staffId, HealthDocRequestDto healthDocRequestDto, MultipartFile multipartFile) throws IOException {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
-        HealthDoc healthDoc = getDocumentEntity(healthDocRequestDto);
+        HealthDoc healthDoc = HealthDoc.builder()
+                .checkUpDate(healthDocRequestDto.getCheckUpDate())
+                .expirationDate(healthDocRequestDto.getExpirationDate())
+                .isRegister(true)
+                .build();
         if (!multipartFile.isEmpty()) {
             Photo photo = photoService.savePhoto(multipartFile);
             healthDoc.setPhoto(photo);
         }
         staff.setHealthDoc(healthDoc);
         staffRepository.save(staff);
-    }
-
-    private HealthDoc getDocumentEntity(HealthDocRequestDto healthDocRequestDto) {
-        return healthDocMapper.toDocumentEntity(healthDocRequestDto);
-    }
+    }*/
 
     public HealthDoc getHealthDoc(Long staffId) {
         return healthDocRepository.findByStaffId(staffId);
