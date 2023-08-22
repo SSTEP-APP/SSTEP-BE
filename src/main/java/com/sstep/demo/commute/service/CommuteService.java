@@ -27,7 +27,6 @@ public class CommuteService {
 
         Commute commute = Commute.builder()
                 .commuteDate(commuteRequestDto.getCommuteDate())
-                .id(commuteRequestDto.getId())
                 .dayOfWeek(commuteRequestDto.getDayOfWeek())
                 .disputeEndTime(commuteRequestDto.getDisputeEndTime())
                 .disputeMessage(commuteRequestDto.getDisputeMessage())
