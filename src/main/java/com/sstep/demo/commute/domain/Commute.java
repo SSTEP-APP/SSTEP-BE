@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -20,7 +20,7 @@ public class Commute { //일자별 실 출근/퇴근 시간 도메인
     @Id //기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //실 출퇴근시간 고유번호
-    private Date commuteDate; //출퇴근 일자
+    private LocalDate commuteDate; //출퇴근 일자
     private DayOfWeek dayOfWeek; //출퇴근 요일
     private LocalTime startTime; //출근 시간
     private LocalTime endTime; //퇴근 시간
@@ -39,10 +39,6 @@ public class Commute { //일자별 실 출근/퇴근 시간 도메인
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
-    }
-
-    public void setLate(boolean late) {
-        isLate = late;
     }
 
     public void setStaff(Staff staff) {
