@@ -1,6 +1,5 @@
 package com.sstep.demo.workdoc;
 
-import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.workdoc.dto.WorkDocResponseDto;
 import com.sstep.demo.workdoc.service.WorkDocService;
 import lombok.RequiredArgsConstructor;
@@ -40,14 +39,14 @@ public class WorkDocController {
 
     //근로 계약서 등록한 직원 목록
     @GetMapping("/{storeId}/reg/work-doc/staffs")
-    public Set<Staff> getRegWorkDocStaffs(@PathVariable Long storeId) {
+    public Set<WorkDocResponseDto> getRegWorkDocStaffs(@PathVariable Long storeId) {
         return workDocService.getRegWorkDocStaffs(storeId);
     }
 
 
     //근로 계약서 미 등록한 직원 목록
     @GetMapping("/{storeId}/un-reg/work-doc/staffs")
-    public Set<Staff> getUnRegWorkDocStaffs(@PathVariable Long storeId) {
+    public Set<WorkDocResponseDto> getUnRegWorkDocStaffs(@PathVariable Long storeId) {
         return workDocService.getUnRegWorkDocStaffs(storeId);
     }
 }

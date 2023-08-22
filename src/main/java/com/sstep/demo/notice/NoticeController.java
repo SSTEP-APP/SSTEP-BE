@@ -1,7 +1,7 @@
 package com.sstep.demo.notice;
 
-import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.notice.dto.NoticeRequestDto;
+import com.sstep.demo.notice.dto.NoticeResponseDto;
 import com.sstep.demo.notice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,13 +19,13 @@ public class NoticeController {
 
     //공지사항 상세 정보 조회
     @GetMapping("{noticeId}/detail")
-    public Notice getNotice(@PathVariable Long noticeId) {
+    public NoticeResponseDto getNotice(@PathVariable Long noticeId) {
         return noticeService.getNotice(noticeId);
     }
 
     //사업장 내 전체 공지사항 목록 조회
     @GetMapping("/{storeId}/notices")
-    public Set<Notice> getNotices(@PathVariable Long storeId) {
+    public Set<NoticeResponseDto> getNotices(@PathVariable Long storeId) {
         return noticeService.getNotices(storeId);
     }
 

@@ -1,6 +1,5 @@
 package com.sstep.demo.schedule.service;
 
-import com.sstep.demo.schedule.ScheduleMapper;
 import com.sstep.demo.schedule.ScheduleRepository;
 import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.schedule.dto.ScheduleRequestDto;
@@ -16,24 +15,26 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
-    private final ScheduleMapper scheduleMapper;
     private final StaffRepository staffRepository;
     private final StaffService staffService;
 
     public void saveSchedule(ScheduleRequestDto scheduleRequestDto, Long staffId) {
         Staff staff = staffService.getStaffById(staffId);
 
-        Schedule schedule = getScheduleEntity(scheduleRequestDto);
+        Schedule schedule = Schedule.builder()
+                .endTime(scheduleRequestDto.getEndTime())
+                .id(scheduleRequestDto.getId())
+                .staff(staff)
+                .startTime(scheduleRequestDto.getStartTime())
+                .weekDay(scheduleRequestDto.getWeekDay())
+                .build();
+
         scheduleRepository.save(schedule);
 
         Set<Schedule> schedules = getSchedulesByStaffId(staffId);
         schedules.add(schedule);
         staff.setSchedules(schedules);
         staffRepository.save(staff);
-    }
-
-    private Schedule getScheduleEntity(ScheduleRequestDto scheduleRequestDto) {
-        return scheduleMapper.ToScheduleEntity(scheduleRequestDto);
     }
 
     private Set<Schedule> getSchedulesByStaffId(Long staffId) {

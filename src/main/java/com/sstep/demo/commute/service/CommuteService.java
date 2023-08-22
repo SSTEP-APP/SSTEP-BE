@@ -1,6 +1,5 @@
 package com.sstep.demo.commute.service;
 
-import com.sstep.demo.commute.CommuteMapper;
 import com.sstep.demo.commute.CommuteRepository;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.commute.dto.CommuteRequestDto;
@@ -22,14 +21,21 @@ public class CommuteService {
     private final CommuteRepository commuteRepository;
     private final StaffRepository staffRepository;
     private final StaffService staffService;
-    private final CommuteMapper commuteMapper;
-
     public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) {
         Staff staff = staffService.getStaffById(staffId);
         boolean late = isLate(commuteRequestDto, staff.getSchedules());
 
-        Commute commute = getCommuteEntity(commuteRequestDto);
-        commute.setLate(late);
+        Commute commute = Commute.builder()
+                .commuteDate(commuteRequestDto.getCommuteDate())
+                .id(commuteRequestDto.getId())
+                .dayOfWeek(commuteRequestDto.getDayOfWeek())
+                .disputeEndTime(commuteRequestDto.getDisputeEndTime())
+                .disputeMessage(commuteRequestDto.getDisputeMessage())
+                .disputeStartTime(commuteRequestDto.getDisputeStartTime())
+                .endTime(commuteRequestDto.getDisputeEndTime())
+                .isLate(late)
+                .build();
+
         commuteRepository.save(commute);
 
         Set<Commute> commutes = getCommutesByStaffId(staffId);
@@ -101,10 +107,6 @@ public class CommuteService {
         }
 
         return disputeList;
-    }
-
-    private Commute getCommuteEntity(CommuteRequestDto commuteRequestDto) {
-        return commuteMapper.toCommuteEntity(commuteRequestDto);
     }
 
     private Set<Commute> getCommutesByStaffId(Long staffId) {
