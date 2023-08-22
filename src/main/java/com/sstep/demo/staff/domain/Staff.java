@@ -13,7 +13,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 
@@ -26,7 +26,7 @@ public class Staff {
     @Id //기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성을 DB에 위임 => DB에서 AUTO_INCREMENT 기능 사용
     private long id; //직원 고유번호
-    private Date startDay; //입사일
+    private LocalDate startDay; //입사일
     private int hourMoney; //시급
     private int wageType; //급여 지급 방식 일급(1), 주급(2), 월급(3)
     private String paymentDate; //급여지급일
@@ -41,7 +41,7 @@ public class Staff {
         this.store = store;
     }
 
-    public void setStartDay(Date startDay) {
+    public void setStartDay(LocalDate startDay) {
         this.startDay = startDay;
     }
 
@@ -56,6 +56,7 @@ public class Staff {
     public void setWageType(int wageType) {
         this.wageType = wageType;
     }
+
     public void setSubmitStatus(boolean submitStatus) {
         this.submitStatus = submitStatus;
     }

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +16,7 @@ public class StaffRequestDto {
     private String username; //회원 아이디
     private long code; //사업장 초대 코드 번호
     private long id; //직원 고유번호
-    private Date startDay; //입사일
+    private LocalDate startDay; //입사일
     private String paymentDate; //급여지급일
 
     private int hourMoney; //시급
@@ -32,10 +32,6 @@ public class StaffRequestDto {
 
     public long getId() {
         return id;
-    }
-
-    public Date getStartDay() {
-        return startDay;
     }
 
     public int getHourMoney() {
