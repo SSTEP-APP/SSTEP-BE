@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +14,7 @@ import java.time.LocalTime;
 public class ScheduleRequestDto {
     private long id;
     private DayOfWeek weekDay;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String startTime;
+    private String endTime;
 
 }

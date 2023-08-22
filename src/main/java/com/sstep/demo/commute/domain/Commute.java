@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,36 +18,36 @@ public class Commute { //일자별 실 출근/퇴근 시간 도메인
     @Id //기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //실 출퇴근시간 고유번호
-    private LocalDate commuteDate; //출퇴근 일자
+    private String commuteDate; //출퇴근 일자
     private DayOfWeek dayOfWeek; //출퇴근 요일
-    private LocalTime startTime; //출근 시간
-    private LocalTime endTime; //퇴근 시간
+    private String startTime; //출근 시간
+    private String endTime; //퇴근 시간
     private boolean isLate; //지각 여부
     private String disputeMessage; //출퇴근 관련 이의 신청 메시지
-    private LocalTime disputeStartTime; //정정 출근 시간
-    private LocalTime disputeEndTime; //정정 퇴근 시간
+    private String disputeStartTime; //정정 출근 시간
+    private String disputeEndTime; //정정 퇴근 시간
 
     public void setDisputeMessage(String lateMessage) {
         this.disputeMessage = lateMessage;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
     }
 
     public void setStaff(Staff staff) {
         this.staff = staff;
     }
 
-    public void setDisputeStartTime(LocalTime disputeStartTime) {
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setDisputeStartTime(String disputeStartTime) {
         this.disputeStartTime = disputeStartTime;
     }
 
-    public void setDisputeEndTime(LocalTime disputeEndTime) {
+    public void setDisputeEndTime(String disputeEndTime) {
         this.disputeEndTime = disputeEndTime;
     }
 
