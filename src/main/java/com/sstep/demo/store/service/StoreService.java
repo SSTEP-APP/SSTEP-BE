@@ -96,6 +96,7 @@ public class StoreService {
                 .notices(new HashSet<>())
                 .checkLists(new HashSet<>())
                 .calendars(new HashSet<>())
+                .schedules(new HashSet<>())
                 .build();
 
         saveStaff(store, member, staff);
