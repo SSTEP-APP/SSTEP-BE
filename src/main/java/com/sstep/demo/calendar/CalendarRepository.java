@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Repository
@@ -18,5 +18,5 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
     //캘린더에 별도 추가로 추가 근무하는 직원 리스트 + 스케줄에 등록해 고정으로 근무하는 직원 리스트
     @Query("SELECT c.staff, sc.staff FROM Store s,Calendar c,Schedule sc WHERE (c.staff.store.id = :storeId and " +
             "c.calendarDate = :date) or (sc.weekDay = :day and sc.staff.store.id = :storeId)")
-    Set<Staff> findDayWorkStaffsByDate(Long storeId, Date date, DayOfWeek day);
+    Set<Staff> findDayWorkStaffsByDate(Long storeId, LocalDate date, DayOfWeek day);
 }

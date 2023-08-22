@@ -51,7 +51,6 @@ public class CheckListService {
         Staff staff = getStaff(staffId);
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = CheckList.builder()
-                .categories(categories)
                 .contents(checkListRequestDto.getContents())
                 .endDay(checkListRequestDto.getEndDay())
                 .id(checkListRequestDto.getId())
@@ -63,7 +62,11 @@ public class CheckListService {
                 .photos(photos)
                 .build();
 
+        checkList.setCategories(categories);
+        checkList.setCheckListManagers(new HashSet<>());
+        checkList.setPhotos(new HashSet<>());
         checkListRepository.save(checkList);
+
         checkLists.add(checkList);
         staff.setCheckLists(checkLists);
         staffRepository.save(staff);
