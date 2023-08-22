@@ -23,7 +23,6 @@ public class ScheduleService {
 
         Schedule schedule = Schedule.builder()
                 .endTime(scheduleRequestDto.getEndTime())
-                .id(scheduleRequestDto.getId())
                 .staff(staff)
                 .startTime(scheduleRequestDto.getStartTime())
                 .weekDay(scheduleRequestDto.getWeekDay())
