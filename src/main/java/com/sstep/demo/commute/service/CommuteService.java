@@ -21,6 +21,7 @@ public class CommuteService {
     private final CommuteRepository commuteRepository;
     private final StaffRepository staffRepository;
     private final StaffService staffService;
+
     public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) {
         Staff staff = staffService.getStaffById(staffId);
         boolean late = isLate(commuteRequestDto, staff.getSchedules());
@@ -33,6 +34,7 @@ public class CommuteService {
                 .disputeStartTime(commuteRequestDto.getDisputeStartTime())
                 .endTime(commuteRequestDto.getDisputeEndTime())
                 .isLate(late)
+                .startTime(commuteRequestDto.getStartTime())
                 .build();
 
         commuteRepository.save(commute);
