@@ -35,6 +35,7 @@ public class CommuteService {
                 .endTime(commuteRequestDto.getDisputeEndTime())
                 .isLate(late)
                 .startTime(commuteRequestDto.getStartTime())
+                .staff(staff)
                 .build();
 
         commuteRepository.save(commute);
