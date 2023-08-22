@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,7 +53,12 @@ public class CommuteService {
         //기준 시간 10분 이후부터 지각 처리
         for (Schedule schedule : schedules) {
             if (schedule.getWeekDay() == commuteRequestDto.getDayOfWeek()) {
-                if (commuteRequestDto.getStartTime().isAfter(schedule.getStartTime().plusMinutes(10))) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                LocalTime commuteLocalTime = LocalTime.parse(commuteRequestDto.getStartTime(), formatter);
+                LocalTime scheduleLocalTime = LocalTime.parse(schedule.getStartTime(), formatter);
+                int commuteMinute = commuteLocalTime.getHour() * 60 + commuteLocalTime.getMinute();
+                int scheduleMinute = scheduleLocalTime.getHour() * 60 + scheduleLocalTime.getMinute();
+                if (commuteMinute - scheduleMinute >= 10) {
                     return true;
                 }
             }
