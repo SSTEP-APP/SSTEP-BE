@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -24,7 +24,7 @@ public class CheckList {
     private long id; //체크 리스트 고유번호
     private String title; //체크 리스트 제목
     private String contents; //체크 리스트 내용
-    private Date endDay; //체크 리스트 마감 일자
+    private LocalDate endDay; //체크 리스트 마감 일자
     private boolean needPhoto; //체크 리스트 사진 필수 여부
     private boolean isComplete; //체크 리스트 완료 여부
     private String memo; //체크 리스트 완료 시 메모
@@ -36,6 +36,7 @@ public class CheckList {
     public void setMemo(String memo) {
         this.memo = memo;
     }
+
     public boolean isComplete() {
         return isComplete;
     }
