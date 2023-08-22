@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Builder
 public class CommuteRequestDto {
     private long id; //실 출퇴근시간 고유번호
-    private Date commuteDate; //출퇴근 일자
+    private LocalDate commuteDate; //출퇴근 일자
     private DayOfWeek dayOfWeek; //출퇴근 요일
     private LocalTime startTime; //출근 시간
     private LocalTime endTime; //퇴근 시간
@@ -23,5 +23,5 @@ public class CommuteRequestDto {
     private String disputeMessage; //출퇴근 관련 이의 신청 메시지
     private LocalTime disputeStartTime; //정정 출근 시간
     private LocalTime disputeEndTime; //정정 퇴근 시간
-    
+
 }
