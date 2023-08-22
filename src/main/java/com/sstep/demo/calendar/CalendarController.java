@@ -3,8 +3,6 @@ package com.sstep.demo.calendar;
 import com.sstep.demo.calendar.dto.CalendarRequestDto;
 import com.sstep.demo.calendar.dto.CalendarResponseDto;
 import com.sstep.demo.calendar.service.CalendarService;
-import com.sstep.demo.staff.domain.Staff;
-import com.sstep.demo.staff.dto.StaffRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
