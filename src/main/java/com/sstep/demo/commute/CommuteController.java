@@ -18,7 +18,7 @@ public class CommuteController {
 
     //직원별 실시간 출근정보 저장
     @PostMapping("/{staffId}/add-commute")
-    public ResponseEntity<Void> registerCommute(@PathVariable Long staffId, @RequestBody CommuteRequestDto commuteRequestDto) {
+    public ResponseEntity<Void> registerCommute(@PathVariable Long staffId, @RequestBody CommuteRequestDto commuteRequestDto) throws Exception {
         commuteService.saveCommute(commuteRequestDto, staffId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
