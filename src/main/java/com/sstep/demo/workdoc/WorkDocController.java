@@ -1,5 +1,6 @@
 package com.sstep.demo.workdoc;
 
+import com.sstep.demo.photo.dto.PhotoResponseDto;
 import com.sstep.demo.workdoc.dto.WorkDocResponseDto;
 import com.sstep.demo.workdoc.service.WorkDocService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,12 @@ public class WorkDocController {
     public ResponseEntity<Void> registerWorkDocFirst(@PathVariable Long staffId, @RequestBody MultipartFile multipartFile) throws IOException {
         workDocService.saveFirst(staffId, multipartFile);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    //1차 등록한 계약서(사진) 정보
+    @GetMapping("/{staffId}/first")
+    public PhotoResponseDto getFirstWorkDoc(@PathVariable Long staffId) {
+        return workDocService.getFirstWorkDoc(staffId);
     }
 
     //근로 계약서 2차(최종) 등록

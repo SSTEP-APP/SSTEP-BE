@@ -1,11 +1,13 @@
 package com.sstep.demo.workdoc.service;
 
 import com.sstep.demo.photo.domain.Photo;
+import com.sstep.demo.photo.dto.PhotoResponseDto;
 import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
+import com.sstep.demo.workdoc.WorkDocRepository;
 import com.sstep.demo.workdoc.domain.WorkDoc;
 import com.sstep.demo.workdoc.dto.WorkDocResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class WorkDocService {
 
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
+    private final WorkDocRepository workDocRepository;
     private final PhotoService photoService;
 
     public void saveFirst(Long staffId, MultipartFile multipartFile) throws IOException {
@@ -31,6 +34,8 @@ public class WorkDocService {
             Photo photo = photoService.savePhoto(multipartFile);
             workDoc.setPhoto(photo);
             workDoc.setFirstRegister(true);
+            workDocRepository.save(workDoc);
+
             staff.setWorkDoc(workDoc);
             staffRepository.save(staff);
         }
@@ -44,6 +49,8 @@ public class WorkDocService {
             workDoc.setPhoto(photo);
             workDoc.setFirstRegister(false);
             workDoc.setSecondRegister(true);
+            workDocRepository.save(workDoc);
+
             staff.setWorkDoc(workDoc);
             staffRepository.save(staff);
         }
@@ -52,7 +59,7 @@ public class WorkDocService {
     public WorkDocResponseDto getInfoForWorkDoc(Long storeId, Long staffId) {
         Store store = getStore(storeId);
         Staff staff = getStaff(staffId); //근로 계약서 작성 직원
-        Staff owner = storeRepository.findOwnerById(storeId); //사장
+        Staff owner = getOwner(storeId); //사장
 
         return WorkDocResponseDto.builder()
                 .staffId(staff.getId())
@@ -100,6 +107,22 @@ public class WorkDocService {
             }
         }
         return staffs;
+    }
+
+    public PhotoResponseDto getFirstWorkDoc(Long staffId) {
+        Staff staff = getStaff(staffId);
+        Photo findPhoto = staff.getWorkDoc().getPhoto();
+
+        return PhotoResponseDto.builder()
+                .id(findPhoto.getId())
+                .data(findPhoto.getData())
+                .fileName(findPhoto.getFileName())
+                .contentType(findPhoto.getContentType())
+                .build();
+    }
+
+    private Staff getOwner(Long storeId) {
+        return storeRepository.findOwnerById(storeId);
     }
 
     private Staff getStaff(Long staffId) {
