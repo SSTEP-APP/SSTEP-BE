@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 public class StoreResponseDto {
     private long id; //사업장 고유번호
+    private long staffId; //직원 고유번호
     private String name; //사업장 이름
     private String address; //사업장 주소
     private String latitude; //사업장 위도 좌표
