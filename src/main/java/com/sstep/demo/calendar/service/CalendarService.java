@@ -32,9 +32,9 @@ public class CalendarService {
                 .dayOfWeek(calendarRequestDto.getDayOfWeek())
                 .startCalTime(calendarRequestDto.getStartCalTime())
                 .endCalTime(calendarRequestDto.getEndCalTime())
-                .staff(staff)
                 .build();
 
+        calendar.setStaff(staff);
         calendarRepository.save(calendar);
 
         Set<Calendar> calendars = getCalendarsByStaffId(staffId);

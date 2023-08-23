@@ -36,10 +36,13 @@ public class HealthDocService {
                 .checkUpDate(healthDocRequestDto.getCheckUpDate())
                 .expirationDate(healthDocRequestDto.getExpirationDate())
                 .isRegister(true)
-                .photo(photo)
-                .staff(staff)
                 .build();
 
+        healthDoc.setPhoto(photo);
+        healthDoc.setStaff(staff);
+        healthDocRepository.save(healthDoc);
+
+        photo.setHealthDoc(healthDoc);
         staff.setHealthDoc(healthDoc);
         staffRepository.save(staff);
     }

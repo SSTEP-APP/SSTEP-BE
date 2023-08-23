@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,17 +44,26 @@ public class NoticeService {
         }
 
         Set<Notice> notices = getNoticesByStaffId(staffId);
+        // 현재 시간을 얻습니다.
+        LocalDateTime now = LocalDateTime.now();
+        // 사용할 포맷을 정의합니다.
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // LocalDateTime 객체를 문자열로 변환합니다.
+        String formattedDateTime = now.format(formatter);
+
         Notice notice = Notice.builder()
                 .id(noticeRequestDto.getId())
                 .contents(noticeRequestDto.getContents())
                 .hits(noticeRequestDto.getHits())
-                .photos(photos)
-                .staff(staff)
+                .photos(new HashSet<>())
                 .title(noticeRequestDto.getTitle())
-                .writeDate(LocalDateTime.now())
+                .writeDate(formattedDateTime)
                 .build();
 
+        notice.setPhotos(photos);
+        notice.setStaff(staff);
         noticeRepository.save(notice);
+
         notices.add(notice);
         staff.setNotices(notices);
         staffRepository.save(staff);
@@ -61,24 +71,14 @@ public class NoticeService {
 
     public NoticeResponseDto getNotice(Long noticeId) {
         Notice findNotice = noticeRepository.findById(noticeId).orElseThrow();
-        Set<PhotoResponseDto> photos = new HashSet<>();
-        for (Photo p : findNotice.getPhotos()) {
-            PhotoResponseDto photo = PhotoResponseDto.builder()
-                    .contentType(p.getContentType())
-                    .data(p.getData())
-                    .fileName(p.getFileName())
-                    .id(p.getId())
-                    .build();
-
-            photos.add(photo);
-        }
+        Set<PhotoResponseDto> dto = photoToDto(findNotice);
 
         return NoticeResponseDto.builder()
                 .contents(findNotice.getContents())
                 .hits(findNotice.getHits())
                 .id(findNotice.getId())
                 .writeDate(findNotice.getWriteDate())
-                .photo(photos)
+                .photo(dto)
                 .title(findNotice.getTitle())
                 .build();
     }
@@ -87,23 +87,14 @@ public class NoticeService {
         Set<Notice> findNotices = noticeRepository.findAllNoticesByStoreId(storeId);
         Set<NoticeResponseDto> notices = new HashSet<>();
         for (Notice n : findNotices) {
-            Set<PhotoResponseDto> photos = new HashSet<>();
-            for (Photo p : n.getPhotos()) {
-                PhotoResponseDto photo = PhotoResponseDto.builder()
-                        .contentType(p.getContentType())
-                        .data(p.getData())
-                        .fileName(p.getFileName())
-                        .id(p.getId())
-                        .build();
+            Set<PhotoResponseDto> dto = photoToDto(n);
 
-                photos.add(photo);
-            }
             NoticeResponseDto notice = NoticeResponseDto.builder()
                     .contents(n.getContents())
                     .hits(n.getHits())
                     .id(n.getId())
                     .writeDate(n.getWriteDate())
-                    .photo(photos)
+                    .photo(dto)
                     .title(n.getTitle())
                     .build();
 
@@ -118,5 +109,20 @@ public class NoticeService {
 
     private Set<Notice> getNoticesByStaffId(Long staffId) {
         return noticeRepository.findNoticesByStaffId(staffId);
+    }
+
+    private static Set<PhotoResponseDto> photoToDto(Notice findNotice) {
+        Set<PhotoResponseDto> photos = new HashSet<>();
+        for (Photo p : findNotice.getPhotos()) {
+            PhotoResponseDto photo = PhotoResponseDto.builder()
+                    .contentType(p.getContentType())
+                    .data(p.getData())
+                    .fileName(p.getFileName())
+                    .id(p.getId())
+                    .build();
+
+            photos.add(photo);
+        }
+        return photos;
     }
 }

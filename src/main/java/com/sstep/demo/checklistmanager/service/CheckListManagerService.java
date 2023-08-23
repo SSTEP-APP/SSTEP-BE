@@ -29,6 +29,7 @@ public class CheckListManagerService {
                     .phoneNum(findManager.getPhoneNum())
                     .build();
 
+            checkListManager.setCheckList(checkList);
             checkListManagerRepository.save(checkListManager);
             checkListManagers.add(checkListManager);
         }

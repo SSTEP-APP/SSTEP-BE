@@ -1,5 +1,6 @@
 package com.sstep.demo.checklist.service;
 
+import com.sstep.demo.category.CategoryRepository;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.category.dto.CategoryRequestDto;
 import com.sstep.demo.checklist.CheckListRepository;
@@ -24,31 +25,24 @@ import java.util.*;
 public class CheckListService {
     private final CheckListRepository checkListRepository;
     private final StaffRepository staffRepository;
+    private final CategoryRepository categoryRepository;
     private final PhotoService photoService;
     private final PhotoRepository photoRepository;
 
-    public void saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) throws IOException {
+    public void saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) {
+        Staff staff = getStaff(staffId);
+        Category c = new Category();
+
         Set<Category> categories = new HashSet<>();
         for (CategoryRequestDto findCategory : checkListRequestDto.getCategoryRequestDto()) {
-            Category c = Category.builder()
+            c = Category.builder()
                     .name(findCategory.getName())
-                    .id(findCategory.getId())
                     .build();
 
+            categoryRepository.save(c);
             categories.add(c);
         }
 
-        Set<Photo> photos = new HashSet<>();
-        if (Arrays.stream(checkListRequestDto.getMultipartFiles()).findAny().isPresent()) {
-            for (MultipartFile imageFile : checkListRequestDto.getMultipartFiles()) {
-                if (imageFile != null && !imageFile.isEmpty()) {
-                    Photo photo = photoService.savePhoto(imageFile);
-                    photos.add(photo);
-                }
-            }
-        }
-
-        Staff staff = getStaff(staffId);
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = CheckList.builder()
                 .contents(checkListRequestDto.getContents())
@@ -58,14 +52,16 @@ public class CheckListService {
                 .memo(checkListRequestDto.getMemo())
                 .title(checkListRequestDto.getTitle())
                 .needPhoto(checkListRequestDto.isNeedPhoto())
-                .staff(staff)
-                .photos(photos)
+                .photos(new HashSet<>())
+                .checkListManagers(new HashSet<>())
                 .build();
 
         checkList.setCategories(categories);
-        checkList.setCheckListManagers(new HashSet<>());
-        checkList.setPhotos(new HashSet<>());
+        checkList.setStaff(staff);
         checkListRepository.save(checkList);
+
+        c.setCheckList(checkList);
+        c.setStore(staff.getStore());
 
         checkLists.add(checkList);
         staff.setCheckLists(checkLists);

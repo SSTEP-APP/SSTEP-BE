@@ -18,9 +18,9 @@ import java.util.Set;
 public class CheckListController {
     private final CheckListService checkListService;
 
-    //    체크 리스트 작성
+    //체크 리스트 작성
     @PostMapping("/{staffId}/add")
-    public ResponseEntity<Void> registerCheckList(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) throws IOException {
+    public ResponseEntity<Void> registerCheckList(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
         checkListService.saveCheckList(staffId, checkListRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -46,6 +46,14 @@ public class Photo {
         this.checkList = checkList;
     }
 
+    public void setHealthDoc(HealthDoc healthDoc) {
+        this.healthDoc = healthDoc;
+    }
+
+    public void setWorkDoc(WorkDoc workDoc) {
+        this.workDoc = workDoc;
+    }
+
     @ManyToOne
     private Notice notice;
 
