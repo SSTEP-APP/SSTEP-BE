@@ -38,6 +38,7 @@ public class MemberService {
         Set<StoreResponseDto> stores = new HashSet<>();
         for (Staff staff : getStaffList(member.getStaffList())) {
             StoreResponseDto store = StoreResponseDto.builder()
+                    .staffId(staff.getId())
                     .name(staff.getStore().getName())
                     .address(staff.getStore().getAddress())
                     .count(staff.getStore().getStaffList().size())

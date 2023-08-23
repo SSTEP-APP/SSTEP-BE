@@ -17,6 +17,8 @@ public class StaffService {
         Staff findStaff = getStaffById(staffId);
 
         return StaffResponseDto.builder()
+                .id(findStaff.getId())
+                .staffName(findStaff.getMember().getName())
                 .hourMoney(findStaff.getHourMoney())
                 .joinStatus(findStaff.isJoinStatus())
                 .ownerStatus(findStaff.isOwnerStatus())
