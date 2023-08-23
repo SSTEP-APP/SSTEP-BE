@@ -5,14 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Repository
 public interface CommuteRepository extends JpaRepository<Commute, Long> {
 
     @Query("SELECT c FROM Commute c WHERE c.staff.id = :staffId and c.commuteDate = :nowDate ")
-    Commute findByStaffIdAndDate(Long staffId, LocalDate nowDate);
+    Commute findByStaffIdAndDate(Long staffId, String nowDate);
 
     @Query("SELECT c FROM Commute c WHERE c.staff.id = :staffId and c.id = :commuteId")
     Commute findByIdAndStoreId(Long staffId, Long commuteId);

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -26,14 +25,14 @@ public class CommuteController {
 
     //직원별 실시간 퇴근정보 저장
     @PostMapping("/{staffId}/{nowDate}/update-commute")
-    public ResponseEntity<Void> updateCommute(@PathVariable Long staffId, @PathVariable LocalDate nowDate, @RequestBody CommuteRequestDto commuteRequestDto) {
+    public ResponseEntity<Void> updateCommute(@PathVariable Long staffId, @PathVariable String nowDate, @RequestBody CommuteRequestDto commuteRequestDto) {
         commuteService.updateCommute(staffId, nowDate, commuteRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //출퇴근 정보
     @GetMapping("{staffId}/{date}")
-    public CommuteResponseDto getCommute(@PathVariable Long staffId, @PathVariable LocalDate date) {
+    public CommuteResponseDto getCommute(@PathVariable Long staffId, @PathVariable String date) {
         return commuteService.getCommute(staffId, date);
     }
 
