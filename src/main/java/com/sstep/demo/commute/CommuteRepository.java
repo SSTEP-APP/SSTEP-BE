@@ -21,4 +21,7 @@ public interface CommuteRepository extends JpaRepository<Commute, Long> {
 
     @Query("SELECT c FROM Commute c WHERE c.staff.store.id = :storeId and c.disputeMessage is NOT null")
     Set<Commute> findDisputeListByStoreIdAndMessageIsNotNull(Long storeId);
+
+    @Query("SELECT c FROM Commute c WHERE c.staff.id = :storeId and c.commuteDate = :commuteDate ")
+    Commute findCommuteByStaffIdAndNowDate(Long staffId, String commuteDate);
 }

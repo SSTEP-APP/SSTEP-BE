@@ -23,28 +23,33 @@ public class CommuteService {
     private final StaffRepository staffRepository;
     private final StaffService staffService;
 
-    public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) {
+    public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) throws Exception {
         Staff staff = staffService.getStaffById(staffId);
-        boolean late = isLate(commuteRequestDto, staff.getSchedules());
+        Commute findCommute = commuteRepository.findCommuteByStaffIdAndNowDate(staffId, commuteRequestDto.getCommuteDate());
+        if (findCommute == null) {
+            boolean late = isLate(commuteRequestDto, staff.getSchedules());
 
-        Commute commute = Commute.builder()
-                .commuteDate(commuteRequestDto.getCommuteDate())
-                .dayOfWeek(commuteRequestDto.getDayOfWeek())
-                .disputeEndTime(commuteRequestDto.getDisputeEndTime())
-                .disputeMessage(commuteRequestDto.getDisputeMessage())
-                .disputeStartTime(commuteRequestDto.getDisputeStartTime())
-                .endTime(commuteRequestDto.getDisputeEndTime())
-                .isLate(late)
-                .startTime(commuteRequestDto.getStartTime())
-                .staff(staff)
-                .build();
+            Commute commute = Commute.builder()
+                    .commuteDate(commuteRequestDto.getCommuteDate())
+                    .dayOfWeek(commuteRequestDto.getDayOfWeek())
+                    .disputeEndTime(commuteRequestDto.getDisputeEndTime())
+                    .disputeMessage(commuteRequestDto.getDisputeMessage())
+                    .disputeStartTime(commuteRequestDto.getDisputeStartTime())
+                    .endTime(commuteRequestDto.getDisputeEndTime())
+                    .isLate(late)
+                    .startTime(commuteRequestDto.getStartTime())
+                    .staff(staff)
+                    .build();
 
-        commuteRepository.save(commute);
+            commuteRepository.save(commute);
 
-        Set<Commute> commutes = getCommutesByStaffId(staffId);
-        commutes.add(commute);
-        staff.setCommutes(commutes);
-        staffRepository.save(staff);
+            Set<Commute> commutes = getCommutesByStaffId(staffId);
+            commutes.add(commute);
+            staff.setCommutes(commutes);
+            staffRepository.save(staff);
+        } else {
+            throw new Exception("이미 출근 버튼을 눌렀습니다.");
+        }
     }
 
     private boolean isLate(CommuteRequestDto commuteRequestDto, Set<Schedule> schedules) { //지각 여부 확인
