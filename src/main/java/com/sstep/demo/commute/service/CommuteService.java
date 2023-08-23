@@ -11,7 +11,6 @@ import com.sstep.demo.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -66,13 +65,13 @@ public class CommuteService {
         return false;
     }
 
-    public void updateCommute(Long staffId, LocalDate nowDate, CommuteRequestDto commuteRequestDto) {
+    public void updateCommute(Long staffId, String nowDate, CommuteRequestDto commuteRequestDto) {
         Commute existingCommute = getCommuteByStaffIdAndDate(staffId, nowDate);
         existingCommute.setEndTime(commuteRequestDto.getEndTime());
         commuteRepository.save(existingCommute);
     }
 
-    private Commute getCommuteByStaffIdAndDate(Long staffId, LocalDate date) {
+    private Commute getCommuteByStaffIdAndDate(Long staffId, String date) {
         return commuteRepository.findByStaffIdAndDate(staffId, date);
     }
 
@@ -137,7 +136,7 @@ public class CommuteService {
                 .build();
     }
 
-    public CommuteResponseDto getCommute(Long staffId, LocalDate date) {
+    public CommuteResponseDto getCommute(Long staffId, String date) {
         Commute findCommute = getCommuteByStaffIdAndDate(staffId, date);
 
         return CommuteResponseDto.builder()
