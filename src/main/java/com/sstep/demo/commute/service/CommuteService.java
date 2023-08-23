@@ -38,9 +38,9 @@ public class CommuteService {
                     .endTime(commuteRequestDto.getDisputeEndTime())
                     .isLate(late)
                     .startTime(commuteRequestDto.getStartTime())
-                    .staff(staff)
                     .build();
 
+            commute.setStaff(staff);
             commuteRepository.save(commute);
 
             Set<Commute> commutes = getCommutesByStaffId(staffId);
@@ -76,8 +76,20 @@ public class CommuteService {
         commuteRepository.save(existingCommute);
     }
 
-    private Commute getCommuteByStaffIdAndDate(Long staffId, String date) {
-        return commuteRepository.findByStaffIdAndDate(staffId, date);
+    public CommuteResponseDto getCommute(Long staffId, String date) {
+        Commute findCommute = getCommuteByStaffIdAndDate(staffId, date);
+
+        return CommuteResponseDto.builder()
+                .id(findCommute.getId())
+                .commuteDate(findCommute.getCommuteDate())
+                .dayOfWeek(findCommute.getDayOfWeek())
+                .startTime(findCommute.getStartTime())
+                .endTime(findCommute.getEndTime())
+                .isLate(findCommute.isLate())
+                .disputeMessage(findCommute.getDisputeMessage())
+                .disputeStartTime(findCommute.getDisputeStartTime())
+                .disputeEndTime(findCommute.getDisputeEndTime())
+                .build();
     }
 
     public void disputeCommute(Long commuteId, CommuteRequestDto commuteRequestDto) {
@@ -87,6 +99,22 @@ public class CommuteService {
         existingCommute.setDisputeMessage(commuteRequestDto.getDisputeMessage());
         existingCommute.setDisputeStartTime(commuteRequestDto.getDisputeStartTime());
         existingCommute.setDisputeEndTime(commuteRequestDto.getDisputeEndTime());
+        commuteRepository.save(existingCommute);
+    }
+
+    public CommuteResponseDto getDispute(Long commuteId) {
+        Commute findCommute = commuteRepository.findById(commuteId).orElseThrow();
+        return CommuteResponseDto.builder()
+                .id(commuteId)
+                .commuteDate(findCommute.getCommuteDate())
+                .dayOfWeek(findCommute.getDayOfWeek())
+                .startTime(findCommute.getStartTime())
+                .endTime(findCommute.getEndTime())
+                .isLate(findCommute.isLate())
+                .disputeMessage(findCommute.getDisputeMessage())
+                .disputeStartTime(findCommute.getDisputeStartTime())
+                .disputeEndTime(findCommute.getDisputeEndTime())
+                .build();
     }
 
     public void UpdateDisputeCommute(Long staffId, Long commuteId, CommuteRequestDto commuteRequestDto) {
@@ -96,6 +124,7 @@ public class CommuteService {
         existingCommute.setDisputeMessage(null);
         existingCommute.setStartTime(commuteRequestDto.getDisputeStartTime());
         existingCommute.setEndTime(commuteRequestDto.getDisputeEndTime());
+        commuteRepository.save(existingCommute);
     }
 
     public Set<CommuteResponseDto> getDisputeList(Long storeId) {
@@ -126,34 +155,7 @@ public class CommuteService {
         return commuteRepository.findCommutesByStaffId(staffId);
     }
 
-    public CommuteResponseDto getDispute(Long commuteId) {
-        Commute findCommute = commuteRepository.findById(commuteId).orElseThrow();
-        return CommuteResponseDto.builder()
-                .id(commuteId)
-                .commuteDate(findCommute.getCommuteDate())
-                .dayOfWeek(findCommute.getDayOfWeek())
-                .startTime(findCommute.getStartTime())
-                .endTime(findCommute.getEndTime())
-                .isLate(findCommute.isLate())
-                .disputeMessage(findCommute.getDisputeMessage())
-                .disputeStartTime(findCommute.getDisputeStartTime())
-                .disputeEndTime(findCommute.getDisputeEndTime())
-                .build();
-    }
-
-    public CommuteResponseDto getCommute(Long staffId, String date) {
-        Commute findCommute = getCommuteByStaffIdAndDate(staffId, date);
-
-        return CommuteResponseDto.builder()
-                .id(findCommute.getId())
-                .commuteDate(findCommute.getCommuteDate())
-                .dayOfWeek(findCommute.getDayOfWeek())
-                .startTime(findCommute.getStartTime())
-                .endTime(findCommute.getEndTime())
-                .isLate(findCommute.isLate())
-                .disputeMessage(findCommute.getDisputeMessage())
-                .disputeStartTime(findCommute.getDisputeStartTime())
-                .disputeEndTime(findCommute.getDisputeEndTime())
-                .build();
+    private Commute getCommuteByStaffIdAndDate(Long staffId, String date) {
+        return commuteRepository.findByStaffIdAndDate(staffId, date);
     }
 }

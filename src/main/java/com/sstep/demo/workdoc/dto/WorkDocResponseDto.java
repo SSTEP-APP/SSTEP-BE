@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,7 +16,7 @@ public class WorkDocResponseDto {
     private String storeAddress; //사업체 주소 => Store
     private String storePhoneNum; //사업체 연락처 => Member
     private String storeOwnerName; //사업체 대표자 이름 => Member
-    private LocalDate startDay; //입사일 => Staff
+    private String startDay; //입사일 => Staff
     private int hourMoney; //시급 => Staff
     private int wageType; //급여 지급 방식 => Staff
     private String paymentDate; //급여지급일 => Staff

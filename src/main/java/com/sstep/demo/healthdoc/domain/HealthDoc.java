@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,8 +18,8 @@ public class HealthDoc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //보건증 고유번호
-    private LocalDate checkUpDate; //보건증 검진일
-    private LocalDate expirationDate; //보건증 만료일
+    private String checkUpDate; //보건증 검진일
+    private String expirationDate; //보건증 만료일
     private boolean isRegister; //보건증 등록 여부
 
     public void setStaff(Staff staff) {
