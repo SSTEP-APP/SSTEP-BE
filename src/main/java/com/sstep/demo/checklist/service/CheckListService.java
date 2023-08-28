@@ -54,6 +54,7 @@ public class CheckListService {
                 .needPhoto(checkListRequestDto.isNeedPhoto())
                 .photos(new HashSet<>())
                 .checkListManagers(new HashSet<>())
+                .categories(new HashSet<>())
                 .build();
 
         checkList.setCategories(categories);
