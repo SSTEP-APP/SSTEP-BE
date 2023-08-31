@@ -4,15 +4,14 @@ import com.sstep.demo.healthdoc.HealthDocRepository;
 import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.healthdoc.dto.HealthDocRequestDto;
 import com.sstep.demo.healthdoc.dto.HealthDocResponseDto;
+import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
-import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,19 +22,17 @@ public class HealthDocService {
 
     private final StaffRepository staffRepository;
     private final HealthDocRepository healthDocRepository;
-    private final PhotoService photoService;
+    private final PhotoRepository photoRepository;
 
-    public void saveHealthDoc(Long staffId, HealthDocRequestDto healthDocRequestDto) throws IOException {
-        Photo photo = new Photo();
-        if (!healthDocRequestDto.getMultipartFile().isEmpty()) {
-            photo = photoService.savePhoto(healthDocRequestDto.getMultipartFile());
-        }
+    public void saveHealthDoc(Long staffId, HealthDocRequestDto healthDocRequestDto) {
+        Photo photo = photoRepository.findById(healthDocRequestDto.getPhotoId()).orElseThrow();
 
         Staff staff = staffRepository.findById(staffId).orElseThrow();
         HealthDoc healthDoc = HealthDoc.builder()
                 .checkUpDate(healthDocRequestDto.getCheckUpDate())
                 .expirationDate(healthDocRequestDto.getExpirationDate())
                 .isRegister(true)
+                .photo(photo)
                 .build();
 
         healthDoc.setPhoto(photo);

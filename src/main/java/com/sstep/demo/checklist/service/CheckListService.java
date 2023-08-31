@@ -1,5 +1,6 @@
 package com.sstep.demo.checklist.service;
 
+import com.sstep.demo.category.CategoryRepository;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.checklist.CheckListRepository;
 import com.sstep.demo.checklist.domain.CheckList;
@@ -8,14 +9,11 @@ import com.sstep.demo.checklist.dto.CheckListResponseDto;
 import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
-import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -23,12 +21,12 @@ import java.util.*;
 public class CheckListService {
     private final CheckListRepository checkListRepository;
     private final StaffRepository staffRepository;
-    private final PhotoService photoService;
     private final PhotoRepository photoRepository;
+    private final CategoryRepository categoryRepository;
 
     public void saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) {
         Staff staff = getStaff(staffId);
-        Category c = new Category();
+        Category c = categoryRepository.findById(checkListRequestDto.getCategoryId()).orElseThrow();
 
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = CheckList.builder()
@@ -120,20 +118,18 @@ public class CheckListService {
                 .build();
     }
 
-    public void completeCheckList(Long staffId, Long checklistId, CheckListRequestDto checkListRequestDto) throws IOException {
+    public void completeCheckList(Long staffId, Long checklistId, CheckListRequestDto checkListRequestDto) {
         Staff staff = getStaff(staffId);
+        Set<Photo> photo = new HashSet<>();
+        for (long num : checkListRequestDto.getPhotoId()) {
+            Photo findPhoto = photoRepository.findById(num).orElseThrow();
+            photo.add(findPhoto);
+        }
 
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = checkListRepository.findById(checklistId).orElseThrow();
-        if (Arrays.stream(checkListRequestDto.getMultipartFiles()).findAny().isPresent()) {
-            for (MultipartFile imageFile : checkListRequestDto.getMultipartFiles()) {
-                Set<Photo> photos = new HashSet<>();
-                Photo photo = photoService.savePhoto(imageFile);
-                photoRepository.save(photo);
-                photos.add(photo);
-                checkList.setPhotos(photos);
-            }
-        }
+
+        checkList.setPhotos(photo);
         checkList.setMemo(checkListRequestDto.getMemo());
         checkList.setComplete(true);
         checkListRepository.save(checkList);
