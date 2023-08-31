@@ -1,5 +1,9 @@
 #DATABASE
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://awsrds.cnm1owomoyrd.ap-northeast-2.rds.amazonaws.com:3306/sstepdb?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC

@@ -27,6 +27,25 @@ public class WorkDocService {
     private final WorkDocRepository workDocRepository;
     private final PhotoService photoService;
 
+    public WorkDocResponseDto getInfoForWorkDoc(Long storeId, Long staffId) {
+        Store store = getStore(storeId);
+        Staff staff = getStaff(staffId); //근로 계약서 작성 직원
+        Staff owner = getOwner(storeId); //사장
+
+        return WorkDocResponseDto.builder()
+                .staffId(staff.getId())
+                .hourMoney(staff.getHourMoney())
+                .paymentDate(staff.getPaymentDate())
+                .staffName(staff.getMember().getName())
+                .startDay(staff.getStartDay())
+                .storeAddress(store.getAddress())
+                .storeName(store.getName())
+                .storeOwnerName(owner.getMember().getName())
+                .storePhoneNum(owner.getMember().getPhoneNum())
+                .wageType(staff.getWageType())
+                .build();
+    }
+
     public void saveFirst(Long staffId, MultipartFile multipartFile) throws IOException {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
         WorkDoc workDoc = new WorkDoc();
@@ -54,25 +73,6 @@ public class WorkDocService {
             staff.setWorkDoc(workDoc);
             staffRepository.save(staff);
         }
-    }
-
-    public WorkDocResponseDto getInfoForWorkDoc(Long storeId, Long staffId) {
-        Store store = getStore(storeId);
-        Staff staff = getStaff(staffId); //근로 계약서 작성 직원
-        Staff owner = getOwner(storeId); //사장
-
-        return WorkDocResponseDto.builder()
-                .staffId(staff.getId())
-                .hourMoney(staff.getHourMoney())
-                .paymentDate(staff.getPaymentDate())
-                .staffName(staff.getMember().getName())
-                .startDay(staff.getStartDay())
-                .storeAddress(store.getAddress())
-                .storeName(store.getName())
-                .storeOwnerName(owner.getMember().getName())
-                .storePhoneNum(owner.getMember().getPhoneNum())
-                .wageType(staff.getWageType())
-                .build();
     }
 
     public Set<WorkDocResponseDto> getRegWorkDocStaffs(Long storeId) {
