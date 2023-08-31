@@ -1,5 +1,6 @@
 package com.sstep.demo.store.service;
 
+import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
 import com.sstep.demo.staff.StaffRepository;
@@ -11,6 +12,7 @@ import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
 import com.sstep.demo.store.dto.StoreResponseDto;
+import com.sstep.demo.workdoc.domain.WorkDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -117,6 +119,8 @@ public class StoreService {
         staff.setHourMoney(dto.getHourMoney());
         staff.setWageType(dto.getWageType());
         staff.setSubmitStatus(false);
+        staff.setWorkDoc(new WorkDoc());
+        staff.setHealthDoc(new HealthDoc());
 
         staffRepository.save(staff);
     }
@@ -178,10 +182,6 @@ public class StoreService {
         staffList.add(staff);
         store.setStaffList(staffList);
         storeRepository.save(store);
-    }
-
-    public Store getStore(Long storeId) {
-        return storeRepository.findById(storeId).orElseThrow();
     }
 
     private Member getMemberByUsername(String memberUsername) {
