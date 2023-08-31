@@ -10,8 +10,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 public class CategoryResponseDto {
-    private long id; //카테고리 고유번호
     private String name; //카테고리 명
-
-
 }
