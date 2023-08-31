@@ -22,7 +22,6 @@ public class CategoryService {
         Set<CategoryResponseDto> category = new HashSet<>();
         for (Category findCategory : getAllCategoriesByStoreId(storeId)) {
             CategoryResponseDto c = CategoryResponseDto.builder()
-                    .id(findCategory.getId())
                     .name(findCategory.getName())
                     .build();
 
