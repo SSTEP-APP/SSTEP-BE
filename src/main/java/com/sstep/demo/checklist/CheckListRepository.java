@@ -12,9 +12,9 @@ public interface CheckListRepository extends JpaRepository<CheckList, Long> {
     @Query("SELECT ch FROM CheckList ch WHERE ch.staff.id = :staffId ")
     Set<CheckList> findCheckListsByStaffId(Long staffId);
 
-    @Query("SELECT ch FROM Category c, CheckList ch WHERE c.checkList.staff.store = :storeId and c.name = :name and c.checkList.isComplete = true ")
-    Set<CheckList> findCheckListByStoreIdAndCategoryAndIsComplete(Long storeId, String name);
+    @Query("SELECT ch FROM CheckList ch, Category c WHERE c.checkList.staff.store.id = :storeId and c.name = :categoryName and c.checkList.date = :date and c.checkList.isComplete = true ")
+    Set<CheckList> findCheckListByStoreIdAndCategoryAndIsCompleteAndDate(Long storeId, String categoryName, String date);
 
-    @Query("SELECT ch FROM Category c, CheckList ch WHERE c.checkList.staff.store = :storeId and c.name = :name and c.checkList.isComplete = false ")
-    Set<CheckList> findCheckListByStoreIdAndCategoryAndIsUnComplete(Long storeId, String name);
+    @Query("SELECT ch FROM CheckList ch, Category c WHERE c.checkList.staff.store.id = :storeId and c.name = :categoryName and c.checkList.date = :date and c.checkList.isComplete = false ")
+    Set<CheckList> findCheckListByStoreIdAndCategoryAndIsUnCompleteAndDate(Long storeId, String categoryName, String date);
 }
