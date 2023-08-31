@@ -1,20 +1,19 @@
 package com.sstep.demo.workdoc.service;
 
+import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
-import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.workdoc.WorkDocRepository;
 import com.sstep.demo.workdoc.domain.WorkDoc;
+import com.sstep.demo.workdoc.dto.WorkDocRequestDto;
 import com.sstep.demo.workdoc.dto.WorkDocResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +24,7 @@ public class WorkDocService {
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     private final WorkDocRepository workDocRepository;
-    private final PhotoService photoService;
+    private final PhotoRepository photoRepository;
 
     public WorkDocResponseDto getInfoForWorkDoc(Long storeId, Long staffId) {
         Store store = getStore(storeId);
@@ -46,33 +45,30 @@ public class WorkDocService {
                 .build();
     }
 
-    public void saveFirst(Long staffId, MultipartFile multipartFile) throws IOException {
+    public void saveFirst(Long staffId, WorkDocRequestDto workDocRequestDto) {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
         WorkDoc workDoc = new WorkDoc();
-        if (!multipartFile.isEmpty()) {
-            Photo photo = photoService.savePhoto(multipartFile);
-            workDoc.setPhoto(photo);
-            workDoc.setFirstRegister(true);
-            workDocRepository.save(workDoc);
+        Photo photo = photoRepository.findById(workDocRequestDto.getPhotoId()).orElseThrow();
+        workDoc.setPhoto(photo);
+        workDoc.setFirstRegister(true);
+        workDocRepository.save(workDoc);
 
-            staff.setWorkDoc(workDoc);
-            staffRepository.save(staff);
-        }
+        staff.setWorkDoc(workDoc);
+        staffRepository.save(staff);
     }
 
-    public void saveSecond(Long staffId, MultipartFile multipartFile) throws IOException {
+    public void saveSecond(Long staffId, WorkDocRequestDto workDocRequestDto) {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
         WorkDoc workDoc = new WorkDoc();
-        if (!multipartFile.isEmpty() && staff.getWorkDoc().isFirstRegister()) {
-            Photo photo = photoService.savePhoto(multipartFile);
-            workDoc.setPhoto(photo);
-            workDoc.setFirstRegister(false);
-            workDoc.setSecondRegister(true);
-            workDocRepository.save(workDoc);
+        Photo photo = photoRepository.findById(workDocRequestDto.getPhotoId()).orElseThrow();
 
-            staff.setWorkDoc(workDoc);
-            staffRepository.save(staff);
-        }
+        workDoc.setPhoto(photo);
+        workDoc.setFirstRegister(false);
+        workDoc.setSecondRegister(true);
+        workDocRepository.save(workDoc);
+
+        staff.setWorkDoc(workDoc);
+        staffRepository.save(staff);
     }
 
     public Set<WorkDocResponseDto> getRegWorkDocStaffs(Long storeId) {

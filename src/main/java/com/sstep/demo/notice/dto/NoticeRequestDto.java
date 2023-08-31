@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @AllArgsConstructor
@@ -17,5 +16,5 @@ public class NoticeRequestDto {
     private String writeDate; //공지글 작성 일자
     private String contents; //공지글 내용
     private int hits; //공지 조회수
-    private MultipartFile[] multipartFile; //사진 정보
+    private long[] photoId; //사진 고유번호 배열
 }

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -22,7 +21,7 @@ public class CheckListRequestDto {
     private boolean needPhoto; //체크 리스트 사진 필수 여부
     private boolean isComplete; //체크 리스트 완료 여부
     private String memo; //체크 리스트 완료 시 메모
-    private MultipartFile[] multipartFiles; //사진 배열
+    private long[] photoId; //사진 고유 번호 배열
     private long categoryId; //카테고리 고유번호
     private String categoryName; //카테고리 명
     private Set<CheckListManagerRequestDto> checkListManagersRequestDto; //체크 리스트 담당자 배열

@@ -4,17 +4,15 @@ import com.sstep.demo.notice.NoticeRepository;
 import com.sstep.demo.notice.domain.Notice;
 import com.sstep.demo.notice.dto.NoticeRequestDto;
 import com.sstep.demo.notice.dto.NoticeResponseDto;
+import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
-import com.sstep.demo.photo.service.PhotoService;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -25,21 +23,17 @@ import java.util.Set;
 public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final StaffRepository staffRepository;
-    private final PhotoService photoService;
+    private final PhotoRepository photoRepository;
     private final StaffService staffService;
 
 
-    public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto) throws IOException {
+    public void saveNotice(Long staffId, NoticeRequestDto noticeRequestDto) {
         Staff staff = getStaffById(staffId);
 
-        Set<Photo> photos = new HashSet<>();
-        if (noticeRequestDto.getMultipartFile() != null) {
-            for (MultipartFile imageFile : noticeRequestDto.getMultipartFile()) {
-                if (imageFile != null && !imageFile.isEmpty()) {
-                    Photo photo = photoService.savePhoto(imageFile);
-                    photos.add(photo);
-                }
-            }
+        Set<Photo> photo = new HashSet<>();
+        for (long num : noticeRequestDto.getPhotoId()) {
+            Photo findPhoto = photoRepository.findById(num).orElseThrow();
+            photo.add(findPhoto);
         }
 
         Set<Notice> notices = getNoticesByStaffId(staffId);
@@ -59,7 +53,7 @@ public class NoticeService {
                 .writeDate(formattedDateTime)
                 .build();
 
-        notice.setPhotos(photos);
+        notice.setPhotos(photo);
         notice.setStaff(staff);
         noticeRepository.save(notice);
 
