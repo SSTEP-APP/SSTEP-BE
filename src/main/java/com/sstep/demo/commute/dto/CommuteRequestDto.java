@@ -13,7 +13,6 @@ import java.time.DayOfWeek;
 @Getter
 @Builder
 public class CommuteRequestDto {
-    private long id; //실 출퇴근시간 고유번호
     private String commuteDate; //출퇴근 일자
     private DayOfWeek dayOfWeek; //출퇴근 요일
     private String startTime; //출근 시간

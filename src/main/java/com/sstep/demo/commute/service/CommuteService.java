@@ -25,7 +25,7 @@ public class CommuteService {
 
     public void saveCommute(CommuteRequestDto commuteRequestDto, Long staffId) throws Exception {
         Staff staff = staffService.getStaffById(staffId);
-        Commute findCommute = commuteRepository.findCommuteByStaffIdAndNowDate(staffId, commuteRequestDto.getCommuteDate());
+        Commute findCommute = commuteRepository.findByIdAndDate(staffId, commuteRequestDto.getCommuteDate());
         if (findCommute == null) {
             boolean late = isLate(commuteRequestDto, staff.getSchedules());
 
@@ -80,7 +80,6 @@ public class CommuteService {
         Commute findCommute = getCommuteByStaffIdAndDate(staffId, date);
 
         return CommuteResponseDto.builder()
-                .id(findCommute.getId())
                 .commuteDate(findCommute.getCommuteDate())
                 .dayOfWeek(findCommute.getDayOfWeek())
                 .startTime(findCommute.getStartTime())
@@ -105,7 +104,6 @@ public class CommuteService {
     public CommuteResponseDto getDispute(Long commuteId) {
         Commute findCommute = commuteRepository.findById(commuteId).orElseThrow();
         return CommuteResponseDto.builder()
-                .id(commuteId)
                 .commuteDate(findCommute.getCommuteDate())
                 .dayOfWeek(findCommute.getDayOfWeek())
                 .startTime(findCommute.getStartTime())
@@ -117,8 +115,8 @@ public class CommuteService {
                 .build();
     }
 
-    public void UpdateDisputeCommute(Long staffId, Long commuteId, CommuteRequestDto commuteRequestDto) {
-        Commute existingCommute = commuteRepository.findByIdAndStoreId(staffId, commuteId);
+    public void UpdateDisputeCommute(Long staffId, CommuteRequestDto commuteRequestDto) {
+        Commute existingCommute = commuteRepository.findByIdAndDate(staffId, commuteRequestDto.getCommuteDate());
 
         //출퇴근 정보가 이미 존재하면 이의 신청 메시지 null로 업데이트
         existingCommute.setDisputeMessage(null);
@@ -134,7 +132,6 @@ public class CommuteService {
             CommuteResponseDto dto = CommuteResponseDto.builder()
                     .staffId(commute.getStaff().getId())
                     .staffName(commute.getStaff().getMember().getName())
-                    .id(commute.getId())
                     .commuteDate(commute.getCommuteDate())
                     .dayOfWeek(commute.getDayOfWeek())
                     .startTime(commute.getStartTime())

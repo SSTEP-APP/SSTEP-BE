@@ -51,8 +51,8 @@ public class CommuteController {
 
     //이의 신청 사항 처리 완료시 메시지 삭제
     @PostMapping("/{staffId}/{commuteId}/update-dispute")
-    public ResponseEntity<Void> UpdateDisputeCommute(@PathVariable Long staffId, @PathVariable Long commuteId, @RequestBody CommuteRequestDto commuteRequestDto) {
-        commuteService.UpdateDisputeCommute(staffId, commuteId, commuteRequestDto);
+    public ResponseEntity<Void> UpdateDisputeCommute(@PathVariable Long staffId, @RequestBody CommuteRequestDto commuteRequestDto) {
+        commuteService.UpdateDisputeCommute(staffId, commuteRequestDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
