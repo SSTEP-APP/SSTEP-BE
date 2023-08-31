@@ -1,8 +1,6 @@
 package com.sstep.demo.checklist.service;
 
-import com.sstep.demo.category.CategoryRepository;
 import com.sstep.demo.category.domain.Category;
-import com.sstep.demo.category.dto.CategoryRequestDto;
 import com.sstep.demo.checklist.CheckListRepository;
 import com.sstep.demo.checklist.domain.CheckList;
 import com.sstep.demo.checklist.dto.CheckListRequestDto;
@@ -25,23 +23,12 @@ import java.util.*;
 public class CheckListService {
     private final CheckListRepository checkListRepository;
     private final StaffRepository staffRepository;
-    private final CategoryRepository categoryRepository;
     private final PhotoService photoService;
     private final PhotoRepository photoRepository;
 
     public void saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) {
         Staff staff = getStaff(staffId);
         Category c = new Category();
-
-        Set<Category> categories = new HashSet<>();
-        for (CategoryRequestDto findCategory : checkListRequestDto.getCategoryRequestDto()) {
-            c = Category.builder()
-                    .name(findCategory.getName())
-                    .build();
-
-            categoryRepository.save(c);
-            categories.add(c);
-        }
 
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = CheckList.builder()
@@ -51,13 +38,13 @@ public class CheckListService {
                 .isComplete(checkListRequestDto.isComplete())
                 .memo(checkListRequestDto.getMemo())
                 .title(checkListRequestDto.getTitle())
+                .date(checkListRequestDto.getDate())
                 .needPhoto(checkListRequestDto.isNeedPhoto())
                 .photos(new HashSet<>())
                 .checkListManagers(new HashSet<>())
                 .categories(new HashSet<>())
                 .build();
 
-        checkList.setCategories(categories);
         checkList.setStaff(staff);
         checkListRepository.save(checkList);
 
@@ -70,26 +57,28 @@ public class CheckListService {
     }
 
 
-    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
+    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(Long storeId, CheckListRequestDto checkListRequestDto) {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
-        for (CheckList findCheckList : checkListRepository.findCheckListByStoreIdAndCategoryAndIsComplete(storeId, categoryRequestDto.getName())) {
+        for (CheckList findCheckList : checkListRepository.findCheckListByStoreIdAndCategoryAndIsCompleteAndDate(storeId, checkListRequestDto.getCategoryName(), checkListRequestDto.getDate())) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
                     .title(findCheckList.getTitle())
                     .contents(findCheckList.getContents())
                     .endDay(findCheckList.getEndDay())
                     .id(findCheckList.getId())
+                    .date(findCheckList.getDate())
                     .needPhoto(findCheckList.isNeedPhoto())
                     .isComplete(findCheckList.isComplete())
                     .memo(findCheckList.getMemo())
                     .build();
+
             checkLists.add(checkList);
         }
         return checkLists;
     }
 
-    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
+    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(Long storeId, CheckListRequestDto checkListRequestDto) {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
-        for (CheckList findCheckList : checkListRepository.findCheckListByStoreIdAndCategoryAndIsUnComplete(storeId, categoryRequestDto.getName())) {
+        for (CheckList findCheckList : checkListRepository.findCheckListByStoreIdAndCategoryAndIsUnCompleteAndDate(storeId, checkListRequestDto.getCategoryName(), checkListRequestDto.getDate())) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
                     .title(findCheckList.getTitle())
                     .contents(findCheckList.getContents())
