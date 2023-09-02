@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 public class HealthDocRequestDto {
-    private long id; //문서 고유번호
     private String checkUpDate; //보건증 검진일
     private String expirationDate; //보건증 만료일
     private long photoId; //사진 고유 번호
