@@ -1,5 +1,6 @@
 package com.sstep.demo.store.service;
 
+import com.sstep.demo.healthdoc.HealthDocRepository;
 import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
@@ -12,6 +13,7 @@ import com.sstep.demo.store.StoreRepository;
 import com.sstep.demo.store.domain.Store;
 import com.sstep.demo.store.dto.StoreRegisterReqDto;
 import com.sstep.demo.store.dto.StoreResponseDto;
+import com.sstep.demo.workdoc.WorkDocRepository;
 import com.sstep.demo.workdoc.domain.WorkDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
     private final StaffRepository staffRepository;
+    private final HealthDocRepository healthDocRepository;
+    private final WorkDocRepository workDocRepository;
 
     public Store getCodeToEntity(long code) {
         return storeRepository.findByCode(code).orElseThrow(EntityNotFoundException::new);
@@ -119,10 +123,12 @@ public class StoreService {
         HealthDoc healthDoc = HealthDoc.builder()
                 .staff(staff)
                 .build();
+        healthDocRepository.save(healthDoc);
 
         WorkDoc workDoc = WorkDoc.builder()
                 .staff(staff)
                 .build();
+        workDocRepository.save(workDoc);
 
         staff.setStartDay(dto.getStartDay());
         staff.setPaymentDate(dto.getPaymentDate());
