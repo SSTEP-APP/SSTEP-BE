@@ -1,6 +1,7 @@
-package com.sstep.demo.photo.service;
+package com.sstep.demo.photo;
 
 import com.sstep.demo.photo.dto.PhotoResponseDto;
+import com.sstep.demo.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
