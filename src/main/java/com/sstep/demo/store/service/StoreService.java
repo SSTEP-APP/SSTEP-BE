@@ -48,6 +48,7 @@ public class StoreService {
                     .ownerStatus(findStaff.isOwnerStatus())
                     .joinStatus(findStaff.isJoinStatus())
                     .build();
+
             staff.add(s);
         }
 
@@ -114,13 +115,22 @@ public class StoreService {
 
     public void addMemberToStore(StaffRequestDto dto) {
         Staff staff = staffRepository.findById(dto.getId()).orElseThrow();
+
+        HealthDoc healthDoc = HealthDoc.builder()
+                .staff(staff)
+                .build();
+
+        WorkDoc workDoc = WorkDoc.builder()
+                .staff(staff)
+                .build();
+
         staff.setStartDay(dto.getStartDay());
         staff.setPaymentDate(dto.getPaymentDate());
         staff.setHourMoney(dto.getHourMoney());
         staff.setWageType(dto.getWageType());
         staff.setSubmitStatus(false);
-        staff.setWorkDoc(new WorkDoc());
-        staff.setHealthDoc(new HealthDoc());
+        staff.setWorkDoc(workDoc);
+        staff.setHealthDoc(healthDoc);
 
         staffRepository.save(staff);
     }
