@@ -3,6 +3,7 @@ package com.sstep.demo.photo;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
 import com.sstep.demo.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ public class PhotoController {
     private final PhotoService photoService;
 
     //사진 등록
-    @PostMapping("/add")
+    @PostMapping(value = "/add", produces = MediaType.IMAGE_JPEG_VALUE)
     public PhotoResponseDto savePhoto(@RequestBody MultipartFile multipartFile) throws IOException {
         return photoService.savePhoto(multipartFile);
     }
