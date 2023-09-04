@@ -53,6 +53,7 @@ public class WorkDocService {
         workDoc.setFirstRegister(true);
         workDocRepository.save(workDoc);
 
+        photo.setWorkDoc(workDoc);
         staff.setWorkDoc(workDoc);
         staffRepository.save(staff);
     }
@@ -67,6 +68,7 @@ public class WorkDocService {
         workDoc.setSecondRegister(true);
         workDocRepository.save(workDoc);
 
+        photo.setWorkDoc(workDoc);
         staff.setWorkDoc(workDoc);
         staffRepository.save(staff);
     }

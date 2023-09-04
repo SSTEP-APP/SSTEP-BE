@@ -22,6 +22,7 @@ public class Photo {
     private long id; //사진 고유번호
     private String fileName;
     private String contentType;
+    @Lob
     private byte[] data;
 
     public Photo(String fileName, String contentType, byte[] data) {

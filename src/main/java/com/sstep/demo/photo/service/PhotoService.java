@@ -24,16 +24,20 @@ public class PhotoService {
         String contentType = file.getContentType();
         byte[] data = file.getBytes();
 
-        Photo newPhoto = new Photo(fileName, contentType, data);
-        PhotoResponseDto photo = PhotoResponseDto.builder()
+        Photo newPhoto = Photo.builder()
+                .data(data)
+                .fileName(fileName)
+                .contentType(contentType)
+                .build();
+
+        photoRepository.save(newPhoto);
+
+
+        return PhotoResponseDto.builder()
                 .id(newPhoto.getId())
                 .fileName(newPhoto.getFileName())
                 .contentType(newPhoto.getContentType())
                 .data(newPhoto.getData())
                 .build();
-
-        photoRepository.save(newPhoto);
-
-        return photo;
     }
 }
