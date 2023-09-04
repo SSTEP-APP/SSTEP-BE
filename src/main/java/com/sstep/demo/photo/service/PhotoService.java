@@ -2,7 +2,6 @@ package com.sstep.demo.photo.service;
 
 import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
-import com.sstep.demo.photo.dto.PhotoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import java.io.IOException;
 public class PhotoService {
     private final PhotoRepository photoRepository;
 
-    public ResponseEntity<PhotoResponseDto> savePhoto(MultipartFile file) throws IOException {
+    public ResponseEntity<Long> savePhoto(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String contentType = file.getContentType();
         byte[] data = file.getBytes();
@@ -29,11 +28,7 @@ public class PhotoService {
 
         photoRepository.save(newPhoto);
 
-        PhotoResponseDto photoResponseDto = PhotoResponseDto.builder()
-                .id(newPhoto.getId())
-                .build();
-
-        return new ResponseEntity<>(photoResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(newPhoto.getId(), HttpStatus.OK);
     }
 
 }
