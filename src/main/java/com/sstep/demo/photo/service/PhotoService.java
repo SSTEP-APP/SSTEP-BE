@@ -31,9 +31,6 @@ public class PhotoService {
 
         PhotoResponseDto photoResponseDto = PhotoResponseDto.builder()
                 .id(newPhoto.getId())
-                .fileName(newPhoto.getFileName())
-                .contentType(newPhoto.getContentType())
-                .data(newPhoto.getData())
                 .build();
 
         return new ResponseEntity<>(photoResponseDto, HttpStatus.OK);
