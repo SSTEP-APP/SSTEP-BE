@@ -113,9 +113,6 @@ public class WorkDocService {
 
         return PhotoResponseDto.builder()
                 .id(findPhoto.getId())
-                .data(findPhoto.getData())
-                .fileName(findPhoto.getFileName())
-                .contentType(findPhoto.getContentType())
                 .build();
     }
 

@@ -95,9 +95,6 @@ public class CheckListService {
         Set<PhotoResponseDto> photos = new HashSet<>();
         for (Photo photo : photoRepository.findPhotosByCheckListId(checklistId)) {
             PhotoResponseDto p = PhotoResponseDto.builder()
-                    .contentType(photo.getContentType())
-                    .data(photo.getData())
-                    .fileName(photo.getFileName())
                     .id(photo.getId())
                     .build();
 

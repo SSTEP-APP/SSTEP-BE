@@ -51,9 +51,6 @@ public class HealthDocService {
         Photo findPhoto = healthDoc.getPhoto();
         PhotoResponseDto photo = PhotoResponseDto.builder()
                 .id(findPhoto.getId())
-                .fileName(findPhoto.getFileName())
-                .data(findPhoto.getData())
-                .contentType(findPhoto.getContentType())
                 .build();
 
         return HealthDocResponseDto.builder()

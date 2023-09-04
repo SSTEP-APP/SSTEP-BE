@@ -108,9 +108,6 @@ public class NoticeService {
         Set<PhotoResponseDto> photos = new HashSet<>();
         for (Photo p : findNotice.getPhotos()) {
             PhotoResponseDto photo = PhotoResponseDto.builder()
-                    .contentType(p.getContentType())
-                    .data(p.getData())
-                    .fileName(p.getFileName())
                     .id(p.getId())
                     .build();
 
