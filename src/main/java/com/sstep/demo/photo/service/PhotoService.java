@@ -31,13 +31,13 @@ public class PhotoService {
                 .build();
 
         photoRepository.save(newPhoto);
-
+        Photo findFile = photoRepository.findByFileName(fileName);
 
         return PhotoResponseDto.builder()
-                .id(newPhoto.getId())
-                .fileName(newPhoto.getFileName())
-                .contentType(newPhoto.getContentType())
-                .data(newPhoto.getData())
+                .id(findFile.getId())
+                .fileName(findFile.getFileName())
+                .contentType(findFile.getContentType())
+                .data(findFile.getData())
                 .build();
     }
 }

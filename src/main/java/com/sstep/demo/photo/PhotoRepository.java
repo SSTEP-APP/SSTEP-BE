@@ -9,9 +9,9 @@ import java.util.Set;
 
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
-    @Query("SELECT p FROM Photo p WHERE p.notice.id = :id ")
-    Set<Photo> findPhotosByNoticeId(long id);
-
     @Query("SELECT p FROM Photo p WHERE p.checkList.id = :id ")
     Set<Photo> findPhotosByCheckListId(long id);
+
+    @Query("SELECT p FROM Photo p WHERE p.fileName = :fileName ")
+    Photo findByFileName(String fileName);
 }
