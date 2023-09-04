@@ -17,6 +17,7 @@ public class PhotoController {
 
     //사진 등록
     @PostMapping(value = "/add", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
     public PhotoResponseDto savePhoto(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         return photoService.savePhoto(multipartFile);
     }

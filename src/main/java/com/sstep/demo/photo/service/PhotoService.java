@@ -31,6 +31,7 @@ public class PhotoService {
                 .build();
 
         photoRepository.save(newPhoto);
+
         Photo findFile = photoRepository.findByFileName(fileName);
 
         return PhotoResponseDto.builder()
