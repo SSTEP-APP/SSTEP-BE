@@ -16,7 +16,7 @@ import java.io.IOException;
 public class PhotoService {
     private final PhotoRepository photoRepository;
 
-    public ResponseEntity<PhotoResponseDto> savePhoto(MultipartFile file) throws IOException {
+    public Long savePhoto(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String contentType = file.getContentType();
         byte[] data = file.getBytes();
@@ -29,11 +29,7 @@ public class PhotoService {
 
         photoRepository.save(newPhoto);
 
-        PhotoResponseDto photoResponseDto = PhotoResponseDto.builder()
-                .id(newPhoto.getId())
-                .build();
-
-        return new ResponseEntity<>(photoResponseDto, HttpStatus.OK);
+        return newPhoto.getId();
     }
 
 }
