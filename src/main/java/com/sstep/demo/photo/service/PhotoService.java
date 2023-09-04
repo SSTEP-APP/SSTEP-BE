@@ -4,7 +4,8 @@ import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,11 +16,7 @@ import java.io.IOException;
 public class PhotoService {
     private final PhotoRepository photoRepository;
 
-    public PhotoResponseDto savePhoto(MultipartFile file) throws IOException {
-        if (file == null) {
-            throw new FileUploadException();
-        }
-
+    public ResponseEntity<PhotoResponseDto> savePhoto(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String contentType = file.getContentType();
         byte[] data = file.getBytes();
@@ -32,13 +29,14 @@ public class PhotoService {
 
         photoRepository.save(newPhoto);
 
-        Photo findFile = photoRepository.findByFileName(fileName);
-
-        return PhotoResponseDto.builder()
-                .id(findFile.getId())
-                .fileName(findFile.getFileName())
-                .contentType(findFile.getContentType())
-                .data(findFile.getData())
+        PhotoResponseDto photoResponseDto = PhotoResponseDto.builder()
+                .id(newPhoto.getId())
+                .fileName(newPhoto.getFileName())
+                .contentType(newPhoto.getContentType())
+                .data(newPhoto.getData())
                 .build();
+
+        return new ResponseEntity<>(photoResponseDto, HttpStatus.OK);
     }
+
 }
