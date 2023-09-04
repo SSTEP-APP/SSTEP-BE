@@ -45,7 +45,7 @@ dependencies {
     //H2 데이터베이스 추가
     runtimeOnly 'com.h2database:h2'
 
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.x.x' // Jackson 버전
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
