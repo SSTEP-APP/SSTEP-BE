@@ -23,4 +23,5 @@ public class CheckListRequestDto {
     private boolean isComplete; //체크 리스트 완료 여부
     private String memo; //체크 리스트 완료 시 메모
     private long[] photoId; //사진 고유 번호 배열
+    private long categoryId; //카테고리 고유번호
 }
