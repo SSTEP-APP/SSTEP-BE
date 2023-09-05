@@ -8,7 +8,6 @@ import com.sstep.demo.checklistmanager.dto.CheckListManagerRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -18,22 +17,22 @@ public class CheckListManagerService {
     private final CheckListRepository checkListRepository;
 
 
-    public void saveManagers(Long checkListId, Set<CheckListManagerRequestDto> checkListManagerRequestDto) {
+    public void saveManagers(Long checkListId, CheckListManagerRequestDto checkListManagerRequestDto) {
         CheckList checkList = checkListRepository.findById(checkListId).orElseThrow();
-        Set<CheckListManager> checkListManagers = new HashSet<>();
+        CheckListManager checkListManager = CheckListManager.builder()
+                .phoneNum(checkListManagerRequestDto.getPhoneNum())
+                .name(checkListManagerRequestDto.getName())
+                .build();
 
-        for (CheckListManagerRequestDto findManager : checkListManagerRequestDto) {
-            CheckListManager checkListManager = CheckListManager.builder()
-                    .id(findManager.getId())
-                    .name(findManager.getName())
-                    .phoneNum(findManager.getPhoneNum())
-                    .build();
+        checkListManagerRepository.save(checkListManager);
 
-            checkListManager.setCheckList(checkList);
-            checkListManagerRepository.save(checkListManager);
-            checkListManagers.add(checkListManager);
-        }
+        Set<CheckListManager> checkListManagers = getCheckListManagerByCheckListId(checkListId);
+        checkListManagers.add(checkListManager);
         checkList.setCheckListManagers(checkListManagers);
         checkListRepository.save(checkList);
+    }
+
+    private Set<CheckListManager> getCheckListManagerByCheckListId(Long checkListId) {
+        return checkListManagerRepository.findCheckListManagersByCheckListId(checkListId);
     }
 }
