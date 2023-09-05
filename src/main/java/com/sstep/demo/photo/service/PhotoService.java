@@ -25,9 +25,7 @@ public class PhotoService {
                 .build();
 
         photoRepository.save(newPhoto);
-        long photoId = newPhoto.getId();
-
-        return photoId;
+        return newPhoto.getId();
     }
 
 }
