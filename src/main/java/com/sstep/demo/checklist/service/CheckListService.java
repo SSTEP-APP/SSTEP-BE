@@ -39,14 +39,17 @@ public class CheckListService {
                 .needPhoto(checkListRequestDto.isNeedPhoto())
                 .photos(new HashSet<>())
                 .checkListManagers(new HashSet<>())
-                .categories(new HashSet<>())
+                .category(c)
                 .build();
 
         checkList.setStaff(staff);
         checkListRepository.save(checkList);
 
-        c.setCheckList(checkList);
+        Set<CheckList> findCheckList = getCheckListsByCategoryId(c.getId());
+        findCheckList.add(checkList);
+        c.setCheckLists(findCheckList);
         c.setStore(staff.getStore());
+        categoryRepository.save(c);
 
         checkLists.add(checkList);
         staff.setCheckLists(checkLists);
@@ -141,5 +144,9 @@ public class CheckListService {
 
     private Staff getStaff(Long staffId) {
         return staffRepository.findById(staffId).orElseThrow();
+    }
+
+    private Set<CheckList> getCheckListsByCategoryId(long id) {
+        return checkListRepository.findCheckListsByCategoryId(id);
     }
 }

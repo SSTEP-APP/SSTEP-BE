@@ -49,20 +49,16 @@ public class CheckList {
         }
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories.clear();
-        if (categories != null) {
-            this.categories.addAll(categories);
-            categories.forEach(category -> category.setCheckList(this));
-        }
-    }
-
     public void setCheckListManagers(Set<CheckListManager> checkListManagers) {
         this.checkListManagers.clear();
         if (checkListManagers != null) {
             this.checkListManagers.addAll(checkListManagers);
             checkListManagers.forEach(checkListManager -> checkListManager.setCheckList(this));
         }
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public void setStaff(Staff staff) {
@@ -73,8 +69,8 @@ public class CheckList {
     private Staff staff;
     @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
     private Set<Photo> photos;
-    @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
-    private Set<Category> categories;
+    @ManyToOne
+    private Category category;
     @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
     private Set<CheckListManager> checkListManagers;
 
