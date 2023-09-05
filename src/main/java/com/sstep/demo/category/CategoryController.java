@@ -23,7 +23,7 @@ public class CategoryController {
     }
 
     //카테고리 등록
-    @GetMapping("{storeId}/add")
+    @PostMapping("{storeId}/add")
     public ResponseEntity<Void> saveCategory(@PathVariable Long storeId, @RequestBody CategoryRequestDto categoryRequestDto) {
         categoryService.saveCategory(storeId, categoryRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
