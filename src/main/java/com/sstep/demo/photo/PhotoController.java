@@ -22,5 +22,4 @@ public class PhotoController {
         Long photoId = photoService.savePhoto(multipartFile);
         return ResponseEntity.ok(photoId);
     }
-
 }

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class NoticeController {
     //공지사항 등록
     @PostMapping("/{staffId}/add-notice")
     public ResponseEntity<Void> registerNotice(@PathVariable Long staffId,
-                                               @RequestBody NoticeRequestDto noticeRequestDto) throws IOException {
+                                               @RequestBody NoticeRequestDto noticeRequestDto){
         noticeService.saveNotice(staffId, noticeRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

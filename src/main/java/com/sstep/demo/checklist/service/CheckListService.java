@@ -32,7 +32,6 @@ public class CheckListService {
         CheckList checkList = CheckList.builder()
                 .contents(checkListRequestDto.getContents())
                 .endDay(checkListRequestDto.getEndDay())
-                .id(checkListRequestDto.getId())
                 .isComplete(checkListRequestDto.isComplete())
                 .memo(checkListRequestDto.getMemo())
                 .title(checkListRequestDto.getTitle())

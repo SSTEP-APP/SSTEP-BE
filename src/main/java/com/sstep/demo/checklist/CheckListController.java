@@ -1,6 +1,5 @@
 package com.sstep.demo.checklist;
 
-import com.sstep.demo.category.dto.CategoryRequestDto;
 import com.sstep.demo.checklist.dto.CheckListRequestDto;
 import com.sstep.demo.checklist.dto.CheckListResponseDto;
 import com.sstep.demo.checklist.service.CheckListService;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -45,7 +43,7 @@ public class CheckListController {
 
     //체크 리스트 완료 처리
     @PostMapping("/{staffId}/{checklistId}/complete")
-    public ResponseEntity<Void> completeCheckList(@PathVariable Long staffId, @PathVariable Long checklistId, @RequestBody CheckListRequestDto checkListRequestDto) throws IOException {
+    public ResponseEntity<Void> completeCheckList(@PathVariable Long staffId, @PathVariable Long checklistId, @RequestBody CheckListRequestDto checkListRequestDto) {
         checkListService.completeCheckList(staffId, checklistId, checkListRequestDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

@@ -27,5 +27,4 @@ public class PhotoService {
         photoRepository.save(newPhoto);
         return newPhoto.getId();
     }
-
 }
