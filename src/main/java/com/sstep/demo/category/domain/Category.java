@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,16 +21,20 @@ public class Category {
     private long id; //카테고리 고유번호
     private String name; //카테고리 명
 
-    public void setCheckList(CheckList checkList) {
-        this.checkList = checkList;
-    }
-
     public void setStore(Store store) {
         this.store = store;
     }
 
-    @ManyToOne
-    private CheckList checkList;
+    public void setCheckLists(Set<CheckList> checkLists) {
+        this.checkLists.clear();
+        if (checkLists != null) {
+            this.checkLists.addAll(checkLists);
+            checkLists.forEach(photo -> photo.setCategory(this));
+        }
+    }
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    private Set<CheckList> checkLists;
 
     @ManyToOne
     private Store store;
