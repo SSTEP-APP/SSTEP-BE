@@ -183,6 +183,7 @@ public class StoreService {
             StaffResponseDto s = StaffResponseDto.builder()
                     .hourMoney(findStaff.getHourMoney())
                     .id(findStaff.getId())
+                    .staffName(findStaff.getMember().getName())
                     .startDay(findStaff.getStartDay())
                     .wageType(findStaff.getWageType())
                     .submitStatus(findStaff.isSubmitStatus())
