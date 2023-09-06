@@ -27,12 +27,6 @@ public class StoreController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //해당 사업장의 직원 목록 조회
-    @GetMapping("/{storeId}/staffs")
-    public Set<StaffResponseDto> getStaffsByStoreId(@PathVariable Long storeId) {
-        return storeService.getStaffsByStoreId(storeId);
-    }
-
     //사업장 코드로 사업장 조회
     @GetMapping("/{storeCode}")
     public StoreResponseDto getStore(@PathVariable Long storeCode) {
@@ -70,5 +64,11 @@ public class StoreController {
     @GetMapping("/{storeId}/input-code/staffs")
     public Set<StaffInviteResponseDto> getInputCodeStaffs(@PathVariable Long storeId) {
         return storeService.getInputCodeStaffs(storeId);
+    }
+
+    //해당 사업장의 직원 목록 조회
+    @GetMapping("/{storeId}/staffs")
+    public Set<StaffResponseDto> getStaffsByStoreId(@PathVariable Long storeId) {
+        return storeService.getStaffsByStoreId(storeId);
     }
 }

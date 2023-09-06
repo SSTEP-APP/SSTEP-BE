@@ -18,6 +18,21 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final StoreRepository storeRepository;
 
+    public void saveCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
+        Store findStore = storeRepository.findById(storeId).orElseThrow();
+        Category category = Category.builder()
+                .name(categoryRequestDto.getName())
+                .build();
+        
+        category.setStore(findStore);
+        categoryRepository.save(category);
+
+        Set<Category> categories = getAllCategoriesByStoreId(storeId);
+        categories.add(category);
+        findStore.setCategories(categories);
+        storeRepository.save(findStore);
+    }
+
     public Set<CategoryResponseDto> getCategories(Long storeId) {
         Set<CategoryResponseDto> category = new HashSet<>();
         for (Category findCategory : getAllCategoriesByStoreId(storeId)) {
@@ -33,15 +48,5 @@ public class CategoryService {
 
     public Set<Category> getAllCategoriesByStoreId(Long storeId) {
         return categoryRepository.findCategoriesByStoreId(storeId);
-    }
-
-    public void saveCategory(Long storeId, CategoryRequestDto categoryRequestDto) {
-        Store findStore = storeRepository.findById(storeId).orElseThrow();
-        Category category = Category.builder()
-                .store(findStore)
-                .name(categoryRequestDto.getName())
-                .build();
-
-        categoryRepository.save(category);
     }
 }

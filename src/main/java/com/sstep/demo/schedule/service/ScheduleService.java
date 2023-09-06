@@ -23,11 +23,11 @@ public class ScheduleService {
 
         Schedule schedule = Schedule.builder()
                 .endTime(scheduleRequestDto.getEndTime())
-                .staff(staff)
                 .startTime(scheduleRequestDto.getStartTime())
                 .weekDay(scheduleRequestDto.getWeekDay())
                 .build();
 
+        schedule.setStaff(staff);
         scheduleRepository.save(schedule);
 
         Set<Schedule> schedules = getSchedulesByStaffId(staffId);

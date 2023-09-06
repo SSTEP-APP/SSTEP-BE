@@ -20,20 +20,6 @@ public class Member {
     private String phoneNum; //회원 전화번호
     private String password; //비밀번호
 
-//    private String profileImage; //프로필 사진
-
-//    @Column(name = "user_push1")
-//    private boolean userPush1; //출퇴근 푸시 알람 여부
-//
-//    @Column(name = "user_push2")
-//    private boolean userPush2; //근무일정 푸시 알람 여부
-//
-//    @Column(name = "user_push3")
-//    private boolean userPush3; //해야할 일 푸시 알람 여부
-//
-//    @Column(name = "user_push4")
-//    private boolean userPush4; //공지사항 푸시 알람 여부
-
     public void setStaffList(Set<Staff> staffList) {
         this.staffList.clear();
         if (staffList != null) {

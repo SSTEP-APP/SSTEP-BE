@@ -48,7 +48,6 @@ public class NoticeService {
                 .id(noticeRequestDto.getId())
                 .contents(noticeRequestDto.getContents())
                 .hits(noticeRequestDto.getHits())
-                .photos(new HashSet<>())
                 .title(noticeRequestDto.getTitle())
                 .writeDate(formattedDateTime)
                 .build();
@@ -56,6 +55,11 @@ public class NoticeService {
         notice.setPhotos(photo);
         notice.setStaff(staff);
         noticeRepository.save(notice);
+
+        for (Photo p : photo) {
+            p.setNotice(notice);
+            photoRepository.save(p);
+        }
 
         notices.add(notice);
         staff.setNotices(notices);
