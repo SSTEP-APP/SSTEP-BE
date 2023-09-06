@@ -64,7 +64,7 @@ public class CheckList {
 
     @ManyToOne
     private Staff staff;
-    @OneToOne(mappedBy = "checkList")
+    @OneToOne
     private Photo photo;
     @ManyToOne
     private Category category;
