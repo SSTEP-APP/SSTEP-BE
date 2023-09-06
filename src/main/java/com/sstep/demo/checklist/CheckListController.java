@@ -23,6 +23,19 @@ public class CheckListController {
         return ResponseEntity.ok(checkListId);
     }
 
+    //체크 리스트 완료 처리
+    @PostMapping("/{staffId}/{checklistId}/complete")
+    public ResponseEntity<Void> completeCheckList(@PathVariable Long staffId, @PathVariable Long checklistId, @RequestBody CheckListRequestDto checkListRequestDto) {
+        checkListService.completeCheckList(staffId, checklistId, checkListRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //체크 리스트 상세 조회
+    @GetMapping("/{checklistId}/detail")
+    public CheckListResponseDto getCheckList(@PathVariable Long checklistId) {
+        return checkListService.getCheckList(checklistId);
+    }
+
     //카테고리 별 체크 리스트 완료 목록
     @GetMapping("/{storeId}/complete-checklists")
     public Set<CheckListResponseDto> getCompleteCheckListsByCategory(@PathVariable Long storeId, @RequestBody CheckListRequestDto checkListRequestDto) {
@@ -35,16 +48,5 @@ public class CheckListController {
         return checkListService.getUnCompletedCheckListsByCategory(storeId, checkListRequestDto);
     }
 
-    //체크 리스트 상세 조회
-    @GetMapping("/{checklistId}/detail")
-    public CheckListResponseDto getCheckList(@PathVariable Long checklistId) {
-        return checkListService.getCheckList(checklistId);
-    }
 
-    //체크 리스트 완료 처리
-    @PostMapping("/{staffId}/{checklistId}/complete")
-    public ResponseEntity<Void> completeCheckList(@PathVariable Long staffId, @PathVariable Long checklistId, @RequestBody CheckListRequestDto checkListRequestDto) {
-        checkListService.completeCheckList(staffId, checklistId, checkListRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 }

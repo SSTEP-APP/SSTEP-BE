@@ -24,6 +24,7 @@ public class CheckListManagerService {
                 .name(checkListManagerRequestDto.getName())
                 .build();
 
+        checkListManager.setCheckList(checkList);
         checkListManagerRepository.save(checkListManager);
 
         Set<CheckListManager> checkListManagers = getCheckListManagerByCheckListId(checkListId);

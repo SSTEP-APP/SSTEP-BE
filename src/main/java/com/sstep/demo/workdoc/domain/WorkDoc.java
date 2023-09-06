@@ -33,6 +33,10 @@ public class WorkDoc {
         this.photo = photo;
     }
 
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
     @OneToOne(mappedBy = "workDoc")
     private Staff staff;
 

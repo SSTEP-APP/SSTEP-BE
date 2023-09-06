@@ -51,6 +51,10 @@ public class Photo {
         this.workDoc = workDoc;
     }
 
+    public void setCheckList(CheckList checkList) {
+        this.checkList = checkList;
+    }
+
     @ManyToOne
     private Notice notice;
 

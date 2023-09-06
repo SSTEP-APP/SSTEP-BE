@@ -49,11 +49,15 @@ public class WorkDocService {
         Staff staff = staffRepository.findById(staffId).orElseThrow();
         WorkDoc workDoc = new WorkDoc();
         Photo photo = photoRepository.findById(workDocRequestDto.getPhotoId()).orElseThrow();
+
         workDoc.setPhoto(photo);
+        workDoc.setStaff(staff);
         workDoc.setFirstRegister(true);
         workDocRepository.save(workDoc);
 
         photo.setWorkDoc(workDoc);
+        photoRepository.save(photo);
+
         staff.setWorkDoc(workDoc);
         staffRepository.save(staff);
     }
@@ -64,11 +68,14 @@ public class WorkDocService {
         Photo photo = photoRepository.findById(workDocRequestDto.getPhotoId()).orElseThrow();
 
         workDoc.setPhoto(photo);
+        workDoc.setStaff(staff);
         workDoc.setFirstRegister(false);
         workDoc.setSecondRegister(true);
         workDocRepository.save(workDoc);
 
         photo.setWorkDoc(workDoc);
+        photoRepository.save(photo);
+
         staff.setWorkDoc(workDoc);
         staffRepository.save(staff);
     }

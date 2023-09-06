@@ -1,9 +1,15 @@
 package com.sstep.demo.store.service;
 
+import com.sstep.demo.calendar.domain.Calendar;
+import com.sstep.demo.category.domain.Category;
+import com.sstep.demo.checklist.domain.CheckList;
+import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.healthdoc.HealthDocRepository;
 import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
+import com.sstep.demo.notice.domain.Notice;
+import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
@@ -31,35 +37,10 @@ public class StoreService {
     private final HealthDocRepository healthDocRepository;
     private final WorkDocRepository workDocRepository;
 
-    public Store getCodeToEntity(long code) {
-        return storeRepository.findByCode(code).orElseThrow(EntityNotFoundException::new);
-    }
-
-    private Set<Staff> getStaffsByMemberId(Long memberId) {
-        return storeRepository.findStaffsByMemberId(memberId);
-    }
-
-    public Set<StaffResponseDto> getStaffsByStoreId(Long storeId) {
-        Set<StaffResponseDto> staff = new HashSet<>();
-        for (Staff findStaff : storeRepository.findStaffsByStoreId(storeId)) {
-            StaffResponseDto s = StaffResponseDto.builder()
-                    .hourMoney(findStaff.getHourMoney())
-                    .id(findStaff.getId())
-                    .startDay(findStaff.getStartDay())
-                    .wageType(findStaff.getWageType())
-                    .submitStatus(findStaff.isSubmitStatus())
-                    .paymentDate(findStaff.getPaymentDate())
-                    .ownerStatus(findStaff.isOwnerStatus())
-                    .joinStatus(findStaff.isJoinStatus())
-                    .build();
-
-            staff.add(s);
-        }
-
-        return staff;
-    }
-
     public void saveStore(StoreRegisterReqDto storeRequestDto) {
+        Set<Staff> staffList = new HashSet<>();
+        Set<Category> categories = new HashSet<>();
+
         Store store = Store.builder()
                 .name(storeRequestDto.getStoreName())
                 .address(storeRequestDto.getStoreAddress())
@@ -68,44 +49,70 @@ public class StoreService {
                 .scale(storeRequestDto.isScale())
                 .plan(storeRequestDto.isPlan())
                 .code(storeRequestDto.getCode())
-                .staffList(new HashSet<>())
                 .build();
 
+        store.setCategories(categories);
+        store.setStaffList(staffList);
         storeRepository.save(store);
     }
 
     public void addOwnerToStore(StoreRegisterReqDto dto) {
         Store store = getCodeToEntity(dto.getCode());
         Member member = getMemberByUsername(dto.getMemberUsername());
+        Set<CheckList> checkLists = new HashSet<>();
+        Set<Notice> notices = new HashSet<>();
 
         Staff staff = Staff.builder()
                 .joinStatus(false)
                 .ownerStatus(true)
                 .submitStatus(false)
-                .member(member)
-                .store(store)
-                .checkLists(new HashSet<>())
-                .notices(new HashSet<>())
                 .build();
 
+        staff.setMember(member);
+        staff.setStore(store);
+        staff.setCheckLists(checkLists);
+        staff.setNotices(notices);
         saveStaff(store, member, staff);
     }
 
+    public StoreResponseDto getStoreByCode(Long code) {
+        Store findStore = storeRepository.findByCode(code).orElseThrow();
+
+        return StoreResponseDto.builder()
+                .id(findStore.getId())
+                .name(findStore.getName())
+                .address(findStore.getAddress())
+                .latitude(findStore.getLatitude())
+                .longitude(findStore.getLongitude())
+                .scale(findStore.isScale())
+                .plan(findStore.isPlan())
+                .code(findStore.getCode())
+                .count(findStore.getStaffList().size())
+                .build();
+    }
 
     public void inviteMemberToStore(StaffRequestDto dto) {
         Store store = getCodeToEntity(dto.getCode());
         Member member = memberRepository.findByUsername(dto.getUsername());
+        Set<Schedule> schedules = new HashSet<>();
+        Set<CheckList> checkLists = new HashSet<>();
+        Set<Notice> notices = new HashSet<>();
+        Set<Calendar> calendars = new HashSet<>();
+        Set<Commute> commutes = new HashSet<>();
+
         Staff staff = Staff.builder()
                 .joinStatus(true) //합류여부
-                .member(member)
-                .store(store)
                 .commutes(new HashSet<>())
-                .notices(new HashSet<>())
-                .checkLists(new HashSet<>())
                 .calendars(new HashSet<>())
-                .schedules(new HashSet<>())
                 .build();
 
+        staff.setMember(member);
+        staff.setStore(store);
+        staff.setSchedules(schedules);
+        staff.setCheckLists(checkLists);
+        staff.setNotices(notices);
+        staff.setCommutes(commutes);
+        staff.setCalendars(calendars);
         saveStaff(store, member, staff);
     }
 
@@ -141,6 +148,20 @@ public class StoreService {
         staffRepository.save(staff);
     }
 
+    public Set<StaffInviteResponseDto> getInviteStaffs(Long storeId) {
+        Set<StaffInviteResponseDto> staffs = new HashSet<>();
+        for (Staff findStaff : storeRepository.findInviteStaffsByStoreId(storeId)) {
+            StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
+                    .username(findStaff.getMember().getUsername())
+                    .name(findStaff.getMember().getName())
+                    .staffId(findStaff.getId())
+                    .build();
+
+            staffs.add(staff);
+        }
+        return staffs;
+    }
+
     public Set<StaffInviteResponseDto> getInputCodeStaffs(Long storeId) {
         Set<StaffInviteResponseDto> staffs = new HashSet<>();
         for (Staff findStaff : storeRepository.findInputCodeStaffsByStoreId(storeId)) {
@@ -156,35 +177,34 @@ public class StoreService {
         return staffs;
     }
 
-    public Set<StaffInviteResponseDto> getInviteStaffs(Long storeId) {
-        Set<StaffInviteResponseDto> staffs = new HashSet<>();
-        for (Staff findStaff : storeRepository.findInviteStaffsByStoreId(storeId)) {
-            StaffInviteResponseDto staff = StaffInviteResponseDto.builder()
-                    .username(findStaff.getMember().getUsername())
-                    .name(findStaff.getMember().getName())
-                    .staffId(findStaff.getId())
+    public Set<StaffResponseDto> getStaffsByStoreId(Long storeId) {
+        Set<StaffResponseDto> staff = new HashSet<>();
+        for (Staff findStaff : storeRepository.findStaffsByStoreId(storeId)) {
+            StaffResponseDto s = StaffResponseDto.builder()
+                    .hourMoney(findStaff.getHourMoney())
+                    .id(findStaff.getId())
+                    .startDay(findStaff.getStartDay())
+                    .wageType(findStaff.getWageType())
+                    .submitStatus(findStaff.isSubmitStatus())
+                    .paymentDate(findStaff.getPaymentDate())
+                    .ownerStatus(findStaff.isOwnerStatus())
+                    .joinStatus(findStaff.isJoinStatus())
                     .build();
 
-            staffs.add(staff);
+            staff.add(s);
         }
-        return staffs;
+
+        return staff;
     }
 
-    public StoreResponseDto getStoreByCode(Long code) {
-        Store findStore = storeRepository.findByCode(code).orElseThrow();
-
-        return StoreResponseDto.builder()
-                .id(findStore.getId())
-                .name(findStore.getName())
-                .address(findStore.getAddress())
-                .latitude(findStore.getLatitude())
-                .longitude(findStore.getLongitude())
-                .scale(findStore.isScale())
-                .plan(findStore.isPlan())
-                .code(findStore.getCode())
-                .count(findStore.getStaffList().size())
-                .build();
+    public Store getCodeToEntity(long code) {
+        return storeRepository.findByCode(code).orElseThrow(EntityNotFoundException::new);
     }
+
+    private Set<Staff> getStaffsByMemberId(Long memberId) {
+        return storeRepository.findStaffsByMemberId(memberId);
+    }
+
 
     private void saveStaff(Store store, Member member, Staff staff) {
         staffRepository.save(staff);

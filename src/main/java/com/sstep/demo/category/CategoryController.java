@@ -16,16 +16,16 @@ import java.util.Set;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    //카테고리 목록 조회
-    @GetMapping("/{storeId}/categories")
-    public Set<CategoryResponseDto> getCategories(@PathVariable Long storeId) {
-        return categoryService.getCategories(storeId);
-    }
-
     //카테고리 등록
     @PostMapping("{storeId}/add")
     public ResponseEntity<Void> saveCategory(@PathVariable Long storeId, @RequestBody CategoryRequestDto categoryRequestDto) {
         categoryService.saveCategory(storeId, categoryRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    //카테고리 목록 조회
+    @GetMapping("/{storeId}/categories")
+    public Set<CategoryResponseDto> getCategories(@PathVariable Long storeId) {
+        return categoryService.getCategories(storeId);
     }
 }

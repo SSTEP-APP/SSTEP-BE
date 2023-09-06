@@ -16,6 +16,14 @@ import java.util.Set;
 public class NoticeController {
     private final NoticeService noticeService;
 
+    //공지사항 등록
+    @PostMapping("/{staffId}/add-notice")
+    public ResponseEntity<Void> registerNotice(@PathVariable Long staffId,
+                                               @RequestBody NoticeRequestDto noticeRequestDto) {
+        noticeService.saveNotice(staffId, noticeRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     //공지사항 상세 정보 조회
     @GetMapping("{noticeId}/detail")
     public NoticeResponseDto getNotice(@PathVariable Long noticeId) {
@@ -26,13 +34,5 @@ public class NoticeController {
     @GetMapping("/{storeId}/notices")
     public Set<NoticeResponseDto> getNotices(@PathVariable Long storeId) {
         return noticeService.getNotices(storeId);
-    }
-
-    //공지사항 등록
-    @PostMapping("/{staffId}/add-notice")
-    public ResponseEntity<Void> registerNotice(@PathVariable Long staffId,
-                                               @RequestBody NoticeRequestDto noticeRequestDto){
-        noticeService.saveNotice(staffId, noticeRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
