@@ -18,9 +18,9 @@ public class CheckListController {
 
     //체크 리스트 작성
     @PostMapping("/{staffId}/add")
-    public ResponseEntity<Void> registerCheckList(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
-        checkListService.saveCheckList(staffId, checkListRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Long> registerCheckList(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
+        Long checkListId = checkListService.saveCheckList(staffId, checkListRequestDto);
+        return ResponseEntity.ok(checkListId);
     }
 
     //카테고리 별 체크 리스트 완료 목록

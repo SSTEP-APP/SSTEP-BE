@@ -41,13 +41,6 @@ public class CheckList {
         return isComplete;
     }
 
-    public void setPhotos(Set<Photo> photos) {
-        this.photos.clear();
-        if (photos != null) {
-            this.photos.addAll(photos);
-            photos.forEach(photo -> photo.setCheckList(this));
-        }
-    }
 
     public void setCheckListManagers(Set<CheckListManager> checkListManagers) {
         this.checkListManagers.clear();
@@ -65,10 +58,14 @@ public class CheckList {
         this.staff = staff;
     }
 
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
     @ManyToOne
     private Staff staff;
-    @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
-    private Set<Photo> photos;
+    @OneToOne(mappedBy = "checkList")
+    private Photo photo;
     @ManyToOne
     private Category category;
     @OneToMany(mappedBy = "checkList", cascade = CascadeType.REMOVE)
