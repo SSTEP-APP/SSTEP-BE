@@ -19,5 +19,5 @@ public class CheckListRequestDto {
     private boolean needPhoto; //체크 리스트 사진 필수 여부
     private boolean isComplete; //체크 리스트 완료 여부
     private String memo; //체크 리스트 완료 시 메모
-    private long[] photoId; //사진 고유 번호 배열
+    private long photoId; //사진 고유 번호
 }

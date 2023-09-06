@@ -24,7 +24,7 @@ public class CheckListService {
     private final PhotoRepository photoRepository;
     private final CategoryRepository categoryRepository;
 
-    public void saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) {
+    public Long saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) {
         Staff staff = getStaff(staffId);
         Category c = categoryRepository.findById(checkListRequestDto.getCategoryId()).orElseThrow();
 
@@ -37,7 +37,6 @@ public class CheckListService {
                 .title(checkListRequestDto.getTitle())
                 .date(checkListRequestDto.getDate())
                 .needPhoto(checkListRequestDto.isNeedPhoto())
-                .photos(new HashSet<>())
                 .checkListManagers(new HashSet<>())
                 .category(c)
                 .build();
@@ -54,6 +53,8 @@ public class CheckListService {
         checkLists.add(checkList);
         staff.setCheckLists(checkLists);
         staffRepository.save(staff);
+
+        return checkList.getId();
     }
 
 
@@ -119,16 +120,13 @@ public class CheckListService {
 
     public void completeCheckList(Long staffId, Long checklistId, CheckListRequestDto checkListRequestDto) {
         Staff staff = getStaff(staffId);
-        Set<Photo> photo = new HashSet<>();
-        for (long num : checkListRequestDto.getPhotoId()) {
-            Photo findPhoto = photoRepository.findById(num).orElseThrow();
-            photo.add(findPhoto);
-        }
+        Photo p = photoRepository.findById(checkListRequestDto.getPhotoId()).orElseThrow();
+
 
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = checkListRepository.findById(checklistId).orElseThrow();
 
-        checkList.setPhotos(photo);
+        checkList.setPhoto(p);
         checkList.setMemo(checkListRequestDto.getMemo());
         checkList.setComplete(true);
         checkListRepository.save(checkList);

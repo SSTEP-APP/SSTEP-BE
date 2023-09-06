@@ -43,10 +43,6 @@ public class Photo {
         this.notice = notice;
     }
 
-    public void setCheckList(CheckList checkList) {
-        this.checkList = checkList;
-    }
-
     public void setHealthDoc(HealthDoc healthDoc) {
         this.healthDoc = healthDoc;
     }
@@ -58,7 +54,7 @@ public class Photo {
     @ManyToOne
     private Notice notice;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "photo")
     private CheckList checkList;
 
     @OneToOne(mappedBy = "photo")
