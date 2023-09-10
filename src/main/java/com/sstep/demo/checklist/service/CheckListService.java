@@ -6,7 +6,6 @@ import com.sstep.demo.checklist.CheckListRepository;
 import com.sstep.demo.checklist.domain.CheckList;
 import com.sstep.demo.checklist.dto.CheckListRequestDto;
 import com.sstep.demo.checklist.dto.CheckListResponseDto;
-import com.sstep.demo.checklistmanager.domain.CheckListManager;
 import com.sstep.demo.photo.PhotoRepository;
 import com.sstep.demo.photo.domain.Photo;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
@@ -28,7 +27,6 @@ public class CheckListService {
     public Long saveCheckList(Long staffId, CheckListRequestDto checkListRequestDto) {
         Staff staff = getStaff(staffId);
         Category c = categoryRepository.findById(checkListRequestDto.getCategoryId()).orElseThrow();
-        Set<CheckListManager> checkListManagers = new HashSet<>();
 
         Set<CheckList> checkLists = getCheckListsByStaffId(staffId);
         CheckList checkList = CheckList.builder()
@@ -42,7 +40,6 @@ public class CheckListService {
                 .build();
 
         checkList.setCategory(c);
-        checkList.setCheckListManagers(checkListManagers);
         checkList.setStaff(staff);
         checkListRepository.save(checkList);
 
