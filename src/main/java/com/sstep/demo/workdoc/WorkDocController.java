@@ -44,7 +44,7 @@ public class WorkDocController {
     }
 
     //근로 계약서 최종 정보
-    @GetMapping("/{staffId}/first")
+    @GetMapping("/{staffId}/second")
     public PhotoResponseDto getSecondWorkDoc(@PathVariable Long staffId) {
         return workDocService.getSecondWorkDoc(staffId);
     }
