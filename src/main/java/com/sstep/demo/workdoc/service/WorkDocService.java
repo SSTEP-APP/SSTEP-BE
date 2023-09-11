@@ -80,6 +80,30 @@ public class WorkDocService {
         staffRepository.save(staff);
     }
 
+    public PhotoResponseDto getFirstWorkDoc(Long staffId) {
+        Staff staff = getStaff(staffId);
+        Photo findPhoto = staff.getWorkDoc().getPhoto();
+
+        return PhotoResponseDto.builder()
+                .id(findPhoto.getId())
+                .fileName(findPhoto.getFileName())
+                .contentType(findPhoto.getContentType())
+                .data(findPhoto.getData())
+                .build();
+    }
+
+    public PhotoResponseDto getSecondWorkDoc(Long staffId) {
+        Staff staff = getStaff(staffId);
+        Photo findPhoto = staff.getWorkDoc().getPhoto();
+
+        return PhotoResponseDto.builder()
+                .id(findPhoto.getId())
+                .fileName(findPhoto.getFileName())
+                .contentType(findPhoto.getContentType())
+                .data(findPhoto.getData())
+                .build();
+    }
+
     public Set<WorkDocResponseDto> getRegWorkDocStaffs(Long storeId) {
         Store store = getStore(storeId);
         Set<Staff> staffList = store.getStaffList();
@@ -112,15 +136,6 @@ public class WorkDocService {
             }
         }
         return staffs;
-    }
-
-    public PhotoResponseDto getFirstWorkDoc(Long staffId) {
-        Staff staff = getStaff(staffId);
-        Photo findPhoto = staff.getWorkDoc().getPhoto();
-
-        return PhotoResponseDto.builder()
-                .id(findPhoto.getId())
-                .build();
     }
 
     private Staff getOwner(Long storeId) {

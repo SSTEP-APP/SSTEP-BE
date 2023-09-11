@@ -80,6 +80,9 @@ public class CheckListService {
         for (Photo photo : photoRepository.findPhotosByCheckListId(checklistId)) {
             PhotoResponseDto p = PhotoResponseDto.builder()
                     .id(photo.getId())
+                    .fileName(photo.getFileName())
+                    .contentType(photo.getContentType())
+                    .data(photo.getData())
                     .build();
 
             photos.add(p);

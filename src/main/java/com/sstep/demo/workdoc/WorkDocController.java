@@ -43,6 +43,12 @@ public class WorkDocController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    //근로 계약서 최종 정보
+    @GetMapping("/{staffId}/first")
+    public PhotoResponseDto getSecondWorkDoc(@PathVariable Long staffId) {
+        return workDocService.getSecondWorkDoc(staffId);
+    }
+
     //근로 계약서 등록한 직원 목록
     @GetMapping("/{storeId}/reg/work-doc/staffs")
     public Set<WorkDocResponseDto> getRegWorkDocStaffs(@PathVariable Long storeId) {
