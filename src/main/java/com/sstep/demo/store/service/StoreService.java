@@ -182,6 +182,7 @@ public class StoreService {
         for (Staff findStaff : storeRepository.findStaffsByStoreId(storeId)) {
             StaffResponseDto s = StaffResponseDto.builder()
                     .hourMoney(findStaff.getHourMoney())
+                    .phoneNum(findStaff.getMember().getPhoneNum())
                     .id(findStaff.getId())
                     .staffName(findStaff.getMember().getName())
                     .startDay(findStaff.getStartDay())
