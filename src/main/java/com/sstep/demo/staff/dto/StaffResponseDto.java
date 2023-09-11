@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StaffResponseDto {
     private long id; //직원 고유 번호
+    private String phoneNum; //회원 전화번호
     private String staffName; //직원명
     private String startDay; //입사일
     private int hourMoney; //시급
