@@ -113,6 +113,9 @@ public class NoticeService {
         for (Photo p : findNotice.getPhotos()) {
             PhotoResponseDto photo = PhotoResponseDto.builder()
                     .id(p.getId())
+                    .data(p.getData())
+                    .contentType(p.getContentType())
+                    .fileName(p.getFileName())
                     .build();
 
             photos.add(photo);
