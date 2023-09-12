@@ -11,4 +11,7 @@ import java.util.Set;
 public interface CheckListManagerRepository extends JpaRepository<CheckListManager, Long> {
     @Query("SELECT c FROM CheckListManager c WHERE c.checkList.id = :checkListId ")
     Set<CheckListManager> findCheckListManagersByCheckListId(Long checkListId);
+
+    @Query("SELECT c FROM CheckListManager c WHERE c.staff.id = :staffId ")
+    Set<CheckListManager> findCheckListManagersByStaffId(long staffId);
 }

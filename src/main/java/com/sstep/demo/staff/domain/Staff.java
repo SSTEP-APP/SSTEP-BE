@@ -2,6 +2,7 @@ package com.sstep.demo.staff.domain;
 
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.checklist.domain.CheckList;
+import com.sstep.demo.checklistmanager.domain.CheckListManager;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.member.domain.Member;
@@ -104,6 +105,14 @@ public class Staff {
         }
     }
 
+    public void setCheckListManagers(Set<CheckListManager> checkListManagers) {
+        this.checkListManagers.clear();
+        if (checkListManagers != null) {
+            this.checkListManagers.addAll(checkListManagers);
+            checkListManagers.forEach(checkListManager -> checkListManager.setStaff(this));
+        }
+    }
+
     public void setMember(Member member) {
         this.member = member;
     }
@@ -143,6 +152,10 @@ public class Staff {
     //체크 리스트 테이블과 다대1 조인
     @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
     private Set<CheckList> checkLists;
+
+    //체크 리스트 매니저 테이블과 다대1 조인
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.REMOVE)
+    private Set<CheckListManager> checkListManagers;
 
     //보건증 테이블과 1대1조인
     @OneToOne

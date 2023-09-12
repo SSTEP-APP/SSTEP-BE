@@ -49,12 +49,17 @@ public class WorkDocController {
         return workDocService.getSecondWorkDoc(staffId);
     }
 
-    //근로 계약서 등록한 직원 목록
-    @GetMapping("/{storeId}/reg/work-doc/staffs")
-    public Set<WorkDocResponseDto> getRegWorkDocStaffs(@PathVariable Long storeId) {
-        return workDocService.getRegWorkDocStaffs(storeId);
+    //근로 계약서 1차 등록한 직원 목록
+    @GetMapping("/{storeId}/reg-first/work-doc/staffs")
+    public Set<WorkDocResponseDto> getRegFirstWorkDocStaffs(@PathVariable Long storeId) {
+        return workDocService.getRegFirstWorkDocStaffs(storeId);
     }
 
+    //근로 계약서 2차 등록한 직원 목록
+    @GetMapping("/{storeId}/reg-second/work-doc/staffs")
+    public Set<WorkDocResponseDto> getRegSecondWorkDocStaffs(@PathVariable Long storeId) {
+        return workDocService.getRegSecondWorkDocStaffs(storeId);
+    }
 
     //근로 계약서 미 등록한 직원 목록
     @GetMapping("/{storeId}/un-reg/work-doc/staffs")
