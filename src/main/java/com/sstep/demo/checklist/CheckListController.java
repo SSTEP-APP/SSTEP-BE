@@ -37,15 +37,15 @@ public class CheckListController {
     }
 
     //카테고리 별 체크 리스트 완료 목록
-    @GetMapping("/{storeId}/complete-checklists")
-    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(@PathVariable Long storeId, @RequestBody CheckListRequestDto checkListRequestDto) {
-        return checkListService.getCompleteCheckListsByCategory(storeId, checkListRequestDto);
+    @GetMapping("/{staffId}/complete-checklists")
+    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
+        return checkListService.getCompleteCheckListsByCategory(staffId, checkListRequestDto);
     }
 
     //카테고리 별 체크 리스트 미완료 목록
-    @GetMapping("/{storeId}/uncompleted-checklists")
-    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(@PathVariable Long storeId, @RequestBody CheckListRequestDto checkListRequestDto) {
-        return checkListService.getUnCompletedCheckListsByCategory(storeId, checkListRequestDto);
+    @GetMapping("/{staffId}/uncompleted-checklists")
+    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
+        return checkListService.getUnCompletedCheckListsByCategory(staffId, checkListRequestDto);
     }
 
 

@@ -102,12 +102,13 @@ public class CheckListService {
                 .build();
     }
 
-    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(Long storeId, CheckListRequestDto checkListRequestDto) {
+    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(Long staffId, CheckListRequestDto checkListRequestDto) {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
-        for (CheckList findCheckList : checkListRepository.findCheckListByStoreIdAndCategoryAndIsCompleteAndDate(storeId, checkListRequestDto.getCategoryName(), checkListRequestDto.getDate())) {
+        for (CheckList findCheckList : checkListRepository.findCheckListByStaffIdAndCategoryIdAndIsCompleteAndDate(staffId, checkListRequestDto.getCategoryId(), checkListRequestDto.getDate())) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
                     .title(findCheckList.getTitle())
                     .contents(findCheckList.getContents())
+                    .categoryId(findCheckList.getCategory().getId())
                     .endDay(findCheckList.getEndDay())
                     .id(findCheckList.getId())
                     .date(findCheckList.getDate())
@@ -121,13 +122,14 @@ public class CheckListService {
         return checkLists;
     }
 
-    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(Long storeId, CheckListRequestDto checkListRequestDto) {
+    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(Long staffId, CheckListRequestDto checkListRequestDto) {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
-        for (CheckList findCheckList : checkListRepository.findCheckListByStoreIdAndCategoryAndIsUnCompleteAndDate(storeId, checkListRequestDto.getCategoryName(), checkListRequestDto.getDate())) {
+        for (CheckList findCheckList : checkListRepository.findCheckListByStaffIdAndCategoryIdAndIsUnCompleteAndDate(staffId, checkListRequestDto.getCategoryId(), checkListRequestDto.getDate())) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
                     .title(findCheckList.getTitle())
                     .contents(findCheckList.getContents())
                     .endDay(findCheckList.getEndDay())
+                    .categoryId(findCheckList.getCategory().getId())
                     .id(findCheckList.getId())
                     .needPhoto(findCheckList.isNeedPhoto())
                     .isComplete(findCheckList.isComplete())
