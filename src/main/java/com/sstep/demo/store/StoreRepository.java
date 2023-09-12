@@ -19,7 +19,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Set<Staff> findStaffsByStoreId(@Param("storeId") Long storeId);
 
     //초대 코드를 받은 직원 리스트 출력
-    @Query("SELECT t FROM Staff t WHERE t.store = :storeId and t.joinStatus = true and t.submitStatus = false")
+    @Query("SELECT t FROM Staff t WHERE t.store.id = :storeId and t.joinStatus = true and t.submitStatus = false")
     Set<Staff> findInviteStaffsByStoreId(Long storeId);
 
     //해당 사업장의 사장 찾기
@@ -31,6 +31,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Set<Staff> findStaffsByMemberId(Long memberId);
 
     //코드 입력한 직원 리스트 출력
-    @Query("SELECT s FROM Staff s WHERE s.store.id = :storeId and s.submitStatus = true and s.joinStatus = false ")
+    @Query("SELECT s FROM Staff s WHERE s.store.id = :storeId and s.submitStatus = false and s.joinStatus = true ")
     Set<Staff> findInputCodeStaffsByStoreId(Long storeId);
 }
