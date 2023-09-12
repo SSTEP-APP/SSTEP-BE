@@ -105,52 +105,46 @@ public class WorkDocService {
     }
 
     public Set<WorkDocResponseDto> getRegFirstWorkDocStaffs(Long storeId) {
-        Store store = getStore(storeId);
-        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffList = workDocRepository.findFirstRegStaffsByStoreId(storeId);
         Set<WorkDocResponseDto> staffs = new HashSet<>();
         for (Staff staff : staffList) {
-            if (staff.getWorkDoc().isFirstRegister()) {
-                WorkDocResponseDto st = WorkDocResponseDto.builder()
-                        .staffId(staff.getId())
-                        .staffName(staff.getMember().getName())
-                        .build();
+            WorkDocResponseDto st = WorkDocResponseDto.builder()
+                    .staffId(staff.getId())
+                    .staffName(staff.getMember().getName())
+                    .build();
 
-                staffs.add(st);
-            }
+            staffs.add(st);
+
         }
         return staffs;
     }
 
     public Set<WorkDocResponseDto> getRegSecondWorkDocStaffs(Long storeId) {
-        Store store = getStore(storeId);
-        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffList = workDocRepository.findSecondRegStaffsByStoreId(storeId);
         Set<WorkDocResponseDto> staffs = new HashSet<>();
         for (Staff staff : staffList) {
-            if (staff.getWorkDoc().isSecondRegister()) {
-                WorkDocResponseDto st = WorkDocResponseDto.builder()
-                        .staffId(staff.getId())
-                        .staffName(staff.getMember().getName())
-                        .build();
+            WorkDocResponseDto st = WorkDocResponseDto.builder()
+                    .staffId(staff.getId())
+                    .staffName(staff.getMember().getName())
+                    .build();
 
-                staffs.add(st);
-            }
+            staffs.add(st);
+
         }
         return staffs;
     }
 
     public Set<WorkDocResponseDto> getUnRegWorkDocStaffs(Long storeId) {
-        Store store = getStore(storeId);
-        Set<Staff> staffList = store.getStaffList();
+        Set<Staff> staffList = workDocRepository.findUnRegStaffsByStoreId(storeId);
         Set<WorkDocResponseDto> staffs = new HashSet<>();
         for (Staff staff : staffList) {
-            if (!staff.getWorkDoc().isFirstRegister() && !staff.getWorkDoc().isSecondRegister()) {
-                WorkDocResponseDto st = WorkDocResponseDto.builder()
-                        .staffId(staff.getId())
-                        .staffName(staff.getMember().getName())
-                        .build();
+            WorkDocResponseDto st = WorkDocResponseDto.builder()
+                    .staffId(staff.getId())
+                    .staffName(staff.getMember().getName())
+                    .build();
 
-                staffs.add(st);
-            }
+            staffs.add(st);
+
         }
         return staffs;
     }
