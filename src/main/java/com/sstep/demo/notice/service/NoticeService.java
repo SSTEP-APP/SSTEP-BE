@@ -50,6 +50,7 @@ public class NoticeService {
                 .hits(noticeRequestDto.getHits())
                 .title(noticeRequestDto.getTitle())
                 .writeDate(formattedDateTime)
+                .photos(new HashSet<>())
                 .build();
 
         notice.setPhotos(photo);
