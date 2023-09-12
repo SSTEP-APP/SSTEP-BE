@@ -104,7 +104,24 @@ public class WorkDocService {
                 .build();
     }
 
-    public Set<WorkDocResponseDto> getRegWorkDocStaffs(Long storeId) {
+    public Set<WorkDocResponseDto> getRegFirstWorkDocStaffs(Long storeId) {
+        Store store = getStore(storeId);
+        Set<Staff> staffList = store.getStaffList();
+        Set<WorkDocResponseDto> staffs = new HashSet<>();
+        for (Staff staff : staffList) {
+            if (staff.getWorkDoc().isFirstRegister()) {
+                WorkDocResponseDto st = WorkDocResponseDto.builder()
+                        .staffId(staff.getId())
+                        .staffName(staff.getMember().getName())
+                        .build();
+
+                staffs.add(st);
+            }
+        }
+        return staffs;
+    }
+
+    public Set<WorkDocResponseDto> getRegSecondWorkDocStaffs(Long storeId) {
         Store store = getStore(storeId);
         Set<Staff> staffList = store.getStaffList();
         Set<WorkDocResponseDto> staffs = new HashSet<>();
@@ -126,7 +143,7 @@ public class WorkDocService {
         Set<Staff> staffList = store.getStaffList();
         Set<WorkDocResponseDto> staffs = new HashSet<>();
         for (Staff staff : staffList) {
-            if (!staff.getWorkDoc().isSecondRegister()) {
+            if (!staff.getWorkDoc().isFirstRegister() && !staff.getWorkDoc().isSecondRegister()) {
                 WorkDocResponseDto st = WorkDocResponseDto.builder()
                         .staffId(staff.getId())
                         .staffName(staff.getMember().getName())
