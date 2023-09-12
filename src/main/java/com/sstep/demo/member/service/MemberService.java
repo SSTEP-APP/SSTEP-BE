@@ -18,16 +18,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public void save(MemberRequestDto memberDto) {
-        Set<Staff> staffList = new HashSet<>();
-
         Member member = Member.builder()
                 .username(memberDto.getUsername())
                 .name(memberDto.getName())
                 .phoneNum(memberDto.getPhoneNum())
                 .password(memberDto.getPassword())
+                .staffList(new HashSet<>())
                 .build();
 
-        member.setStaffList(staffList);
         memberRepository.save(member);
     }
 
