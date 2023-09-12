@@ -14,6 +14,7 @@ import java.util.Set;
 @Builder
 public class CheckListResponseDto {
     private long id; //체크 리스트 고유번호
+    private long categoryId; //카테고리 고유번호
     private String title; //체크 리스트 제목
     private String contents; //체크 리스트 내용
     private String date; //체크 리스트 작성 일자
