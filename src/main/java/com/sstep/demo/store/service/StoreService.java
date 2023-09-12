@@ -120,6 +120,8 @@ public class StoreService {
 
         WorkDoc workDoc = WorkDoc.builder()
                 .staff(staff)
+                .isFirstRegister(false)
+                .isSecondRegister(false)
                 .build();
         workDocRepository.save(workDoc);
 
