@@ -1,16 +1,10 @@
 package com.sstep.demo.store.service;
 
-import com.sstep.demo.calendar.domain.Calendar;
-import com.sstep.demo.category.domain.Category;
-import com.sstep.demo.checklist.domain.CheckList;
-import com.sstep.demo.checklistmanager.domain.CheckListManager;
-import com.sstep.demo.commute.domain.Commute;
+
 import com.sstep.demo.healthdoc.HealthDocRepository;
 import com.sstep.demo.healthdoc.domain.HealthDoc;
 import com.sstep.demo.member.MemberRepository;
 import com.sstep.demo.member.domain.Member;
-import com.sstep.demo.notice.domain.Notice;
-import com.sstep.demo.schedule.domain.Schedule;
 import com.sstep.demo.staff.StaffRepository;
 import com.sstep.demo.staff.domain.Staff;
 import com.sstep.demo.staff.dto.StaffInviteResponseDto;
@@ -39,9 +33,6 @@ public class StoreService {
     private final WorkDocRepository workDocRepository;
 
     public void saveStore(StoreRegisterReqDto storeRequestDto) {
-        Set<Staff> staffList = new HashSet<>();
-        Set<Category> categories = new HashSet<>();
-
         Store store = Store.builder()
                 .name(storeRequestDto.getStoreName())
                 .address(storeRequestDto.getStoreAddress())
@@ -50,29 +41,27 @@ public class StoreService {
                 .scale(storeRequestDto.isScale())
                 .plan(storeRequestDto.isPlan())
                 .code(storeRequestDto.getCode())
+                .staffList(new HashSet<>())
+                .categories(new HashSet<>())
                 .build();
 
-        store.setCategories(categories);
-        store.setStaffList(staffList);
         storeRepository.save(store);
     }
 
     public void addOwnerToStore(StoreRegisterReqDto dto) {
         Store store = getCodeToEntity(dto.getCode());
         Member member = getMemberByUsername(dto.getMemberUsername());
-        Set<CheckList> checkLists = new HashSet<>();
-        Set<Notice> notices = new HashSet<>();
 
         Staff staff = Staff.builder()
                 .joinStatus(false)
                 .ownerStatus(true)
                 .submitStatus(false)
+                .checkLists(new HashSet<>())
+                .notices(new HashSet<>())
                 .build();
 
         staff.setMember(member);
         staff.setStore(store);
-        staff.setCheckLists(checkLists);
-        staff.setNotices(notices);
         saveStaff(store, member, staff);
     }
 
@@ -95,25 +84,21 @@ public class StoreService {
     public void inviteMemberToStore(StaffRequestDto dto) {
         Store store = getCodeToEntity(dto.getCode());
         Member member = memberRepository.findByUsername(dto.getUsername());
-        Set<Schedule> schedules = new HashSet<>();
-        Set<CheckList> checkLists = new HashSet<>();
-        Set<Notice> notices = new HashSet<>();
-        Set<Calendar> calendars = new HashSet<>();
-        Set<Commute> commutes = new HashSet<>();
 
         Staff staff = Staff.builder()
                 .joinStatus(true) //합류여부
                 .commutes(new HashSet<>())
                 .calendars(new HashSet<>())
+                .notices(new HashSet<>())
+                .schedules(new HashSet<>())
+                .checkLists(new HashSet<>())
+                .calendars(new HashSet<>())
+                .commutes(new HashSet<>())
+                .checkListManagers(new HashSet<>())
                 .build();
 
         staff.setMember(member);
         staff.setStore(store);
-        staff.setSchedules(schedules);
-        staff.setCheckLists(checkLists);
-        staff.setNotices(notices);
-        staff.setCommutes(commutes);
-        staff.setCalendars(calendars);
         saveStaff(store, member, staff);
     }
 
@@ -138,8 +123,6 @@ public class StoreService {
                 .build();
         workDocRepository.save(workDoc);
 
-        Set<CheckListManager> checkListManagers = new HashSet<>();
-
         staff.setStartDay(dto.getStartDay());
         staff.setPaymentDate(dto.getPaymentDate());
         staff.setHourMoney(dto.getHourMoney());
@@ -147,7 +130,6 @@ public class StoreService {
         staff.setSubmitStatus(false);
         staff.setWorkDoc(workDoc);
         staff.setHealthDoc(healthDoc);
-        staff.setCheckListManagers(checkListManagers);
 
         staffRepository.save(staff);
     }
