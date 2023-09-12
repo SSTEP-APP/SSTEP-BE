@@ -3,6 +3,7 @@ package com.sstep.demo.store.service;
 import com.sstep.demo.calendar.domain.Calendar;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.checklist.domain.CheckList;
+import com.sstep.demo.checklistmanager.domain.CheckListManager;
 import com.sstep.demo.commute.domain.Commute;
 import com.sstep.demo.healthdoc.HealthDocRepository;
 import com.sstep.demo.healthdoc.domain.HealthDoc;
@@ -137,6 +138,8 @@ public class StoreService {
                 .build();
         workDocRepository.save(workDoc);
 
+        Set<CheckListManager> checkListManagers = new HashSet<>();
+
         staff.setStartDay(dto.getStartDay());
         staff.setPaymentDate(dto.getPaymentDate());
         staff.setHourMoney(dto.getHourMoney());
@@ -144,6 +147,7 @@ public class StoreService {
         staff.setSubmitStatus(false);
         staff.setWorkDoc(workDoc);
         staff.setHealthDoc(healthDoc);
+        staff.setCheckListManagers(checkListManagers);
 
         staffRepository.save(staff);
     }

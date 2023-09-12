@@ -1,6 +1,7 @@
 package com.sstep.demo.checklistmanager.domain;
 
 import com.sstep.demo.checklist.domain.CheckList;
+import com.sstep.demo.staff.domain.Staff;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,13 @@ public class CheckListManager {
         this.checkList = checkList;
     }
 
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
     @ManyToOne
     private CheckList checkList;
+
+    @ManyToOne
+    private Staff staff;
 }
