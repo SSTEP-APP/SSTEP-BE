@@ -109,6 +109,7 @@ public class WorkDocService {
         Set<WorkDocResponseDto> staffs = new HashSet<>();
         for (Staff staff : staffList) {
             WorkDocResponseDto st = WorkDocResponseDto.builder()
+                    .ownerStatus(staff.isOwnerStatus())
                     .staffId(staff.getId())
                     .staffName(staff.getMember().getName())
                     .build();
@@ -125,6 +126,7 @@ public class WorkDocService {
         for (Staff staff : staffList) {
             WorkDocResponseDto st = WorkDocResponseDto.builder()
                     .staffId(staff.getId())
+                    .ownerStatus(staff.isOwnerStatus())
                     .staffName(staff.getMember().getName())
                     .build();
 
@@ -140,6 +142,7 @@ public class WorkDocService {
         for (Staff staff : staffList) {
             WorkDocResponseDto st = WorkDocResponseDto.builder()
                     .staffId(staff.getId())
+                    .ownerStatus(staff.isOwnerStatus())
                     .staffName(staff.getMember().getName())
                     .build();
 

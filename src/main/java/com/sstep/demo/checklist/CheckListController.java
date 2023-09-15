@@ -1,5 +1,6 @@
 package com.sstep.demo.checklist;
 
+import com.sstep.demo.checklist.dto.CheckListCategoryDto;
 import com.sstep.demo.checklist.dto.CheckListRequestDto;
 import com.sstep.demo.checklist.dto.CheckListResponseDto;
 import com.sstep.demo.checklist.service.CheckListService;
@@ -38,14 +39,14 @@ public class CheckListController {
 
     //카테고리 별 체크 리스트 완료 목록
     @GetMapping("/{staffId}/complete-checklists")
-    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
-        return checkListService.getCompleteCheckListsByCategory(staffId, checkListRequestDto);
+    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(@PathVariable Long staffId, @RequestBody CheckListCategoryDto checkListCategoryDto) {
+        return checkListService.getCompleteCheckListsByCategory(staffId, checkListCategoryDto);
     }
 
     //카테고리 별 체크 리스트 미완료 목록
     @GetMapping("/{staffId}/uncompleted-checklists")
-    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(@PathVariable Long staffId, @RequestBody CheckListRequestDto checkListRequestDto) {
-        return checkListService.getUnCompletedCheckListsByCategory(staffId, checkListRequestDto);
+    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(@PathVariable Long staffId, @RequestBody CheckListCategoryDto checkListCategoryDto) {
+        return checkListService.getUnCompletedCheckListsByCategory(staffId, checkListCategoryDto);
     }
 
 

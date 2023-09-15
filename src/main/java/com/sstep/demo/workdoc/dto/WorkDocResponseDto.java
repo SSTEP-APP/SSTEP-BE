@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class WorkDocResponseDto {
     private long staffId; //직원 고유 번호
+    private boolean ownerStatus; //사장 여부
     private String staffName; //직원명
     private String storeName; //사업체 명 => Store
     private String storeAddress; //사업체 주소 => Store
