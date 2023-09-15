@@ -43,15 +43,15 @@ public class CalendarService {
         staffRepository.save(staff);
     }
 
-    public Set<CalendarResponseDto> getDayWorkStaffs(Long storeId, CalendarRequestDto calendarRequestDto) {
+    public Set<CalendarResponseDto> getDayWorkStaffs(Long storeId, String date, DayOfWeek day) {
         Set<CalendarResponseDto> staffs = new HashSet<>();
-        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, calendarRequestDto.getCalendarDate(), calendarRequestDto.getDayOfWeek())) {
+        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, date, day)) {
             CalendarResponseDto dto = CalendarResponseDto.builder()
                     .staffName(findStaff.getMember().getName())
-                    .startCalTime(getSchedule(findStaff, calendarRequestDto.getDayOfWeek()).getStartTime())
-                    .endCalTime(getSchedule(findStaff, calendarRequestDto.getDayOfWeek()).getEndTime())
-                    .dayOfWeek(calendarRequestDto.getDayOfWeek())
-                    .calendarDate(calendarRequestDto.getCalendarDate())
+                    .startCalTime(getSchedule(findStaff, day).getStartTime())
+                    .endCalTime(getSchedule(findStaff, day).getEndTime())
+                    .dayOfWeek(day)
+                    .calendarDate(date)
                     .build();
 
             staffs.add(dto);
