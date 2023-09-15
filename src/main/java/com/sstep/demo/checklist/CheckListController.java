@@ -48,5 +48,9 @@ public class CheckListController {
         return checkListService.getUnCompletedCheckListsByCategory(staffId, categoryId, date);
     }
 
-
+    //사업장 전체에 해당하는 체크리스트 목록
+    @GetMapping("/{storeId}/store-checklists")
+    public Set<CheckListResponseDto> getStoreCheckLists(@PathVariable Long storeId) {
+        return checkListService.getStoreCheckLists(storeId);
+    }
 }

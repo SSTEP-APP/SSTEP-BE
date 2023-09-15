@@ -141,6 +141,24 @@ public class CheckListService {
     }
 
 
+    public Set<CheckListResponseDto> getStoreCheckLists(Long storeId) {
+        Set<CheckListResponseDto> checkLists = new HashSet<>();
+        for (CheckList findCheckList : checkListRepository.findCheckListsByStoreIdAndIsUnComplete(storeId)) {
+            CheckListResponseDto checkList = CheckListResponseDto.builder()
+                    .title(findCheckList.getTitle())
+                    .contents(findCheckList.getContents())
+                    .endDay(findCheckList.getEndDay())
+                    .categoryId(findCheckList.getCategory().getId())
+                    .id(findCheckList.getId())
+                    .needPhoto(findCheckList.isNeedPhoto())
+                    .isComplete(findCheckList.isComplete())
+                    .memo(findCheckList.getMemo())
+                    .build();
+            checkLists.add(checkList);
+        }
+        return checkLists;
+    }
+
     private Set<CheckList> getCheckListsByStaffId(Long staffId) {
         return checkListRepository.findCheckListsByStaffId(staffId);
     }
