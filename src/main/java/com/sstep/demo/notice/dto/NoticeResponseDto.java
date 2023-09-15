@@ -1,5 +1,6 @@
 package com.sstep.demo.notice.dto;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sstep.demo.photo.dto.PhotoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +19,6 @@ public class NoticeResponseDto {
     private String writeDate; //공지글 작성 일자
     private String contents; //공지글 내용
     private int hits; //공지 조회수
+    @JsonManagedReference
     private Set<PhotoResponseDto> photo; //사진 정보
 }
