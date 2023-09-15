@@ -4,6 +4,7 @@ import com.sstep.demo.category.CategoryRepository;
 import com.sstep.demo.category.domain.Category;
 import com.sstep.demo.checklist.CheckListRepository;
 import com.sstep.demo.checklist.domain.CheckList;
+import com.sstep.demo.checklist.dto.CheckListCategoryDto;
 import com.sstep.demo.checklist.dto.CheckListRequestDto;
 import com.sstep.demo.checklist.dto.CheckListResponseDto;
 import com.sstep.demo.photo.PhotoRepository;
@@ -102,9 +103,9 @@ public class CheckListService {
                 .build();
     }
 
-    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(Long staffId, CheckListRequestDto checkListRequestDto) {
+    public Set<CheckListResponseDto> getCompleteCheckListsByCategory(Long staffId, CheckListCategoryDto checkListCategoryDto) {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
-        for (CheckList findCheckList : checkListRepository.findCheckListByStaffIdAndCategoryIdAndIsCompleteAndDate(staffId, checkListRequestDto.getCategoryId(), checkListRequestDto.getDate())) {
+        for (CheckList findCheckList : checkListRepository.findCheckListByStaffIdAndCategoryIdAndIsCompleteAndDate(staffId, checkListCategoryDto.getCategoryId(), checkListCategoryDto.getDate())) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
                     .title(findCheckList.getTitle())
                     .contents(findCheckList.getContents())
@@ -122,9 +123,9 @@ public class CheckListService {
         return checkLists;
     }
 
-    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(Long staffId, CheckListRequestDto checkListRequestDto) {
+    public Set<CheckListResponseDto> getUnCompletedCheckListsByCategory(Long staffId, CheckListCategoryDto checkListCategoryDto) {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
-        for (CheckList findCheckList : checkListRepository.findCheckListByStaffIdAndCategoryIdAndIsUnCompleteAndDate(staffId, checkListRequestDto.getCategoryId(), checkListRequestDto.getDate())) {
+        for (CheckList findCheckList : checkListRepository.findCheckListByStaffIdAndCategoryIdAndIsUnCompleteAndDate(staffId, checkListCategoryDto.getCategoryId(), checkListCategoryDto.getDate())) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
                     .title(findCheckList.getTitle())
                     .contents(findCheckList.getContents())
