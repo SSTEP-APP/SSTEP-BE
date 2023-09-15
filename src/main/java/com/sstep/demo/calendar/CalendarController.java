@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class CalendarController {
     }
 
     //해당 날짜에 근무하는 직원 리스트 가져오기
-    @GetMapping("/{storeId}/day-work-staffs")
-    public Set<CalendarResponseDto> getDayWorkStaffs(@PathVariable Long storeId, @RequestBody CalendarRequestDto calendarRequestDto) {
-        return calendarService.getDayWorkStaffs(storeId, calendarRequestDto);
+    @GetMapping("/{storeId}/{date}/{day}/day-work-staffs")
+    public Set<CalendarResponseDto> getDayWorkStaffs(@PathVariable Long storeId, @PathVariable String date, @PathVariable DayOfWeek day) {
+        return calendarService.getDayWorkStaffs(storeId, date, day);
     }
 }
