@@ -91,6 +91,29 @@ public class CommuteService {
                 .build();
     }
 
+    public Set<CommuteResponseDto> getCommutes(Long staffId) {
+        Set<CommuteResponseDto> commutes = new HashSet<>();
+        Set<Commute> findCommutes = getCommutesByStaffId(staffId);
+        for (Commute c : findCommutes) {
+            CommuteResponseDto commute = CommuteResponseDto.builder()
+                    .staffName(c.getStaff().getMember().getName())
+                    .staffId(c.getStaff().getId())
+                    .commuteDate(c.getCommuteDate())
+                    .dayOfWeek(c.getDayOfWeek())
+                    .startTime(c.getStartTime())
+                    .endTime(c.getEndTime())
+                    .isLate(c.isLate())
+                    .disputeMessage(c.getDisputeMessage())
+                    .disputeStartTime(c.getDisputeStartTime())
+                    .disputeEndTime(c.getDisputeEndTime())
+                    .build();
+
+            commutes.add(commute);
+        }
+
+        return commutes;
+    }
+
     public void disputeCommute(Long commuteId, CommuteRequestDto commuteRequestDto) {
         Commute existingCommute = commuteRepository.findById(commuteId).orElseThrow();
 
