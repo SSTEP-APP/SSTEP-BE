@@ -36,6 +36,13 @@ public class CommuteController {
         return commuteService.getCommute(staffId, date);
     }
 
+
+    //직원의 전체 출퇴근 정보
+    @GetMapping("{staffId}/commute-info")
+    public Set<CommuteResponseDto> getCommute(@PathVariable Long staffId) {
+        return commuteService.getCommutes(staffId);
+    }
+
     //이의 신청 시 메시지 업데이트 + 정정시간 설정
     @PostMapping("/{commuteId}/dispute")
     public ResponseEntity<Void> DisputeCommute(@PathVariable Long commuteId, @RequestBody CommuteRequestDto commuteRequestDto) {
@@ -56,7 +63,7 @@ public class CommuteController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    //해당 직원의 이의 신청 리스트 가져오기
+    //해당 사업장의 이의 신청 리스트 가져오기
     @GetMapping("/{storeId}/dispute-list")
     public Set<CommuteResponseDto> getDisputeList(@PathVariable Long storeId) {
         return commuteService.getDisputeList(storeId);

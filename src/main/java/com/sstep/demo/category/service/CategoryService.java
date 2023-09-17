@@ -38,6 +38,7 @@ public class CategoryService {
         for (Category findCategory : getAllCategoriesByStoreId(storeId)) {
             CategoryResponseDto c = CategoryResponseDto.builder()
                     .name(findCategory.getName())
+                    .id(findCategory.getId())
                     .build();
 
             category.add(c);
