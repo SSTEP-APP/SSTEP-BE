@@ -93,6 +93,8 @@ public class CheckListService {
         return CheckListResponseDto.builder()
                 .memo(findCheckList.getMemo())
                 .id(findCheckList.getId())
+                .date(findCheckList.getDate())
+                .categoryId(findCheckList.getCategory().getId())
                 .endDay(findCheckList.getEndDay())
                 .contents(findCheckList.getContents())
                 .title(findCheckList.getTitle())
