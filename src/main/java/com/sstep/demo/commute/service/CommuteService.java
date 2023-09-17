@@ -80,6 +80,9 @@ public class CommuteService {
         Commute findCommute = getCommuteByStaffIdAndDate(staffId, date);
 
         return CommuteResponseDto.builder()
+                .staffId(findCommute.getStaff().getId())
+                .commuteId(findCommute.getId())
+                .staffName(findCommute.getStaff().getMember().getName())
                 .commuteDate(findCommute.getCommuteDate())
                 .dayOfWeek(findCommute.getDayOfWeek())
                 .startTime(findCommute.getStartTime())

@@ -13,6 +13,7 @@ import java.time.DayOfWeek;
 @Builder
 public class CommuteResponseDto {
     private long staffId; //직원 고유 번호
+    private long commuteId; //출퇴근 고유 번호
     private String staffName; //직원 이름
     private String commuteDate; //출퇴근 일자
     private DayOfWeek dayOfWeek; //출퇴근 요일
