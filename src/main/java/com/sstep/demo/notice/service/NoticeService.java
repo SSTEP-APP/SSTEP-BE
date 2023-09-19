@@ -72,6 +72,7 @@ public class NoticeService {
         Set<PhotoResponseDto> dto = photoToDto(findNotice);
 
         return NoticeResponseDto.builder()
+                .writerName(findNotice.getStaff().getMember().getName())
                 .contents(findNotice.getContents())
                 .hits(findNotice.getHits())
                 .id(findNotice.getId())
@@ -88,6 +89,7 @@ public class NoticeService {
             Set<PhotoResponseDto> dto = photoToDto(n);
 
             NoticeResponseDto notice = NoticeResponseDto.builder()
+                    .writerName(n.getStaff().getMember().getName())
                     .contents(n.getContents())
                     .hits(n.getHits())
                     .id(n.getId())
