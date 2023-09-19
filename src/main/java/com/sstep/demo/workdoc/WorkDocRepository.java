@@ -10,12 +10,12 @@ import java.util.Set;
 
 @Repository
 public interface WorkDocRepository extends JpaRepository<WorkDoc, Long> {
-    @Query("SELECT s from Staff s where s.workDoc.isFirstRegister = true and s.workDoc.isSecondRegister = false ")
+    @Query("SELECT s from Staff s where s.store.id = :storeId and s.workDoc.isFirstRegister = true and s.workDoc.isSecondRegister = false ")
     Set<Staff> findFirstRegStaffsByStoreId(Long storeId);
 
-    @Query("SELECT s from Staff s where s.workDoc.isFirstRegister = false and s.workDoc.isSecondRegister = true ")
+    @Query("SELECT s from Staff s where s.store.id = :storeId and s.workDoc.isFirstRegister = false and s.workDoc.isSecondRegister = true ")
     Set<Staff> findSecondRegStaffsByStoreId(Long storeId);
 
-    @Query("SELECT s from Staff s where s.workDoc.isFirstRegister = false and s.workDoc.isSecondRegister = false ")
+    @Query("SELECT s from Staff s where s.store.id = :storeId and s.workDoc.isFirstRegister = false and s.workDoc.isSecondRegister = false ")
     Set<Staff> findUnRegStaffsByStoreId(Long storeId);
 }
