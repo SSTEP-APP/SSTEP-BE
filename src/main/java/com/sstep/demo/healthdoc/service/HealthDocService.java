@@ -69,6 +69,7 @@ public class HealthDocService {
         Set<HealthDocResponseDto> staffs = new HashSet<>();
         for (HealthDoc healthDoc : healthDocRepository.findHealthDocsByStoreIdAndRegister(storeId)) {
             HealthDocResponseDto staff = HealthDocResponseDto.builder()
+                    .staffId(healthDoc.getStaff().getId())
                     .name(healthDoc.getStaff().getMember().getName())
                     .expirationDate(healthDoc.getExpirationDate())
                     .checkUpDate(healthDoc.getCheckUpDate())
