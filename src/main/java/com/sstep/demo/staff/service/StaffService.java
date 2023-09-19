@@ -19,6 +19,7 @@ public class StaffService {
         return StaffResponseDto.builder()
                 .id(findStaff.getId())
                 .staffName(findStaff.getMember().getName())
+                .phoneNum(findStaff.getMember().getPhoneNum())
                 .hourMoney(findStaff.getHourMoney())
                 .joinStatus(findStaff.isJoinStatus())
                 .ownerStatus(findStaff.isOwnerStatus())
