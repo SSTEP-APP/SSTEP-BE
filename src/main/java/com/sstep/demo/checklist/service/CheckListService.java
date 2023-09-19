@@ -198,9 +198,9 @@ public class CheckListService {
         return checkLists;
     }
 
-    public Set<CheckListResponseDto> getStoreByStaffUnCompletedCheckListsByCategory(Long storeId, Long staffId) {
+    public Set<CheckListResponseDto> getStoreByStaffUnCompletedCheckListsByCategory(Long staffId) {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
-        for (CheckList findCheckList : checkListRepository.findCheckListsByStoreIdAndStaffIdAndIsUnCompleted(storeId, staffId)) {
+        for (CheckList findCheckList : checkListRepository.findCheckListsByStaffIdAndIsUnCompleted(staffId)) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
                     .date(findCheckList.getDate())
                     .title(findCheckList.getTitle())
