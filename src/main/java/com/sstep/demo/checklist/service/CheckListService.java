@@ -147,6 +147,7 @@ public class CheckListService {
         Set<CheckListResponseDto> checkLists = new HashSet<>();
         for (CheckList findCheckList : checkListRepository.findCheckListsByStoreIdAndIsUnComplete(storeId)) {
             CheckListResponseDto checkList = CheckListResponseDto.builder()
+                    .date(findCheckList.getDate())
                     .title(findCheckList.getTitle())
                     .contents(findCheckList.getContents())
                     .endDay(findCheckList.getEndDay())
