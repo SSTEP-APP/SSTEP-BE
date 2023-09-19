@@ -71,10 +71,13 @@ public class NoticeService {
         Notice findNotice = noticeRepository.findById(noticeId).orElseThrow();
         Set<PhotoResponseDto> dto = photoToDto(findNotice);
 
+        findNotice.setHits(findNotice.getHits() + 1);
+        noticeRepository.save(findNotice);
+
         return NoticeResponseDto.builder()
                 .writerName(findNotice.getStaff().getMember().getName())
                 .contents(findNotice.getContents())
-                .hits(findNotice.getHits() + 1)
+                .hits(findNotice.getHits())
                 .id(findNotice.getId())
                 .writeDate(findNotice.getWriteDate())
                 .photo(dto)

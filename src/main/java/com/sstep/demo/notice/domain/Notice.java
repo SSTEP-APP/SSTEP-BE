@@ -28,6 +28,10 @@ public class Notice {
         return id;
     }
 
+    public void setHits(int hits) {
+        this.hits = hits;
+    }
+
     public void setPhotos(Set<Photo> photos) {
         this.photos.clear();
         if (photos != null) {
