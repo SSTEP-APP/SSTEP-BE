@@ -47,10 +47,10 @@ public class CalendarService {
 
         //캘린더에 등록된 직원 불러오는 기능
         for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, date)) {
-            String calendarStartTime = getCalendarStartTime(findStaff, date);
-            String calendarEndTime = getCalendarEndTime(findStaff, date);
+            if (!findStaff.getCalendars().isEmpty()) {
+                String calendarStartTime = getCalendarStartTime(findStaff, date);
+                String calendarEndTime = getCalendarEndTime(findStaff, date);
 
-            if (calendarStartTime != null) {
                 CalendarResponseDto dto = CalendarResponseDto.builder()
                         .staffName(findStaff.getMember().getName())
                         .startCalTime(calendarStartTime)
@@ -65,10 +65,10 @@ public class CalendarService {
 
         //스케줄에 등록된 고정 직원 불러오는 기능
         for (Staff findStaff : calendarRepository.findDayWorkStaffsByDay(storeId, day)) {
-            String scheduleStartTime = getScheduleStartTime(findStaff, day);
-            String scheduleEndTime = getScheduleEndTime(findStaff, day);
+            if (!findStaff.getSchedules().isEmpty()) {
+                String scheduleStartTime = getScheduleStartTime(findStaff, day);
+                String scheduleEndTime = getScheduleEndTime(findStaff, day);
 
-            if (scheduleStartTime != null) {
                 CalendarResponseDto dto = CalendarResponseDto.builder()
                         .staffName(findStaff.getMember().getName())
                         .startCalTime(scheduleStartTime)
