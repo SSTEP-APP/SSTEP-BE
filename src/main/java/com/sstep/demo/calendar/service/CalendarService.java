@@ -46,39 +46,35 @@ public class CalendarService {
         Set<CalendarResponseDto> staffs = new HashSet<>();
 
         //캘린더에 등록된 직원 불러오는 기능
-        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, date)) {
-            if (!findStaff.getCalendars().isEmpty()) {
-                String calendarStartTime = getCalendarStartTime(findStaff, date);
-                String calendarEndTime = getCalendarEndTime(findStaff, date);
+        for (Staff findStaff : calendarRepository.findCalStaffByDate(storeId, date)) {
+            String calendarStartTime = getCalendarStartTime(findStaff, date);
+            String calendarEndTime = getCalendarEndTime(findStaff, date);
 
-                CalendarResponseDto dto = CalendarResponseDto.builder()
-                        .staffName(findStaff.getMember().getName())
-                        .startCalTime(calendarStartTime)
-                        .endCalTime(calendarEndTime)
-                        .dayOfWeek(day)
-                        .calendarDate(date)
-                        .build();
+            CalendarResponseDto dto = CalendarResponseDto.builder()
+                    .staffName(findStaff.getMember().getName())
+                    .startCalTime(calendarStartTime)
+                    .endCalTime(calendarEndTime)
+                    .dayOfWeek(day)
+                    .calendarDate(date)
+                    .build();
 
-                staffs.add(dto);
-            }
+            staffs.add(dto);
         }
 
         //스케줄에 등록된 고정 직원 불러오는 기능
-        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDay(storeId, day)) {
-            if (!findStaff.getSchedules().isEmpty()) {
-                String scheduleStartTime = getScheduleStartTime(findStaff, day);
-                String scheduleEndTime = getScheduleEndTime(findStaff, day);
+        for (Staff findStaff : calendarRepository.findScheduleStaffByDay(storeId, day)) {
+            String scheduleStartTime = getScheduleStartTime(findStaff, day);
+            String scheduleEndTime = getScheduleEndTime(findStaff, day);
 
-                CalendarResponseDto dto = CalendarResponseDto.builder()
-                        .staffName(findStaff.getMember().getName())
-                        .startCalTime(scheduleStartTime)
-                        .endCalTime(scheduleEndTime)
-                        .dayOfWeek(day)
-                        .calendarDate(date)
-                        .build();
+            CalendarResponseDto dto = CalendarResponseDto.builder()
+                    .staffName(findStaff.getMember().getName())
+                    .startCalTime(scheduleStartTime)
+                    .endCalTime(scheduleEndTime)
+                    .dayOfWeek(day)
+                    .calendarDate(date)
+                    .build();
 
-                staffs.add(dto);
-            }
+            staffs.add(dto);
         }
         return staffs;
     }
@@ -89,7 +85,7 @@ public class CalendarService {
                 return schedule.getStartTime();
             }
         }
-        return null;
+        return "";
     }
 
     private String getCalendarStartTime(Staff findStaff, String date) {
@@ -98,7 +94,7 @@ public class CalendarService {
                 return calendar.getStartCalTime();
             }
         }
-        return null;
+        return "";
     }
 
     private String getScheduleEndTime(Staff findStaff, DayOfWeek dayOfWeek) {
@@ -107,7 +103,7 @@ public class CalendarService {
                 return schedule.getEndTime();
             }
         }
-        return null;
+        return "";
     }
 
     private String getCalendarEndTime(Staff findStaff, String date) {
@@ -116,7 +112,7 @@ public class CalendarService {
                 return calendar.getEndCalTime();
             }
         }
-        return null;
+        return "";
     }
 
     private Staff getStaffById(Long staffId) {
