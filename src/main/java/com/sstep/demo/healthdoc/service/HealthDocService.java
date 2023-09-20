@@ -67,12 +67,12 @@ public class HealthDocService {
 
     public Set<HealthDocResponseDto> getRegHealthDocStaffs(Long storeId) {
         Set<HealthDocResponseDto> staffs = new HashSet<>();
-        for (HealthDoc healthDoc : healthDocRepository.findHealthDocsByStoreIdAndRegister(storeId)) {
+        for (Staff findStaff : healthDocRepository.findHealthDocsByStoreIdAndRegister(storeId)) {
             HealthDocResponseDto staff = HealthDocResponseDto.builder()
-                    .staffId(healthDoc.getStaff().getId())
-                    .name(healthDoc.getStaff().getMember().getName())
-                    .expirationDate(healthDoc.getExpirationDate())
-                    .checkUpDate(healthDoc.getCheckUpDate())
+                    .staffId(findStaff.getId())
+                    .name(findStaff.getMember().getName())
+                    .expirationDate(findStaff.getHealthDoc().getExpirationDate())
+                    .checkUpDate(findStaff.getHealthDoc().getCheckUpDate())
                     .build();
 
             staffs.add(staff);
