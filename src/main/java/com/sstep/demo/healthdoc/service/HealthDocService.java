@@ -85,6 +85,7 @@ public class HealthDocService {
         for (Staff findStaff : healthDocRepository.findStaffsByStoreIdAndUnRegister(storeId)) {
             HealthDocResponseDto staff = HealthDocResponseDto.builder()
                     .name(findStaff.getMember().getName())
+                    .staffId(findStaff.getId())
                     .build();
 
             staffs.add(staff);
