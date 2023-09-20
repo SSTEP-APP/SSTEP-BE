@@ -31,14 +31,14 @@ public class CommuteController {
     }
 
     //출퇴근 정보
-    @GetMapping("{staffId}/{date}")
+    @GetMapping("/{staffId}/{date}")
     public CommuteResponseDto getCommute(@PathVariable Long staffId, @PathVariable String date) {
         return commuteService.getCommute(staffId, date);
     }
 
 
     //직원의 전체 출퇴근 정보
-    @GetMapping("{staffId}/commute-info")
+    @GetMapping("/{staffId}/commute-info")
     public Set<CommuteResponseDto> getCommute(@PathVariable Long staffId) {
         return commuteService.getCommutes(staffId);
     }
@@ -51,7 +51,7 @@ public class CommuteController {
     }
 
     //사장에게 이의신청 내용 보여주기
-    @GetMapping("{commuteId}/dispute")
+    @GetMapping("/{commuteId}/dispute")
     public CommuteResponseDto getDispute(@PathVariable Long commuteId) {
         return commuteService.getDispute(commuteId);
     }
