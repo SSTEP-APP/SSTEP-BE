@@ -130,6 +130,8 @@ public class CommuteService {
     public CommuteResponseDto getDispute(Long commuteId) {
         Commute findCommute = commuteRepository.findById(commuteId).orElseThrow();
         return CommuteResponseDto.builder()
+                .staffName(findCommute.getStaff().getMember().getName())
+                .staffId(findCommute.getStaff().getId())
                 .commuteDate(findCommute.getCommuteDate())
                 .dayOfWeek(findCommute.getDayOfWeek())
                 .startTime(findCommute.getStartTime())
@@ -156,6 +158,7 @@ public class CommuteService {
 
         for (Commute commute : commuteRepository.findDisputeListByStoreIdAndMessageIsNotNull(storeId)) {
             CommuteResponseDto dto = CommuteResponseDto.builder()
+                    .commuteId(commute.getId())
                     .staffId(commute.getStaff().getId())
                     .staffName(commute.getStaff().getMember().getName())
                     .commuteDate(commute.getCommuteDate())

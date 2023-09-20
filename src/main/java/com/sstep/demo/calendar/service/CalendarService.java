@@ -85,7 +85,7 @@ public class CalendarService {
                 return schedule.getStartTime();
             }
         }
-        return "";
+        return null;
     }
 
     private String getCalendarStartTime(Staff findStaff, String date) {
@@ -94,7 +94,7 @@ public class CalendarService {
                 return calendar.getStartCalTime();
             }
         }
-        return "";
+        return null;
     }
 
     private String getScheduleEndTime(Staff findStaff, DayOfWeek dayOfWeek) {
@@ -103,7 +103,7 @@ public class CalendarService {
                 return schedule.getEndTime();
             }
         }
-        return "";
+        return null;
     }
 
     private String getCalendarEndTime(Staff findStaff, String date) {
@@ -112,7 +112,7 @@ public class CalendarService {
                 return calendar.getEndCalTime();
             }
         }
-        return "";
+        return null;
     }
 
     private Staff getStaffById(Long staffId) {
