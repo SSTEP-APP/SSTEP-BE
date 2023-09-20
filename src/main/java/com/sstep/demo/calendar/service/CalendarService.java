@@ -44,13 +44,13 @@ public class CalendarService {
 
     public Set<CalendarResponseDto> getDayWorkStaffs(Long storeId, String date, DayOfWeek day) {
         Set<CalendarResponseDto> staffs = new HashSet<>();
-        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, date, day)) {
+
+        //캘린더에 등록된 직원 불러오는 기능
+        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, date)) {
             String calendarStartTime = getCalendarStartTime(findStaff, date);
             String calendarEndTime = getCalendarEndTime(findStaff, date);
-            String scheduleStartTime = getScheduleStartTime(findStaff, day);
-            String scheduleEndTime = getScheduleEndTime(findStaff, day);
 
-            if (calendarStartTime != null && scheduleStartTime != null) {
+            if (calendarStartTime != null) {
                 CalendarResponseDto dto = CalendarResponseDto.builder()
                         .staffName(findStaff.getMember().getName())
                         .startCalTime(calendarStartTime)
@@ -60,33 +60,19 @@ public class CalendarService {
                         .build();
 
                 staffs.add(dto);
+            }
+        }
 
-                CalendarResponseDto dto2 = CalendarResponseDto.builder()
-                        .staffName(findStaff.getMember().getName())
-                        .startCalTime(scheduleStartTime)
-                        .endCalTime(scheduleEndTime)
-                        .dayOfWeek(day)
-                        .calendarDate(date)
-                        .build();
+        //스케줄에 등록된 고정 직원 불러오는 기능
+        for (Staff findStaff : calendarRepository.findDayWorkStaffsByDay(storeId, day)) {
+            String scheduleStartTime = getScheduleStartTime(findStaff, day);
+            String scheduleEndTime = getScheduleEndTime(findStaff, day);
 
-                staffs.add(dto2);
-
-            } else if (calendarStartTime == null && scheduleStartTime != null) {
-                CalendarResponseDto dto2 = CalendarResponseDto.builder()
-                        .staffName(findStaff.getMember().getName())
-                        .startCalTime(scheduleStartTime)
-                        .endCalTime(scheduleEndTime)
-                        .dayOfWeek(day)
-                        .calendarDate(date)
-                        .build();
-
-                staffs.add(dto2);
-
-            } else if (calendarStartTime != null) {
+            if (scheduleStartTime != null) {
                 CalendarResponseDto dto = CalendarResponseDto.builder()
                         .staffName(findStaff.getMember().getName())
-                        .startCalTime(calendarStartTime)
-                        .endCalTime(calendarEndTime)
+                        .startCalTime(scheduleStartTime)
+                        .endCalTime(scheduleEndTime)
                         .dayOfWeek(day)
                         .calendarDate(date)
                         .build();
