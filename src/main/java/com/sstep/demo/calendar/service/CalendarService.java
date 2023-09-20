@@ -48,8 +48,8 @@ public class CalendarService {
         for (Staff findStaff : calendarRepository.findDayWorkStaffsByDate(storeId, date, day)) {
             CalendarResponseDto dto = CalendarResponseDto.builder()
                     .staffName(findStaff.getMember().getName())
-                    .startCalTime(getSchedule(findStaff, day).getStartTime())
-                    .endCalTime(getSchedule(findStaff, day).getEndTime())
+                    .startCalTime(getStartTime(findStaff, day, date))
+                    .endCalTime(getEndTime(findStaff, day, date))
                     .dayOfWeek(day)
                     .calendarDate(date)
                     .build();
@@ -59,10 +59,31 @@ public class CalendarService {
         return staffs;
     }
 
-    private Schedule getSchedule(Staff findStaff, DayOfWeek dayOfWeek) {
+    private String getStartTime(Staff findStaff, DayOfWeek dayOfWeek, String date) {
         for (Schedule schedule : findStaff.getSchedules()) {
             if (schedule.getWeekDay() == dayOfWeek) {
-                return schedule;
+                return schedule.getStartTime();
+            }
+        }
+
+        for (Calendar calendar : findStaff.getCalendars()) {
+            if (calendar.getCalendarDate().equals(date)) {
+                return calendar.getStartCalTime();
+            }
+        }
+        throw new EntityNotFoundException();
+    }
+
+    private String getEndTime(Staff findStaff, DayOfWeek dayOfWeek, String date) {
+        for (Schedule schedule : findStaff.getSchedules()) {
+            if (schedule.getWeekDay() == dayOfWeek) {
+                return schedule.getEndTime();
+            }
+        }
+
+        for (Calendar calendar : findStaff.getCalendars()) {
+            if (calendar.getCalendarDate().equals(date)) {
+                return calendar.getEndCalTime();
             }
         }
         throw new EntityNotFoundException();
